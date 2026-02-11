@@ -1,42 +1,53 @@
+import { useState } from "react";
 import { ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const projects = [
+type Category = "Data Engineering" | "AI/ML";
+
+const projects: { title: string; description: string; image: string; tags: string[]; liveUrl: string; githubUrl: string; category: Category }[] = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
+    title: "Real-Time Data Pipeline",
+    description: "An end-to-end streaming data pipeline processing millions of events per day with monitoring and alerting.",
     image: "/placeholder.svg",
-    tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
+    tags: ["Apache Kafka", "Spark", "Airflow", "AWS"],
     liveUrl: "#",
     githubUrl: "#",
+    category: "Data Engineering",
   },
   {
-    title: "Task Management App",
-    description: "A collaborative project management tool with real-time updates, drag-and-drop, and team features.",
+    title: "Data Warehouse Platform",
+    description: "A modern cloud data warehouse with automated ETL, data quality checks, and self-service analytics.",
     image: "/placeholder.svg",
-    tags: ["Next.js", "TypeScript", "Prisma", "Socket.io"],
+    tags: ["Snowflake", "dbt", "Python", "Terraform"],
     liveUrl: "#",
     githubUrl: "#",
+    category: "Data Engineering",
   },
   {
-    title: "AI Writing Assistant",
-    description: "An AI-powered writing tool that helps users create better content with smart suggestions.",
+    title: "Sentiment Analysis Engine",
+    description: "An NLP-powered sentiment analysis system for social media monitoring with real-time dashboards.",
     image: "/placeholder.svg",
-    tags: ["React", "Python", "OpenAI", "FastAPI"],
+    tags: ["Python", "HuggingFace", "FastAPI", "Docker"],
     liveUrl: "#",
     githubUrl: "#",
+    category: "AI/ML",
   },
   {
-    title: "Analytics Dashboard",
-    description: "A data visualization dashboard with interactive charts, real-time metrics, and export features.",
+    title: "Predictive Maintenance Model",
+    description: "A machine learning system that predicts equipment failures using sensor data and time-series analysis.",
     image: "/placeholder.svg",
-    tags: ["Vue.js", "D3.js", "Node.js", "MongoDB"],
+    tags: ["PyTorch", "Scikit-learn", "MLflow", "PostgreSQL"],
     liveUrl: "#",
     githubUrl: "#",
+    category: "AI/ML",
   },
 ];
 
 export function Projects() {
+  const [activeCategory, setActiveCategory] = useState<Category>("Data Engineering");
+  const filtered = projects.filter((p) => p.category === activeCategory);
+
   return (
     <section id="projects" className="py-24">
       <div className="container mx-auto px-6">
@@ -45,13 +56,19 @@ export function Projects() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Featured <span className="text-gradient">Projects</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
               A selection of my recent work. Each project represents a unique challenge and solution.
             </p>
+            <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as Category)} className="w-fit mx-auto">
+              <TabsList>
+                <TabsTrigger value="Data Engineering">Data Engineering</TabsTrigger>
+                <TabsTrigger value="AI/ML">AI/ML</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
+            {filtered.map((project, index) => (
               <div
                 key={project.title}
                 className="group relative rounded-xl overflow-hidden bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:glow-sm"

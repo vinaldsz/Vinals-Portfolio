@@ -1,39 +1,79 @@
 const skillCategories = [
   {
-    title: "Frontend",
+    title: "Core Data Engineering",
     skills: [
-      { name: "React", level: 95 },
-      { name: "TypeScript", level: 90 },
-      { name: "Next.js", level: 85 },
-      { name: "Tailwind CSS", level: 95 },
-      { name: "Vue.js", level: 75 },
+      { name: "Databricks", level: 95 },
+      { name: "Apache Spark", level: 90 },
+      { name: "Delta Lake", level: 85 },
+      { name: "IBM DataStage", level: 85 },
+      { name: "Airflow", level: 80 },
     ],
   },
   {
-    title: "Backend",
+    title: "Languages & Libraries",
     skills: [
-      { name: "Node.js", level: 90 },
-      { name: "Python", level: 80 },
-      { name: "PostgreSQL", level: 85 },
-      { name: "GraphQL", level: 80 },
-      { name: "REST APIs", level: 95 },
+      { name: "Python", level: 95 },
+      { name: "SQL", level: 95 },
+      { name: "Pandas", level: 95 },
+      { name: "NumPy", level: 90 },
+      { name: "JavaScript", level: 85 },
     ],
   },
   {
-    title: "Tools & DevOps",
+    title: "Cloud & Infrastructure",
     skills: [
-      { name: "Git", level: 95 },
-      { name: "Docker", level: 80 },
-      { name: "AWS", level: 75 },
-      { name: "CI/CD", level: 85 },
-      { name: "Linux", level: 80 },
+      { name: "AWS SageMaker", level: 90 },
+      { name: "AWS S3", level: 95 },
+      { name: "AWS Lambda", level: 85 },
+      { name: "AWS EMR", level: 85 },
+      { name: "Docker", level: 85 },
+    ],
+  },
+  {
+    title: "Databases",
+    skills: [
+      { name: "PostgreSQL", level: 90 },
+      { name: "Oracle", level: 85 },
+      { name: "MySQL", level: 85 },
+      { name: "MongoDB", level: 75 },
+      { name: "Redis", level: 75 },
+    ],
+  },
+  {
+    title: "Analytics & BI",
+    skills: [
+      { name: "Power BI", level: 90 },
+      { name: "SSIS", level: 85 },
+      { name: "SSRS", level: 85 },
+      { name: "Matplotlib", level: 80 },
+      { name: "Excel", level: 90 },
+    ],
+  },
+  {
+    title: "DevOps & Tools",
+    skills: [
+      { name: "Git/GitHub", level: 95 },
+      { name: "Apache Kafka", level: 80 },
+      { name: "Autosys", level: 85 },
+      { name: "Tivoli Scheduler", level: 80 },
+      { name: "Bitbucket", level: 85 },
     ],
   },
 ];
 
 const techIcons = [
-  "React", "TypeScript", "Node.js", "Python", "PostgreSQL", 
-  "Docker", "AWS", "Git", "Tailwind", "GraphQL"
+  "Databricks",
+  "Apache Spark",
+  "Python",
+  "SQL",
+  "AWS",
+  "SageMaker",
+  "PostgreSQL",
+  "Power BI",
+  "Pandas",
+  "Docker",
+  "Git/GitHub",
+  "Delta Lake",
 ];
 
 export function Skills() {
@@ -63,7 +103,7 @@ export function Skills() {
           </div>
 
           {/* Skill Bars */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {skillCategories.map((category) => (
               <div
                 key={category.title}
@@ -76,8 +116,12 @@ export function Skills() {
                   {category.skills.map((skill) => (
                     <div key={skill.name}>
                       <div className="flex justify-between mb-2">
-                        <span className="text-sm font-medium">{skill.name}</span>
-                        <span className="text-sm text-muted-foreground">{skill.level}%</span>
+                        <span className="text-sm font-medium">
+                          {skill.name}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {skill.level}%
+                        </span>
                       </div>
                       <div className="h-2 bg-secondary rounded-full overflow-hidden">
                         <div

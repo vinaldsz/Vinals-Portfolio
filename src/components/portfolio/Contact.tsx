@@ -15,16 +15,18 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Create mailto link
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    const subject = encodeURIComponent(
+      `Portfolio Contact from ${formData.name}`,
     );
-    const mailtoLink = `mailto:your@email.com?subject=${subject}&body=${body}`;
-    
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+    );
+    const mailtoLink = `mailto:dsouza.vi@northeastern.edu?subject=${subject}&body=${body}`;
+
     window.location.href = mailtoLink;
-    
+
     toast({
       title: "Opening email client",
       description: "Your default email app should open shortly.",
@@ -40,7 +42,8 @@ export function Contact() {
               Get In <span className="text-gradient">Touch</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Have a project in mind or want to collaborate? I'd love to hear from you.
+              Have a project in mind or want to collaborate? I'd love to hear
+              from you.
             </p>
           </div>
 
@@ -50,8 +53,8 @@ export function Contact() {
               <div>
                 <h3 className="text-xl font-semibold mb-4">Let's Connect</h3>
                 <p className="text-muted-foreground">
-                  I'm always open to discussing new projects, creative ideas, 
-                  or opportunities to be part of your vision.
+                  I'm always open to discussing new projects, creative ideas, or
+                  opportunities to be part of your vision.
                 </p>
               </div>
 
@@ -66,7 +69,7 @@ export function Contact() {
                       href="mailto:your@email.com"
                       className="font-medium hover:text-primary transition-colors"
                     >
-                      your@email.com
+                      dsouza.vi@northeastern.edu
                     </a>
                   </div>
                 </div>
@@ -83,7 +86,9 @@ export function Contact() {
               </div>
 
               <div className="p-6 rounded-xl bg-card border border-border">
-                <p className="text-sm text-muted-foreground mb-2">Availability</p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Availability
+                </p>
                 <p className="font-medium">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2" />
                   Open to new opportunities
@@ -97,7 +102,9 @@ export function Contact() {
                 <Input
                   placeholder="Your Name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                   className="bg-card border-border"
                 />
@@ -107,7 +114,9 @@ export function Contact() {
                   type="email"
                   placeholder="Your Email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                   className="bg-card border-border"
                 />
@@ -116,13 +125,19 @@ export function Contact() {
                 <Textarea
                   placeholder="Your Message"
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   required
                   rows={5}
                   className="bg-card border-border resize-none"
                 />
               </div>
-              <Button type="submit" size="lg" className="w-full bg-gradient-primary hover:opacity-90 glow-sm">
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full bg-gradient-primary hover:opacity-90 glow-sm"
+              >
                 <Send className="w-4 h-4 mr-2" />
                 Send Message
               </Button>

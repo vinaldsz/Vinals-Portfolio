@@ -4,7 +4,8 @@ const highlights = [
   {
     icon: Code2,
     title: "Clean Code",
-    description: "I write maintainable, scalable code following best practices.",
+    description:
+      "I write maintainable, scalable code following best practices.",
   },
   {
     icon: Lightbulb,
@@ -42,12 +43,16 @@ export function About() {
             <div className="flex justify-center lg:justify-start">
               <div className="relative">
                 <div className="w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-primary p-1 glow">
-                  <div className="w-full h-full rounded-2xl bg-card flex items-center justify-center">
-                    <span className="text-6xl">👨‍💻</span>
-                  </div>
+                  <img
+                    src="/ProfessionalHeadshot.jpeg"
+                    alt="Vinal D'Souza"
+                    className="w-full h-full rounded-2xl object-cover"
+                  />
                 </div>
                 <div className="absolute -bottom-4 -right-4 px-4 py-2 bg-secondary rounded-lg border border-border">
-                  <span className="text-sm font-medium">5+ Years Experience</span>
+                  <span className="text-sm font-medium">
+                    5+ Years Experience
+                  </span>
                 </div>
               </div>
             </div>
@@ -55,19 +60,20 @@ export function About() {
             {/* Bio content */}
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">
-                Full-Stack Developer & UI/UX Enthusiast
+                Data Engineer & AI Enthusiast
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm a passionate developer with over 5 years of experience building 
-                web applications. I specialize in React, TypeScript, and Node.js, 
-                with a keen eye for design and user experience.
+                I'm a passionate developer with over 5 years of experience
+                building scabale data pipelines. Someone who has led a team,
+                been SME, worked in modernisation projects bridging gap between
+                legacy and modern stack.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                When I'm not coding, you can find me exploring new technologies, 
-                contributing to open-source projects, or sharing knowledge through 
-                blog posts and community talks.
+                When I'm not building/designing a data pipeline or identifying
+                RCA for the data inconssistencies, you'll find me reading about
+                data, AI&ML.
               </p>
-              
+
               <div className="grid grid-cols-2 gap-4 pt-4">
                 {highlights.map((item) => (
                   <div
@@ -76,7 +82,9 @@ export function About() {
                   >
                     <item.icon className="w-6 h-6 text-primary mb-2" />
                     <h4 className="font-medium text-sm">{item.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {item.description}
+                    </p>
                   </div>
                 ))}
               </div>

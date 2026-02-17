@@ -1,51 +1,59 @@
 import { useState } from "react";
-import { ExternalLink, Github } from "lucide-react";
+import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Category = "Data Engineering" | "AI/ML";
 
-const projects: { title: string; description: string; image: string; tags: string[]; liveUrl: string; githubUrl: string; category: Category }[] = [
+const projects: {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  githubUrl: string;
+  category: Category;
+}[] = [
   {
-    title: "Real-Time Data Pipeline",
-    description: "An end-to-end streaming data pipeline processing millions of events per day with monitoring and alerting.",
+    title: "FMCG Delta Medallion Pipeline",
+    description:
+      "An automated data lakehouse using medallion architecture using databricks workflows with monitoring and alerting.",
     image: "/placeholder.svg",
-    tags: ["Apache Kafka", "Spark", "Airflow", "AWS"],
-    liveUrl: "#",
-    githubUrl: "#",
+    tags: ["Databricks", "PySpark", "SQL", "AWS", "Delta Lake"],
+    githubUrl: "https://github.com/vinaldsz",
     category: "Data Engineering",
   },
   {
-    title: "Data Warehouse Platform",
-    description: "A modern cloud data warehouse with automated ETL, data quality checks, and self-service analytics.",
+    title: "Flight Delay Prediction",
+    description:
+      "AWS SageMaker-powered flight delay prediction model using 580K+ records, improving detection accuracy from 0.2% to 11.6% through XGBoost and advanced feature engineering.",
     image: "/placeholder.svg",
-    tags: ["Snowflake", "dbt", "Python", "Terraform"],
-    liveUrl: "#",
-    githubUrl: "#",
-    category: "Data Engineering",
-  },
-  {
-    title: "Sentiment Analysis Engine",
-    description: "An NLP-powered sentiment analysis system for social media monitoring with real-time dashboards.",
-    image: "/placeholder.svg",
-    tags: ["Python", "HuggingFace", "FastAPI", "Docker"],
-    liveUrl: "#",
-    githubUrl: "#",
+    tags: ["AWS SageMaker", "Numpy", "Pandas", "scikit-learn"],
+    githubUrl: "https://github.com/yourusername/analytics-dashboard",
     category: "AI/ML",
   },
   {
-    title: "Predictive Maintenance Model",
-    description: "A machine learning system that predicts equipment failures using sensor data and time-series analysis.",
+    title: "Walmart Sales Forecasting",
+    description:
+      "ML-powered retail sales forecasting system analyzing multi-store datasets to predict weekly sales and identify trends for demand planning.",
     image: "/placeholder.svg",
-    tags: ["PyTorch", "Scikit-learn", "MLflow", "PostgreSQL"],
-    liveUrl: "#",
+    tags: ["Python", "Numpy", "Pandas", "Matplotlib"],
+    githubUrl: "https://github.com/vinaldsz/Walmart_Sales_Forecasting.git",
+    category: "Data Engineering",
+  },
+  {
+    title: "Facial Similarity Checker",
+    description:
+      "Machine learning-powered facial similarity analyzer that calculates resemblance scores between children and parents using face-api.js.",
+    image: "/placeholder.svg",
+    tags: ["Observable Notebook", "face-api.js"],
     githubUrl: "#",
     category: "AI/ML",
   },
 ];
 
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState<Category>("Data Engineering");
+  const [activeCategory, setActiveCategory] =
+    useState<Category>("Data Engineering");
   const filtered = projects.filter((p) => p.category === activeCategory);
 
   return (
@@ -57,11 +65,18 @@ export function Projects() {
               Featured <span className="text-gradient">Projects</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-              A selection of my recent work. Each project represents a unique challenge and solution.
+              A selection of my recent work. Each project represents a unique
+              challenge and solution.
             </p>
-            <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as Category)} className="w-fit mx-auto">
+            <Tabs
+              value={activeCategory}
+              onValueChange={(v) => setActiveCategory(v as Category)}
+              className="w-fit mx-auto"
+            >
               <TabsList>
-                <TabsTrigger value="Data Engineering">Data Engineering</TabsTrigger>
+                <TabsTrigger value="Data Engineering">
+                  Data Engineering
+                </TabsTrigger>
                 <TabsTrigger value="AI/ML">AI/ML</TabsTrigger>
               </TabsList>
             </Tabs>
@@ -105,14 +120,12 @@ export function Projects() {
 
                   {/* Links */}
                   <div className="flex gap-3">
-                    <Button asChild variant="outline" size="sm">
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Live Demo
-                      </a>
-                    </Button>
                     <Button asChild variant="ghost" size="sm">
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <Github className="w-4 h-4 mr-2" />
                         Code
                       </a>
@@ -125,7 +138,11 @@ export function Projects() {
 
           <div className="text-center mt-12">
             <Button asChild variant="outline" size="lg">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="w-5 h-5 mr-2" />
                 View All Projects on GitHub
               </a>

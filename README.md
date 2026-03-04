@@ -4,7 +4,7 @@ A modern, responsive portfolio website showcasing my work as a Data Engineer and
 
 ## 🚀 Live Demo
 
-**URL**: [Portfolio Website](https://vinaldsz.github.io/my-digital-showcase)
+**URL**: [Portfolio Website](https://vinals-portfolio.vercel.app/)
 
 ## 📋 About
 

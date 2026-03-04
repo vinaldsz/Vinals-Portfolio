@@ -2,11 +2,11 @@
 
 A modern, responsive portfolio website showcasing my work as a Data Engineer and Software Developer.
 
-## 🚀 Live Demo
+## Live Demo
 
 **URL**: [Portfolio Website](https://vinals-portfolio.vercel.app/)
 
-## 📋 About
+## About
 
 This portfolio showcases my professional projects across:
 
@@ -14,7 +14,7 @@ This portfolio showcases my professional projects across:
 - **AI/ML**: Machine learning models and RAG applications
 - **DevOps & Cloud**: Microservices, CI/CD, and distributed systems
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 This project is built with:
 
@@ -24,7 +24,7 @@ This project is built with:
 - **shadcn/ui** - Beautiful UI components
 - **Tailwind CSS** - Utility-first CSS framework
 
-## 💻 Local Development
+## Local Development
 
 ### Prerequisites
 
@@ -58,7 +58,7 @@ npm run build
 npm run preview
 ```
 
-## 🧪 Testing
+## Testing
 
 ```sh
 # Run tests
@@ -68,11 +68,11 @@ npm run test
 npm run test:watch
 ```
 
-## 📝 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 📧 Contact
+## Contact
 
 - **GitHub**: [@vinaldsz](https://github.com/vinaldsz)
 - **LinkedIn**: [Vinal Dsouza](https://www.linkedin.com/in/vinal-dsouza-9a9912187/)

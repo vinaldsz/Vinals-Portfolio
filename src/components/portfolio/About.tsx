@@ -5,22 +5,25 @@ const highlights = [
     icon: Code2,
     title: "Clean Code",
     description:
-      "I write maintainable, scalable code following best practices.",
+      "I build things that the next engineer can actually understand and maintain.",
   },
   {
     icon: Lightbulb,
     title: "Problem Solver",
-    description: "I love tackling complex challenges with creative solutions.",
+    description:
+      "I dig into root causes. Whether it's a broken pipeline or a data mismatch no one noticed yet.",
   },
   {
     icon: Rocket,
     title: "Performance",
-    description: "Optimizing for speed and user experience is my priority.",
+    description:
+      "If it can be faster or lighter, I'll find a way to make it so.",
   },
   {
     icon: Users,
     title: "Team Player",
-    description: "Collaboration and clear communication drive great results.",
+    description:
+      "I've worked across regions and business units. Good communication is half the job.",
   },
 ];
 
@@ -63,17 +66,19 @@ export function About() {
                 Data Engineer & AI Enthusiast
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm a passionate developer with over 5 years of experience
-                building scabale data pipelines. Someone who has led a team,
-                been SME, worked in modernisation projects bridging gap between
-                legacy and modern stack.
+                From COBOL to Databricks, I've seen data at every stage of its
+                evolution
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                When I'm not building/designing a data pipeline or identifying
-                RCA for the data inconssistencies, you'll find me reading about
-                data, AI&ML.
+                I've spent 5+ years building data pipelines that teams actually
+                rely on. From migrating legacy COBOL workflows to designing
+                modern pipelines on Databricks and AWS that process millions of
+                records daily, I've worked across the full spectrum of data
+                engineering. I've led teams, been the go-to person for
+                production issues, and driven modernization projects that made a
+                real difference. These days I'm at Northeastern, deepening my
+                knowledge and exploring where data engineering meets AI.
               </p>
-
               <div className="grid grid-cols-2 gap-4 pt-4">
                 {highlights.map((item) => (
                   <div

@@ -31,11 +31,8 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <a
-            href="#"
-            className="text-2xl font-bold text-gradient"
-          >
-            Dev.
+          <a href="#" className="text-2xl font-bold text-gradient">
+            Vin.
           </a>
 
           {/* Desktop Navigation */}
@@ -49,7 +46,11 @@ export function Navigation() {
                 {link.label}
               </a>
             ))}
-            <Button asChild size="sm" className="bg-gradient-primary hover:opacity-90">
+            <Button
+              asChild
+              size="sm"
+              className="bg-gradient-primary hover:opacity-90"
+            >
               <a href="#contact">Get in Touch</a>
             </Button>
           </div>
@@ -77,8 +78,14 @@ export function Navigation() {
                   {link.label}
                 </a>
               ))}
-              <Button asChild size="sm" className="bg-gradient-primary hover:opacity-90 w-fit">
-                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Get in Touch</a>
+              <Button
+                asChild
+                size="sm"
+                className="bg-gradient-primary hover:opacity-90 w-fit"
+              >
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  Get in Touch
+                </a>
               </Button>
             </div>
           </div>

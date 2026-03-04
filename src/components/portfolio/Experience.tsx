@@ -38,8 +38,8 @@ const experiences: {
     duration: "2022 - 2024",
     description:
       "Automated initiatives across BODS, EDW, and DataStage systems.",
-    achievements: ["Saved 250+ FTEs annually through automation"],
-    technologies: ["Python", "SQL", "BODS", "EDW", "DataStage"],
+    achievements: ["Saved 70+ FTEs annually through automation"],
+    technologies: ["AWS", "Spark", "Databricks", "Python", "SQL", "DataStage"],
     level: "Senior",
   },
   {

@@ -1,140 +1,98 @@
 const skillCategories = [
   {
-    title: "Core Data Engineering",
-    skills: [
-      { name: "Databricks", level: 95 },
-      { name: "Apache Spark", level: 90 },
-      { name: "Delta Lake", level: 85 },
-      { name: "IBM DataStage", level: 85 },
-      { name: "Airflow", level: 80 },
-    ],
+    label: "Data Engineering",
+    color: "primary",
+    skills: ["Databricks", "Apache Spark", "Delta Lake", "IBM DataStage", "Airflow", "Apache Kafka"],
   },
   {
-    title: "Languages & Libraries",
-    skills: [
-      { name: "Python", level: 95 },
-      { name: "SQL", level: 95 },
-      { name: "Pandas", level: 95 },
-      { name: "NumPy", level: 90 },
-      { name: "JavaScript", level: 85 },
-    ],
+    label: "Languages & Libraries",
+    color: "accent",
+    skills: ["Python", "SQL", "Pandas", "NumPy", "JavaScript"],
   },
   {
-    title: "Cloud & Infrastructure",
-    skills: [
-      { name: "AWS SageMaker", level: 90 },
-      { name: "AWS S3", level: 95 },
-      { name: "AWS Lambda", level: 85 },
-      { name: "AWS EMR", level: 85 },
-      { name: "Docker", level: 85 },
-    ],
+    label: "Cloud & Infrastructure",
+    color: "primary",
+    skills: ["AWS S3", "AWS SageMaker", "AWS Lambda", "AWS EMR", "Docker"],
   },
   {
-    title: "Databases",
-    skills: [
-      { name: "PostgreSQL", level: 90 },
-      { name: "Oracle", level: 85 },
-      { name: "MySQL", level: 85 },
-      { name: "MongoDB", level: 75 },
-      { name: "Redis", level: 75 },
-    ],
+    label: "Databases",
+    color: "accent",
+    skills: ["PostgreSQL", "Oracle", "MySQL", "MongoDB", "Redis"],
   },
   {
-    title: "Analytics & BI",
-    skills: [
-      { name: "Power BI", level: 90 },
-      { name: "SSIS", level: 85 },
-      { name: "SSRS", level: 85 },
-      { name: "Matplotlib", level: 80 },
-      { name: "Excel", level: 90 },
-    ],
+    label: "Analytics & BI",
+    color: "primary",
+    skills: ["Power BI", "SSIS", "SSRS", "Matplotlib", "Excel"],
   },
   {
-    title: "DevOps & Tools",
-    skills: [
-      { name: "Git/GitHub", level: 95 },
-      { name: "Apache Kafka", level: 80 },
-      { name: "Autosys", level: 85 },
-      { name: "Tivoli Scheduler", level: 80 },
-      { name: "Bitbucket", level: 85 },
-    ],
+    label: "DevOps & Tools",
+    color: "accent",
+    skills: ["Git/GitHub", "Autosys", "Tivoli Scheduler", "Bitbucket"],
   },
 ];
 
-const techIcons = [
-  "Databricks",
-  "Apache Spark",
-  "Python",
-  "SQL",
-  "AWS",
-  "SageMaker",
-  "PostgreSQL",
-  "Power BI",
-  "Pandas",
-  "Docker",
-  "Git/GitHub",
-  "Delta Lake",
-];
+const colorMap: Record<string, { pill: string; label: string; dot: string }> = {
+  primary: {
+    pill: "bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 hover:border-primary/60",
+    label: "text-primary",
+    dot: "bg-primary",
+  },
+  accent: {
+    pill: "bg-accent/10 border-accent/30 text-accent hover:bg-accent/20 hover:border-accent/60",
+    label: "text-accent",
+    dot: "bg-accent",
+  },
+};
 
 export function Skills() {
   return (
     <section id="skills" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
+
+          {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Skills & <span className="text-gradient">Technologies</span>
+              Skills &amp; <span className="text-gradient">Technologies</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              The tools and technologies I use to bring ideas to life.
+              From pipelines to cloud infrastructure — the full data engineering stack.
             </p>
           </div>
 
-          {/* Tech Icons Strip */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16">
-            {techIcons.map((tech) => (
-              <div
-                key={tech}
-                className="px-4 py-2 rounded-full bg-secondary border border-border hover:border-primary/50 hover:glow-sm transition-all duration-300"
-              >
-                <span className="text-sm font-medium">{tech}</span>
-              </div>
-            ))}
+          {/* Category grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {skillCategories.map((cat) => {
+              const c = colorMap[cat.color];
+              return (
+                <div
+                  key={cat.label}
+                  className="p-5 rounded-xl bg-card border border-white/8 hover:border-white/15 transition-all duration-300"
+                >
+                  {/* Category label */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className={`w-2 h-2 rounded-full ${c.dot}`} />
+                    <h3 className={`text-xs font-bold uppercase tracking-widest ${c.label}`}>
+                      {cat.label}
+                    </h3>
+                  </div>
+
+                  {/* Skill pills */}
+                  <div className="flex flex-wrap gap-2">
+                    {cat.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-200 cursor-default ${c.pill}`}
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Skill Bars */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {skillCategories.map((category) => (
-              <div
-                key={category.title}
-                className="p-6 rounded-xl bg-card border border-border"
-              >
-                <h3 className="text-xl font-semibold mb-6 text-gradient">
-                  {category.title}
-                </h3>
-                <div className="space-y-4">
-                  {category.skills.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm font-medium">
-                          {skill.name}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-primary rounded-full transition-all duration-1000"
-                          style={{ width: `${skill.level}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

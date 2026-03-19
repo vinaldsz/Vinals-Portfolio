@@ -37,7 +37,7 @@ export function About() {
               About <span className="text-gradient">Me</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Get to know me and what drives my passion for development.
+              Get to know me and what drives my passion for data engineering.
             </p>
           </div>
 
@@ -83,11 +83,11 @@ export function About() {
                 {highlights.map((item) => (
                   <div
                     key={item.title}
-                    className="p-4 rounded-lg bg-secondary/50 border border-border hover:border-primary/50 transition-colors"
+                    className="p-4 rounded-lg bg-card border border-white/10 border-l-2 border-l-primary/60 hover:border-l-primary hover:bg-white/5 hover:shadow-[0_0_12px_rgba(99,102,241,0.15)] transition-all duration-300"
                   >
-                    <item.icon className="w-6 h-6 text-primary mb-2" />
-                    <h4 className="font-medium text-sm">{item.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <item.icon className="w-5 h-5 text-primary mb-2" />
+                    <h4 className="font-semibold text-sm text-foreground">{item.title}</h4>
+                    <p className="text-xs text-muted-foreground/80 mt-1 leading-relaxed">
                       {item.description}
                     </p>
                   </div>

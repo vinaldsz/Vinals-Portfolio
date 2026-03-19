@@ -14,7 +14,7 @@ const experiences: {
 }[] = [
   {
     title: "Graduate Research Apprentice",
-    company: "Oakland",
+    company: "Northeastern University",
     duration: "2025 - Current",
     description:
       "Assessing Copilot's impact on city operations through surveys and research studies.",
@@ -24,7 +24,7 @@ const experiences: {
   },
   {
     title: "Graduate Teaching Assistant & Lead TA",
-    company: "Oakland Campus",
+    company: "Northeastern University",
     duration: "2024 - Current",
     description:
       "Led TA team managing 80+ students across multiple programming languages.",
@@ -53,7 +53,7 @@ const experiences: {
   },
   {
     title: "Systems Engineer Intern",
-    company: "Retail Analytics",
+    company: "Infosys",
     duration: "2019",
     description: "Built BI solution for grocery sales data using SSIS and SQL.",
     achievements: ["Developed data warehouse with dashboards and reports"],

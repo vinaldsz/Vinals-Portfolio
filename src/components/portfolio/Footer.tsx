@@ -9,7 +9,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-center md:text-left">
             <a href="#" className="text-xl font-bold text-gradient">
-              Vin.
+              Vinal.
             </a>
             <p className="text-sm text-muted-foreground mt-1">
               © {currentYear} All rights reserved.

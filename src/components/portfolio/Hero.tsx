@@ -34,8 +34,8 @@ function ParticleCanvas() {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: (Math.random() - 0.5) * 1.2,
         r: Math.random() * 1.8 + 0.5,
         alpha: Math.random() * 0.5 + 0.15,
       });

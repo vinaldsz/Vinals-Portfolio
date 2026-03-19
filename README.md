@@ -28,7 +28,7 @@ This project is built with:
 
 ### Prerequisites
 
-- Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js & npm installed - [install with nvm] (https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ### Setup
 
@@ -75,7 +75,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Contact
 
 - **GitHub**: [@vinaldsz](https://github.com/vinaldsz)
-- **LinkedIn**: [Vinal Dsouza](https://www.linkedin.com/in/vinal-dsouza-9a9912187/)
+- **LinkedIn**: [Vinal Dsouza](https://www.linkedin.com/in/vinal-dsouza/)
 
 ---
 

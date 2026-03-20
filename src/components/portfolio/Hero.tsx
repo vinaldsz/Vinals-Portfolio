@@ -121,7 +121,7 @@ export function Hero() {
   const currentText = TYPING_PHRASES[phraseIndex].substring(0, charIndex);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section className="w-full pt-40 pb-32 md:pt-48 md:pb-40 lg:pt-56 flex items-center justify-center relative overflow-hidden">
       {/* Particle network */}
       <ParticleCanvas />
 
@@ -155,7 +155,7 @@ export function Hero() {
             <p className="text-lg md:text-xl text-muted-foreground font-medium tracking-wide mb-1">
               Hi there, I'm
             </p>
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none">
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none">
               <span className="text-gradient">Vinal Dsouza</span>
             </h1>
           </div>

@@ -88,6 +88,21 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        "data-flow": {
+          "0%": { top: "-5%", opacity: "0" },
+          "20%": { opacity: "1" },
+          "80%": { opacity: "1" },
+          "100%": { top: "105%", opacity: "0" },
+        },
+        "data-flow-horizontal": {
+          "0%": { left: "-20%", opacity: "0" },
+          "20%": { opacity: "1" },
+          "80%": { opacity: "1" },
+          "100%": { left: "105%", opacity: "0" },
+        },
+        "flow-path": {
+          "to": { strokeDashoffset: "-24" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -96,6 +111,9 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "slide-in-left": "slide-in-left 0.5s ease-out forwards",
         "float": "float 3s ease-in-out infinite",
+        "data-flow": "data-flow 3s linear infinite",
+        "data-flow-horizontal": "data-flow-horizontal 3s linear infinite",
+        "flow-path": "flow-path 1s linear infinite",
       },
     },
   },

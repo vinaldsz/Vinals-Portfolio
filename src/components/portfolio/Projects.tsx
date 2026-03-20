@@ -133,12 +133,13 @@ export function Projects() {
             </Tabs>
           </div>
 
-          <div className="flex gap-8 flex-nowrap overflow-x-auto pb-4">
-            {filtered.map((project) => (
-              <div
-                key={project.title}
-                className="group relative rounded-xl overflow-hidden bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:glow-sm min-w-[350px] flex flex-col"
-              >
+          <div className="flex w-full justify-start xl:justify-center relative">
+            <div className="flex gap-8 flex-nowrap overflow-x-auto pb-8 pt-4 w-full xl:w-fit max-w-full px-2 snap-x">
+              {filtered.map((project) => (
+                <div
+                  key={project.title}
+                  className="group relative rounded-xl overflow-hidden bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:glow-sm w-[85vw] sm:w-auto max-w-[350px] sm:min-w-[350px] shrink-0 flex flex-col snap-start"
+                >
                 {/* Project Info */}
                 <div className="p-6 flex-1">
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
@@ -187,6 +188,7 @@ export function Projects() {
                 </div>
               </div>
             ))}
+            </div>
           </div>
 
           <div className="text-center mt-12">

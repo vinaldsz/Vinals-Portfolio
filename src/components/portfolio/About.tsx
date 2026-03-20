@@ -45,7 +45,7 @@ export function About() {
             {/* Avatar/Image placeholder */}
             <div className="flex justify-center lg:justify-start">
               <div className="relative">
-                <div className="w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-primary p-1 glow">
+                <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl bg-gradient-primary p-1 glow">
                   <img
                     src="/ProfessionalHeadshot.jpeg"
                     alt="Vinal D'Souza"

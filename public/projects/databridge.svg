@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="25%" r="90%">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#38bdf8"/>
+    </marker>
+    <style>
+      .box   { fill:#0f172a; fill-opacity:.9; stroke-width:1.6; rx:12; }
+      .cyan  { stroke:#22d3ee; stroke-opacity:.55; }
+      .sky   { stroke:#0ea5e9; stroke-opacity:.55; }
+      .t     { fill:#f1f5f9; font-weight:700; }
+      .sub   { fill:#94a3b8; font-family:ui-monospace,Menlo,monospace; }
+      .tag   { fill:#22d3ee; font-family:ui-monospace,Menlo,monospace; }
+      .arrow { stroke:#38bdf8; stroke-opacity:.7; stroke-width:2; fill:none; }
+    </style>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="44" y="60" class="t" font-size="36" fill="#22d3ee">DataBridge</text>
+  <text x="46" y="90" class="sub" font-size="16">Hybrid batch + streaming data platform &#183; AWS</text>
+
+  <!-- Flow arrows (drawn first, behind boxes) -->
+  <path class="arrow" marker-end="url(#arrow)" d="M220,185 C238,185 236,232 250,232"/>
+  <path class="arrow" marker-end="url(#arrow)" d="M220,285 C238,285 236,268 250,268"/>
+  <path class="arrow" marker-end="url(#arrow)" d="M430,250 L460,250"/>
+  <path class="arrow" marker-end="url(#arrow)" d="M598,250 L628,244"/>
+  <path class="arrow" marker-end="url(#arrow)" d="M341,310 L341,358"/>
+
+  <!-- Sources -->
+  <rect class="box cyan" x="44" y="150" width="176" height="70" rx="12"/>
+  <text x="60" y="184" class="t" font-size="18">Purchase Events</text>
+  <text x="60" y="206" class="tag" font-size="13">KINESIS &#183; STREAM</text>
+
+  <rect class="box sky" x="44" y="250" width="176" height="70" rx="12"/>
+  <text x="60" y="284" class="t" font-size="18">Product Catalog</text>
+  <text x="60" y="306" class="tag" font-size="13" fill="#0ea5e9">S3 &#183; BATCH</text>
+
+  <!-- Schema Registry -->
+  <rect class="box cyan" x="252" y="190" width="178" height="120" rx="14"/>
+  <text x="341" y="234" class="t" font-size="19" text-anchor="middle">Schema Registry</text>
+  <text x="341" y="260" class="sub" font-size="13" text-anchor="middle">contracts + drift check</text>
+  <text x="341" y="288" class="sub" font-size="12" text-anchor="middle" fill="#64748b">AWS Glue</text>
+
+  <!-- bad-data label -->
+  <text x="352" y="340" class="sub" font-size="12" fill="#94a3b8">rejects</text>
+
+  <!-- Rejected dataset -->
+  <rect class="box" x="252" y="360" width="178" height="66" rx="12" stroke="#475569" stroke-opacity=".7" stroke-width="1.6"/>
+  <text x="341" y="390" class="t" font-size="16" text-anchor="middle">Rejected Dataset</text>
+  <text x="341" y="410" class="tag" font-size="13" text-anchor="middle">$136K PRESERVED</text>
+
+  <!-- Spark / EMR -->
+  <rect class="box cyan" x="462" y="204" width="136" height="92" rx="14"/>
+  <text x="530" y="244" class="t" font-size="20" text-anchor="middle">Spark</text>
+  <text x="530" y="268" class="sub" font-size="14" text-anchor="middle">on EMR</text>
+
+  <!-- Delta Lake -->
+  <text x="705" y="140" class="t" font-size="16" fill="#22d3ee" text-anchor="middle">Delta Lake</text>
+  <rect x="630" y="150" width="150" height="182" rx="14" fill="#0f172a" fill-opacity=".9" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/>
+  <rect x="644" y="164" width="122" height="48" rx="8" fill="#22d3ee" fill-opacity=".10"/>
+  <text x="705" y="193" class="sub" font-size="15" text-anchor="middle" fill="#cbd5e1">Bronze</text>
+  <rect x="644" y="218" width="122" height="48" rx="8" fill="#22d3ee" fill-opacity=".16"/>
+  <text x="705" y="247" class="sub" font-size="15" text-anchor="middle" fill="#e2e8f0">Silver</text>
+  <rect x="644" y="272" width="122" height="48" rx="8" fill="#22d3ee" fill-opacity=".24"/>
+  <text x="705" y="301" class="sub" font-size="15" text-anchor="middle" fill="#f1f5f9">Gold</text>
+</svg>

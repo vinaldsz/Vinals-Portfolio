@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <radialGradient id="bg42" cx="28%" cy="30%" r="95%">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="bar42" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg42)"/>
+  <rect width="800" height="5" fill="url(#bar42)"/>
+
+  <!-- ghosted 42 watermark -->
+  <text x="792" y="430" text-anchor="end" font-size="380" font-weight="800"
+        fill="#1e3a5f" fill-opacity=".28">42</text>
+
+  <!-- eyebrow -->
+  <text x="70" y="132" fill="#94a3b8" font-size="30">Project</text>
+
+  <!-- big number -->
+  <text x="66" y="300" fill="#f1f5f9" font-size="150" font-weight="800">42</text>
+
+  <!-- title -->
+  <text x="70" y="362" fill="#38bdf8" font-size="44" font-weight="600">A Terraform MCP Server</text>
+
+  <!-- tagline -->
+  <text x="70" y="406" fill="#94a3b8" font-size="22">Giving any LLM structured access to</text>
+  <text x="70" y="436" fill="#94a3b8" font-size="22">infrastructure state, CLI, and configuration.</text>
+
+  <!-- accent underline -->
+  <rect x="70" y="456" width="180" height="4" rx="2" fill="url(#bar42)"/>
+
+  <!-- minimal bot glyph, bottom-right -->
+  <g stroke="#22d3ee" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(690,398)">
+    <line x1="34" y1="6" x2="34" y2="16"/>
+    <circle cx="34" cy="4" r="3" fill="#22d3ee" stroke="none"/>
+    <rect x="10" y="16" width="48" height="40" rx="10"/>
+    <line x1="10" y1="34" x2="2" y2="34"/>
+    <line x1="58" y1="34" x2="66" y2="34"/>
+    <circle cx="26" cy="36" r="4" fill="#22d3ee" stroke="none"/>
+    <circle cx="42" cy="36" r="4" fill="#22d3ee" stroke="none"/>
+  </g>
+</svg>

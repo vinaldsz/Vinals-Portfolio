@@ -13,6 +13,9 @@ const projects: {
   description: string;
   githubUrl: string;
   icon: ComponentType<{ size?: number | string }>;
+  // Optional preview screenshot (in public/). When absent, the card falls back to
+  // the gradient + category-icon placeholder tile. Path is root-relative.
+  image?: string;
 }[] = [
   {
     title: "AI PDF Assistant (RAG Service)",
@@ -21,6 +24,7 @@ const projects: {
       "Production-grade RAG pipeline with hybrid dense and sparse retrieval, a hallucination guard that skips the LLM call entirely on out-of-corpus questions, and full request tracing, running at $0/month on free-tier infrastructure.",
     githubUrl: "https://github.com/vinaldsz/ai-pdf-assistant",
     icon: Cpu,
+    image: "/projects/RAG.png",
   },
   {
     title: "DataBridge",
@@ -29,6 +33,7 @@ const projects: {
       "Hybrid batch and streaming data platform on AWS. Ingests purchase events via Kinesis and product catalogs via batch, enforces schema contracts through Glue Schema Registry with drift detection, and routes bad data to an explicit rejection dataset, preserving $136K in unmatched-product revenue for analysis rather than dropping it.",
     githubUrl: "https://github.com/vinaldsz/DataBridge",
     icon: Database,
+    image: "/projects/databridge.svg",
   },
   {
     title: "Project 42 — Terraform Smart Context MCP",
@@ -37,6 +42,7 @@ const projects: {
       "Parses Terraform state into a queryable dependency graph so AI agents get exactly the infrastructure slice they need instead of raw state, cutting hard-query costs by roughly 6x in benchmark testing across Claude, Gemini, and Codex.",
     githubUrl: "https://github.com/KalharPandya/terraform-smart-context-mcp-42",
     icon: Server,
+    image: "/projects/terraform-mcp.svg",
   },
   {
     title: "FMCG Delta Medallion Pipeline",
@@ -45,6 +51,7 @@ const projects: {
       "Automated Bronze → Silver → Gold lakehouse with parallel task execution, incremental and full-load pipelines, and 10+ embedded data quality checks.",
     githubUrl: "https://github.com/vinaldsz/fmcg-delta-medallion-pipeline",
     icon: Database,
+    image: "/projects/FMCG.png",
   },
 ];
 
@@ -75,11 +82,21 @@ function ProjectCard({
       )}
       style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}
     >
-      {/* Placeholder image tile (no screenshots yet): gradient + category icon + overlaid tags */}
+      {/* Preview tile: image (cover, top-anchored — crops bottom to fill) when available, else gradient + category icon. Tags overlaid either way. */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-primary/20 via-card to-accent/15">
-        <div className="absolute inset-0 flex items-center justify-center text-primary/25 transition-transform duration-500 group-hover:scale-110">
-          <Icon size={72} />
-        </div>
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={`${project.title} preview`}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-primary/25 transition-transform duration-500 group-hover:scale-110">
+            <Icon size={72} />
+          </div>
+        )}
         <ul className="absolute bottom-3 left-3 flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li

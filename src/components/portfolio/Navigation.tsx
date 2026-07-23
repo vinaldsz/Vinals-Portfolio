@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "About", href: "#about" },
+  // About section dropped (owner, 2026-07-23) — the Hero paragraph carries the bio.
   { label: "Skills", href: "#skills" },
   // Experience was missing from the legacy nav — independent bug, added here.
   { label: "Experience", href: "#experience" },

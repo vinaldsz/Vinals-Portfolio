@@ -17,6 +17,7 @@ This spec builds every section fresh (new component files, not in-place edits) t
 - **No shadcn/ui component library** — the ~50-file `src/components/ui/*` boilerplate was not recreated. Where real accessibility complexity justifies it (Select, Tabs, Toast, Label), phases add a *specific* Radix primitive directly (`@radix-ui/react-select`, `-tabs`, `-toast`, `-label`, plus `-slot` for the `Button` `asChild` pattern) rather than pulling shadcn's full generated set. `class-variance-authority`, `clsx`, `tailwind-merge`, and a small `cn()` helper in `src/lib/utils.ts` are kept as generically useful.
 - **Experience**: replace the mockup's plain card-per-job layout, and drop the old DAG / "Career Graph" visualization (not ported).
 - **Impact section**: dropped entirely (no equivalent in the new design).
+- **About section**: dropped entirely (owner, 2026-07-23) — no headshot/bio/highlights section; the Hero paragraph already carries the bio. The `#about` nav link and stub are removed. About's original copy/data stays in the Appendix for reversibility only.
 - **Projects**: keep the image-less cards for now, but add an `image?` field with a styled placeholder fallback so real screenshots drop in later. Keep the working category filter tabs — rebuild with new styling, don't remove the behavior.
 - **Nav**: add a "Resume" button now, pointing at `/Resume.pdf` (file supplied by the user later).
 
@@ -80,7 +81,7 @@ Keep `lucide-react` (already used), no Material Symbols. Map: `terminal→Termin
 ## Phase 1 — Shell: Navigation + Footer + `Index.tsx`
 See the Appendix's "Navigation.tsx" and "Footer.tsx".
 
-**`src/components/portfolio/Navigation.tsx`** — `navLinks`: About, Skills, Experience, Projects, Contact (Experience was missing from the legacy nav — independent bug, fixed now). Add a "Resume" outline-button (desktop + mobile) → `/Resume.pdf`, `target="_blank" rel="noopener noreferrer"`, with an inline comment noting the file doesn't exist yet. **A11y**: `aria-label="Toggle menu"` + `aria-expanded={isMobileMenuOpen}` on the hamburger. Carry over the scroll-listener/state pattern; brand stays `Vinal.`. Glass/blur nav bar, `.glass-panel`-ish on scroll.
+**`src/components/portfolio/Navigation.tsx`** — `navLinks`: Skills, Experience, Projects, Contact (Experience was missing from the legacy nav — independent bug, fixed now; About was later dropped — owner, 2026-07-23). Add a "Resume" outline-button (desktop + mobile) → `/Resume.pdf`, `target="_blank" rel="noopener noreferrer"`, with an inline comment noting the file doesn't exist yet. **A11y**: `aria-label="Toggle menu"` + `aria-expanded={isMobileMenuOpen}` on the hamburger. Carry over the scroll-listener/state pattern; brand stays `Vinal.`. Glass/blur nav bar, `.glass-panel`-ish on scroll.
 
 **`src/components/portfolio/Footer.tsx`** — no Twitter link (no real account). GitHub `https://github.com/vinaldsz` + LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (canonical), real copyright line.
 
@@ -110,18 +111,43 @@ See the Appendix's "Hero.tsx" and "BackgroundEffects.tsx".
 
 ---
 
-## Phase 3 — About + Skills
-See the Appendix's "About.tsx" and "Skills.tsx".
+## Phase 3 — Skills (About dropped)
+**About is dropped** (owner, 2026-07-23 — see Confirmed decisions); this phase builds only Skills.
 
-**`About.tsx`** — carry over the bio paragraph, "5+ Years Experience" badge, the 4-item `highlights` array, and `/ProfessionalHeadshot.jpeg` (with explicit width/height) verbatim. Wrap in `useScrollReveal`. Highlight cards as `.glass-panel .hover-lift` tiles.
+**Requirements change (owner, 2026-07-23):** the Skills section was redesigned from the
+original 6-category no-percentages bento into a curated "Technical Arsenal" layout supplied
+by the owner (a Material-3-glass mockup). This **overrides** the earlier "no fake
+percentages / no progress bars" rule and the 6-category data: the left panel now uses real,
+owner-supplied proficiency bars. The original 6-category `skillCategories` array is retained
+in the Appendix (marked superseded) for reference/reversibility only — it is not rendered.
 
-**`Skills.tsx`** — carry over the real 6-category pill data verbatim. Adapt the mockup's bento pattern: no fake percentages, no progress bars. Each category a `.glass-panel .hover-lift` tile in `grid sm:grid-cols-2 lg:grid-cols-3 gap-6`; make "Data Engineering" `lg:col-span-2` for hierarchy. Reuse the alternating `primary`/`accent` scheme.
+**`src/components/portfolio/Skills.tsx`** — `<section id="skills">`, `container mx-auto px-6`,
+`scroll-mt-16`. Heading "TECHNICAL ARSENAL" — `font-mono`, uppercase, solid
+`text-foreground` (no gradient), preceded by a short cyan (`bg-primary`) dash accent, matching
+the owner mockup — + subheading "From pipelines to cloud infrastructure — the full data
+engineering stack."
+Layout `grid gap-6 lg:grid-cols-12`:
+- **Left `lg:col-span-7` — `.glass-panel`** with a "CORE COMPETENCIES" `font-mono` eyebrow and
+  3 proficiency-bar rows (owner-supplied real values): "Data Engineering & Pipeline
+  Architecture (PySpark, Databricks, ETL/ELT)" 98%, "Cloud Infrastructure (AWS, Terraform)"
+  92%, "AI & Agentic Systems (RAG, MCP, LLM tooling)" 88%. Each row: label + `text-primary` %,
+  then a `bg-muted` track with a `bg-gradient-primary` fill that animates `0 → value%` on
+  reveal (`transition-[width]`, `motion-reduce:transition-none`).
+- **Right `lg:col-span-5` — `grid grid-cols-2 gap-6`** of 4 `.glass-panel .hover-lift` badge
+  cards (icon in a tinted rounded square + `font-mono` uppercase label): "PySpark / Databricks"
+  (Database), "AWS / Terraform" (Cloud), "PostgreSQL / pgvector" (Server), "MCP / LLM APIs" (Cpu).
+
+Wrap the section content in `useScrollReveal` (fade-up; reduced-motion renders final state
+immediately, so bars show final width without transition). New icons (`Database`, `Cloud`,
+`Server`, `Cpu`) added to `src/lib/icons.ts`.
 
 ### Definition of done (Phase 3)
-- Replace the Phase 1 `#about`/`#skills` stubs with real components in `Index.tsx`.
-- Visual check at 3 breakpoints: About's 2-column layout + 4 tiles; Skills' bento with all 6 categories, Data Engineering visibly wider on `lg`.
-- Scroll-reveal fires once per section, skipped under reduced motion.
-- No content regressions vs. the Appendix.
+- Replace the Phase 1 `#skills` stub with the real `Skills` component in `Index.tsx`; the
+  `#about` stub and its nav link are removed.
+- Visual check at 3 breakpoints: left competency panel + right 2×2 badge grid stack correctly;
+  the 3 bars fill to 98/92/88%.
+- Scroll-reveal fires once, skipped under reduced motion.
+- Content matches the owner-supplied values above (no fabricated skills).
 
 ---
 
@@ -352,6 +378,7 @@ export function Hero() {
 Note: the LinkedIn URL above (`.../vinal-dsouza-9a9912187`) is the corrected/canonical one (the live legacy file had a wrong slug — `.../vinal-dsouza/`). Use this value, matching Footer.
 
 ### About.tsx (real content)
+*(Section dropped 2026-07-23 — retained for reference/reversibility only; not rendered.)*
 - Section heading: "About Me" (gradient on "Me"), subheading: "Get to know me and what drives my passion for data engineering."
 - Headshot: `/ProfessionalHeadshot.jpeg`, alt "Vinal D'Souza", intrinsic size 640×427, badge overlay "5+ Years Experience"
 - Subheading above bio: "Data Engineer & AI Enthusiast"
@@ -364,6 +391,7 @@ Note: the LinkedIn URL above (`.../vinal-dsouza-9a9912187`) is the corrected/can
   4. `Users` — **Team Player** — "I've worked across regions and business units. Good communication is half the job."
 
 ### Skills.tsx (real content — exact `skillCategories` array)
+*(Superseded 2026-07-23 by the curated "Technical Arsenal" design in §Phase 3 — this 6-category array is no longer rendered; retained for reference/reversibility only.)*
 ```ts
 const skillCategories = [
   { label: "Data Engineering", color: "primary", skills: ["Databricks", "Apache Spark", "Delta Lake", "IBM DataStage", "Airflow", "Apache Kafka"] },

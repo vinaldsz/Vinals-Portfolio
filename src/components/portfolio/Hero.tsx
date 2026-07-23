@@ -138,20 +138,14 @@ export function Hero() {
         <div className="max-w-3xl mx-auto text-center">
 
           {/* Badge */}
-          <div
-            className="animate-fade-up opacity-0 mb-8"
-            style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
-          >
+          <div className="mb-8">
             <span className="inline-block px-4 py-1.5 rounded-full border border-primary/25 bg-primary/10 text-xs font-semibold tracking-widest text-primary uppercase">
               Data Engineer · Available for Opportunities
             </span>
           </div>
 
           {/* "Hi, I'm Vinal" — main headline */}
-          <div
-            className="animate-fade-up opacity-0 mb-4"
-            style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
-          >
+          <div className="mb-4">
             <p className="text-lg md:text-xl text-muted-foreground font-medium tracking-wide mb-1">
               Hi there, I'm
             </p>
@@ -161,28 +155,19 @@ export function Hero() {
           </div>
 
           {/* Secondary pipeline statement — smaller */}
-          <p
-            className="text-sm md:text-base text-muted-foreground/70 mb-4 max-w-lg mx-auto leading-relaxed animate-fade-up opacity-0"
-            style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
-          >
+          <p className="text-sm md:text-base text-muted-foreground/70 mb-4 max-w-lg mx-auto leading-relaxed">
             I build scalable data pipelines that reduce processing time from{" "}
             <span className="text-foreground/90 font-semibold">minutes to seconds.</span>
           </p>
 
           {/* Typing animation */}
-          <div
-            className="h-7 mb-10 text-sm md:text-base font-semibold text-foreground/80 animate-fade-up opacity-0"
-            style={{ animationDelay: "0.45s", animationFillMode: "forwards" }}
-          >
+          <div className="h-7 mb-10 text-sm md:text-base font-semibold text-foreground/80">
             <span>{currentText}</span>
             <span className="animate-pulse ml-0.5 text-primary">|</span>
           </div>
 
           {/* CTA buttons */}
-          <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10 animate-fade-up opacity-0"
-            style={{ animationDelay: "0.55s", animationFillMode: "forwards" }}
-          >
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <Button
               asChild
               size="lg"
@@ -201,10 +186,7 @@ export function Hero() {
           </div>
 
           {/* Social icons */}
-          <div
-            className="flex items-center justify-center gap-4 animate-fade-up opacity-0"
-            style={{ animationDelay: "0.65s", animationFillMode: "forwards" }}
-          >
+          <div className="flex items-center justify-center gap-4">
             <a
               href="https://github.com/vinaldsz"
               target="_blank"

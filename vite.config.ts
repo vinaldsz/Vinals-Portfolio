@@ -4,7 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, isSsrBuild }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -31,10 +31,14 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Split rarely-changing vendor code into its own long-cached chunk.
-          "react-vendor": ["react", "react-dom", "react-router-dom"],
-        },
+        // React et al are external in the SSR (server) build, so manual
+        // chunking — a client-bundle-only optimization — must be skipped there.
+        manualChunks: isSsrBuild
+          ? undefined
+          : {
+              // Split rarely-changing vendor code into its own long-cached chunk.
+              "react-vendor": ["react", "react-dom", "react-router-dom"],
+            },
       },
     },
   },

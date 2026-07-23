@@ -8,7 +8,7 @@
 ## Phase status
 - [x] Phase 0 — Re-scaffold from scratch + foundation (tokens, fonts, shared hooks/utilities)
 - [x] Phase 1 — Shell: Navigation + Footer + `Index.tsx` (empty section placeholders) — code complete and **fully verified incl. `npm run build`/prerender** (the earlier "build hangs" was a `lucide-react` barrel-import slowdown, now fixed — see Deviations).
-- [ ] Phase 2 — Hero + BackgroundEffects
+- [x] Phase 2 — Hero + BackgroundEffects — code complete and verified (tsc, lint, **build + prerender**, dev). No `<canvas>`; static gradient background; typewriter gated on `useReducedMotion`.
 - [ ] Phase 3 — About + Skills
 - [ ] Phase 4 — Experience
 - [ ] Phase 5 — Projects
@@ -17,7 +17,8 @@
 
 ## Current state / next step
 - On branch `redesign/glass-rebuild`.
-- Phase 1 complete and fully verified (tsc, lint, dev, **build + prerender**). **Next: Phase 2** (Hero + BackgroundEffects).
+- Phase 2 complete and fully verified (tsc, lint, dev, **build + prerender**). **Next: Phase 3** (About + Skills).
+- `Index.tsx` now eager-imports `Hero` + `BackgroundEffects`; the `hero` stub is gone (`sectionStubs` is down to the 5 remaining below-fold sections). The below-fold lazy/`Suspense` scaffold is still deferred — added incrementally as Phases 3–6 land.
 - `src/App.tsx` now imports `src/pages/Index.tsx` eagerly (the `IndexStub` is gone); NotFound stays lazy.
 - **Icon-import convention going forward: import lucide icons from `@/lib/icons` (deep-imported), NEVER `from "lucide-react"` directly** — the barrel drags the whole ~1,500-icon catalog into the build. Add each new icon to `src/lib/icons.ts` as phases need them.
 
@@ -42,10 +43,21 @@
 - `npm run build` (`vite-react-ssg build`) → **verified, exit 0.** Client pass 56 modules / ~4.6s, SSR pass 13 modules / ~40ms, prerender writes `dist/index.html` (7.92 KiB). Confirmed the prerendered HTML contains the real shell content (`Vinal.`, `Get in Touch`, `Resume`, `All rights reserved`) and all six section ids (`hero`/`about`/`skills`/`experience`/`projects`/`contact`) — so nav/footer/stubs prerender with no SSR errors (SSR-safe by construction: all `window`/scroll/`matchMedia` in `useEffect`; `Footer` uses `new Date()`). The `react-vendor` manualChunk (250 KB) split correctly.
 - Still worth a human eyeball in `npm run preview`: nav-link scroll behavior, keyboard focus rings, and the mobile hamburger toggle (rendering/interaction, not build correctness).
 
+## Phase 2 verification (what was actually checked)
+- New files: `src/components/portfolio/Hero.tsx`, `src/components/portfolio/BackgroundEffects.tsx`. Edited: `src/pages/Index.tsx` (eager Hero + BackgroundEffects; `hero` stub removed). No new icons (Github/Linkedin already in `@/lib/icons`); no token/config changes.
+- `npx tsc --noEmit -p tsconfig.app.json` → clean, exit 0.
+- `npm run lint` (`oxlint`) → exit 0. Only the two pre-existing harmless warnings remain (`button.tsx` `only-export-components`, `use-scroll-reveal.ts` `exhaustive-deps`); Hero/BackgroundEffects add none.
+- `npm run build` (`vite-react-ssg build`) → **verified, exit 0.** Client + SSR passes succeed, prerender writes `dist/index.html` (12.26 KiB, up from 7.92). Grepped the prerendered HTML: **0 `<canvas>`**; Hero copy present (`Vinal Dsouza`, `Explore My Projects`, `Let's Build Together`, `minutes to seconds`, `Available for Opportunities`); social URLs correct (`github.com/vinaldsz`, `vinal-dsouza-9a9912187`). Typewriter `<span>` is empty in static HTML — expected (initial `charIndex` 0; it types after hydration).
+- `npm run dev` → `/` HTTP 200; `Hero.tsx` and `BackgroundEffects.tsx` transform without error (HTTP 200).
+- Still worth a human eyeball in `npm run preview`: typewriter cycles at normal motion; under DevTools "Emulate prefers-reduced-motion: reduce" the full first phrase shows statically with no cursor blink; the background gradient is static (no repaint in the Rendering → paint-flashing overlay).
+
 ## Deviations from SPEC (recorded in place, per CLAUDE.md rule 3)
 - **Phase 1: shared `Button` created this phase, not deferred.** `src/components/ui/button.tsx` (cva variants `default`/`outline`/`ghost` + Radix `Slot` `asChild`) was built now (user-approved) so Nav uses it immediately and Hero reuses it in Phase 2. All deps were already installed. Not a departure from intent — SPEC allows adding specific primitives where justified — recorded for traceability.
 - **Phase 1: eager-Hero / lazy-below-fold `Suspense` scaffold deferred.** SPEC §Phase 1 says carry the legacy `Index.tsx` Suspense pattern "verbatim", but the legacy `Index.tsx`/`BackToTop` were deleted and are NOT in the Appendix, and there are no real section components to lazy-load yet. `Index.tsx` currently renders 6 plain `<section id>` stubs directly; the lazy/`Suspense` wiring will be added incrementally as Phases 2–6 drop in each real component. `BackToTop` was reconstructed fresh (scroll-visibility + `useReducedMotion`-gated smooth scroll), not carried verbatim.
 - **Phase 1: the `lucide-react` barrel import made `vite-react-ssg build` appear to hang — fixed with a deep-import icon barrel.** Root cause (diagnosed by bisection): importing named icons `from "lucide-react"` forces the bundler to crawl the entire ~1,500-icon catalog — the client build ballooned to **1,577 modules** and, combined with the Tailwind CSS pass and multiplied across `vite-react-ssg`'s three passes (client → SSR → prerender), took minutes with no output (looked like a deadlock). Fix: `src/lib/icons.ts` re-exports only the used icons via deep imports (`lucide-react/dist/esm/icons/<name>`), typed through a wildcard `declare module` in `src/types/lucide.d.ts`; all portfolio components import from `@/lib/icons`. Result: client build drops to **56 modules / ~4.6s** and the full build+prerender completes in seconds. Tradeoff: the `dist/esm/icons/*` paths are lucide-internal (no `exports` map, no per-icon `.d.ts`) so they're version-fragile — contained to those two files, `lucide-react` is pinned `^0.462.0`. **This was NOT the earlier sandbox/esbuild issue** — it reproduced identically on the user's real machine.
+- **Phase 2: Hero CTAs rely on the shared `Button` variants instead of the legacy inline gradient/glow/scale classes.** The legacy Hero repeated `bg-gradient-primary hover:opacity-90 glow hover:scale-105 …` etc. inline; the Phase-1 `Button` `default`/`outline` variants already carry gradient + hover glow/scale, so the ports pass only `className="glow px-8"` (always-on glow on the primary CTA to match the mockup) / `className="px-8"`. Same visual intent, no duplicated utility soup.
+- **Phase 2: focus-visible rings added to the two Hero social-link anchors** (legacy had hover states only). Consistent with the rest of the a11y baseline; the full keyboard pass is still Phase 7.
+- **Phase 2: reduced-motion typewriter shows `TYPING_PHRASES[0]` in full, statically.** SPEC says "show the full phrase statically with no per-char interval"; picked the first phrase (no cycling) and set the cursor to `animate-pulse motion-reduce:animate-none` so it stops blinking too.
 - **`react-router-dom` pinned to `^6.30.1`, not v7.** `vite-react-ssg@0.9.2` peer-depends on `^6.14.1`; installing v7 caused an `ERESOLVE` conflict.
 - **`vite.config.ts` `manualChunks` is a function, not an object literal.** The object form fails to type-check against this Vite/Rollup version's `ManualChunksOption`; the function returns `"react-vendor"` for react/react-dom/react-router-dom module ids.
 - **`tsconfig.app.json` uses `paths` without `baseUrl`.** `baseUrl` is deprecated under `moduleResolution: "bundler"` in TS ~6.0; `paths` alone resolves the `@/*` alias.

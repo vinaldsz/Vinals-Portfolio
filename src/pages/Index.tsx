@@ -1,12 +1,13 @@
 import { Navigation } from "@/components/portfolio/Navigation";
 import { Footer } from "@/components/portfolio/Footer";
 import { BackToTop } from "@/components/portfolio/BackToTop";
+import { BackgroundEffects } from "@/components/portfolio/BackgroundEffects";
+import { Hero } from "@/components/portfolio/Hero";
 
-// Phase 1 (shell): empty section stubs so nav anchors resolve. Each stub is
-// replaced by its real component in Phases 2–6, at which point the lazy/Suspense
-// scaffold gets wired in incrementally.
+// Sections not yet built: empty stubs so nav anchors resolve. Each is replaced by
+// its real component in Phases 3–6; the below-fold lazy/Suspense scaffold gets
+// wired in incrementally at that point.
 const sectionStubs = [
-  { id: "hero", label: "Hero" },
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "experience", label: "Experience" },
@@ -17,8 +18,10 @@ const sectionStubs = [
 export default function Index() {
   return (
     <>
+      <BackgroundEffects />
       <Navigation />
       <main>
+        <Hero />
         {sectionStubs.map((section) => (
           <section
             key={section.id}

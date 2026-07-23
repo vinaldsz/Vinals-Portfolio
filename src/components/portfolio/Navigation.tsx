@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   // About section dropped (owner, 2026-07-23) — the Hero paragraph carries the bio.
   { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
   // Experience was missing from the legacy nav — independent bug, added here.
   { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
 

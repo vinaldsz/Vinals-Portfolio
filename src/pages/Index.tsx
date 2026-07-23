@@ -5,12 +5,12 @@ import { BackgroundEffects } from "@/components/portfolio/BackgroundEffects";
 import { Hero } from "@/components/portfolio/Hero";
 import { Skills } from "@/components/portfolio/Skills";
 import { Experience } from "@/components/portfolio/Experience";
+import { Projects } from "@/components/portfolio/Projects";
 
 // Sections not yet built: empty stubs so nav anchors resolve. Each is replaced by
-// its real component in Phases 5–6; the below-fold lazy/Suspense scaffold gets
-// wired in incrementally at that point. (About was dropped — owner, 2026-07-23.)
+// its real component in Phase 6; the below-fold lazy/Suspense scaffold gets wired
+// in incrementally at that point. (About was dropped — owner, 2026-07-23.)
 const sectionStubs = [
-  { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -22,6 +22,7 @@ export default function Index() {
       <main>
         <Hero />
         <Skills />
+        <Projects />
         <Experience />
         {sectionStubs.map((section) => (
           <section

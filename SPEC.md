@@ -192,15 +192,16 @@ See the Appendix's "Experience.tsx" `experiences` array — do not port DAG rend
 
 ## Phase 5 — Projects
 See the Appendix's "Projects.tsx".
+**Owner content + design update (2026-07-23):** the 8-entry array was replaced with a curated **4-project** set (verbatim descriptions, 3-tag format) and the design was reworked to the owner's "Selected Works" reference layout. **Filter tabs are dropped** (single grid of 4) and the **`ObservableIcon` handling is dropped** (no Observable links in the curated set). See PROGRESS Deviations.
 
-**`Projects.tsx`** — carry over the `Category` filter-tab state/logic, the full 8-entry `projects` array, and the `ObservableIcon`/GitHub-link handling. Add `image?: string` to the type (undefined on all entries for now). Use the mockup's asymmetric grid (`grid grid-cols-1 lg:grid-cols-12 gap-6`, cycling an 8/4/4/8 span rhythm by `index % 3` within the *filtered* subset; handle a lone-card case with full width) instead of the legacy horizontal-scroll row. Card image area: `project.image ? <img/> : <PlaceholderTile/>` — a new inline component rendering a gradient + category-relevant lucide icon (`Database` / `Cpu` / `Server`) in `.glass-panel`.
+**`Projects.tsx`** — data model per entry: `title`, `tags[]` (3), `description`, `githubUrl`, `icon`. Render the owner's "Selected Works" layout: cyan-dash uppercase H2 "Selected Works" (`text-3xl md:text-4xl`); a header row with a short real intro line (left) + a mono-uppercase **"View All on GitHub →"** link → `github.com/vinaldsz` top-right (the CTA moved from bottom to top per the layout). Grid `grid grid-cols-1 lg:grid-cols-12 gap-6` with a fixed **8/4/4/8** span sequence (big/small, then small/big). Each card is an `<a>` wrapping the whole card to its repo (visible focus-visible ring): a **PlaceholderTile** image area (gradient + category lucide icon `Database`/`Server`/`Cpu`, with the 3 tags as glass mono-uppercase pills overlaid bottom-left), then title + description. `useScrollReveal` per card for staggered fade-up.
 
 ### Definition of done (Phase 5)
 - Replace the `#projects` stub.
-- All 8 projects present with correct data across all 3 filter tabs — diff against the Appendix.
-- Tab switching re-filters and re-renders without layout breakage, incl. the 2-item and 3-item cases.
-- Placeholder tiles render a distinct icon per category; no broken `<img>`.
-- All external links point to the correct real URLs.
+- All 4 projects present with correct verbatim data — diff against the Appendix.
+- Grid renders the 8/4/4/8 layout without breakage; responsive down to single-column.
+- Placeholder tiles render a distinct icon per project; no broken `<img>`.
+- All external links point to the correct real repo URLs.
 
 ---
 
@@ -488,71 +489,41 @@ const experiences = [
 ```
 (Array order above is reverse-chronological, rendered top-to-bottom as authored; the legacy DAG re-ordered these into a branching layout — not ported.)
 
-### Projects.tsx (real content — exact `projects` array + filter logic)
+### Projects.tsx (real content — exact `projects` array)
+**Owner-updated 2026-07-23** — a curated 4-project set replaces the earlier 8-entry array + `Category` filter. Verbatim descriptions and a 3-tag format; each card links to its repo; the tile icon is chosen per project. No filter tabs, no `ObservableIcon` (no Observable links). The pre-update 8-entry array (Flight Delay Prediction, Walmart Sales Forecasting, Facial Similarity Checker, Microservices & CI/CD, Distributed Systems Scalability, TinyThreads, plus the earlier FMCG/AI-PDF entries) is preserved in git history at/before commit `c2925ef`.
 ```ts
-type Category = "Data Engineering" | "AI/ML" | "Devops and Other";
-
-const projects: { title: string; description: string; tags: string[]; githubUrl: string; liveUrl?: string; category: Category }[] = [
+const projects: { title: string; tags: string[]; description: string; githubUrl: string; icon: "Database" | "Server" | "Cpu" }[] = [
+  {
+    title: "AI PDF Assistant (RAG Service)",
+    tags: ["Python", "FastAPI", "pgvector"],
+    description: "Production-grade RAG pipeline with hybrid dense and sparse retrieval, a hallucination guard that skips the LLM call entirely on out-of-corpus questions, and full request tracing, running at $0/month on free-tier infrastructure.",
+    githubUrl: "https://github.com/vinaldsz/ai-pdf-assistant",
+    icon: "Cpu",
+  },
+  {
+    title: "DataBridge",
+    tags: ["Kinesis", "Spark/EMR", "Delta Lake"],
+    description: "Hybrid batch and streaming data platform on AWS. Ingests purchase events via Kinesis and product catalogs via batch, enforces schema contracts through Glue Schema Registry with drift detection, and routes bad data to an explicit rejection dataset, preserving $136K in unmatched-product revenue for analysis rather than dropping it.",
+    githubUrl: "https://github.com/vinaldsz/DataBridge",
+    icon: "Database",
+  },
+  {
+    title: "Project 42 — Terraform Smart Context MCP",
+    tags: ["TypeScript", "GraphQL", "MCP"],
+    description: "Parses Terraform state into a queryable dependency graph so AI agents get exactly the infrastructure slice they need instead of raw state, cutting hard-query costs by roughly 6x in benchmark testing across Claude, Gemini, and Codex.",
+    githubUrl: "https://github.com/KalharPandya/terraform-smart-context-mcp-42",
+    icon: "Server",
+  },
   {
     title: "FMCG Delta Medallion Pipeline",
-    description: "Built a 3-layer medallion lakehouse (Bronze/Silver/Gold) with Databricks workflows, automated quality checks, and alerting to improve pipeline reliability and monitoring coverage.",
-    tags: ["Databricks", "PySpark", "SQL", "AWS", "Delta Lake"],
-    githubUrl: "https://github.com/vinaldsz",
-    category: "Data Engineering",
-  },
-  {
-    title: "Flight Delay Prediction",
-    description: "Trained an XGBoost model on 580K+ flight records and improved weather-delay detection from 0.2% to 11.6% using robust feature engineering and production-style ML pipelines on SageMaker.",
-    tags: ["AWS SageMaker", "Numpy", "Pandas", "scikit-learn"],
-    githubUrl: "https://github.com/vinaldsz/FlightDelayPrediction.git",
-    category: "AI/ML",
-  },
-  {
-    title: "Walmart Sales Forecasting",
-    description: "Forecasted weekly store-level sales from multi-store historical data and surfaced trend signals that support faster demand-planning decisions.",
-    tags: ["Python", "Numpy", "Pandas", "Matplotlib"],
-    githubUrl: "https://github.com/vinaldsz/Walmart_Sales_Forecasting.git",
-    category: "Data Engineering",
-  },
-  {
-    title: "Facial Similarity Checker",
-    description: "Built a face embedding workflow with face-api.js to compute parent-child similarity scores and deliver fast, interactive visual comparisons.",
-    tags: ["Observable Notebook", "face-api.js"],
-    githubUrl: "https://observablehq.com/d/60de971c7cd60d5c",
-    category: "AI/ML",
-  },
-  {
-    title: "AI PDF Assistant",
-    description: "Built a RAG assistant that indexes PDFs into pgvector and returns grounded answers through Phi agents, exposed via 3 interfaces: CLI, REST API, and Streamlit app.",
-    tags: ["Python", "Phi", "pgvector", "PostgreSQL", "Groq", "Google APIs", "Streamlit"],
-    githubUrl: "https://github.com/vinaldsz/ai-pdf-assistant.git",
-    category: "AI/ML",
-  },
-  {
-    title: "Microservices & CI/CD Pipeline",
-    description: "Containerized backend services on ECS Fargate with autoscaling and blue-green releases through CodePipeline to reduce deployment risk and improve release reliability.",
-    tags: ["Node.js", "Docker", "AWS ECS Fargate", "CodePipeline"],
-    githubUrl: "https://www.credly.com/badges/a4b38d72-6265-4eef-8d8a-cf70bfe2d8ab/public_url",
-    category: "Devops and Other",
-  },
-  {
-    title: "Distributed Systems Scalability Portfolio",
-    description: "Scaled cloud-native services with Terraform, ECS Fargate, and ALB autoscaling, then benchmarked latency-throughput trade-offs under burst traffic to guide API and infra tuning.",
-    tags: ["Go", "Terraform", "AWS ECS", "ALB", "CloudWatch"],
-    githubUrl: "https://github.com/vinaldsz/scalable-distributed-systems.git",
-    category: "Devops and Other",
-  },
-  {
-    title: "TinyThreads",
-    description: "Shipped an end-to-end marketplace to production with Next.js, MongoDB, and S3-backed media, including CI/CD automation, OAuth authentication, and tested REST APIs.",
-    tags: ["Next.js", "React", "MongoDB", "AWS S3", "GitHub Actions", "REST APIs", "NextAuth", "Jest", "React Testing Library"],
-    githubUrl: "https://github.com/vinaldsz/TinyThreads.git",
-    liveUrl: "",
-    category: "Devops and Other",
+    tags: ["PySpark", "Databricks", "Delta Lake"],
+    description: "Automated Bronze → Silver → Gold lakehouse with parallel task execution, incremental and full-load pipelines, and 10+ embedded data quality checks.",
+    githubUrl: "https://github.com/vinaldsz/fmcg-delta-medallion-pipeline",
+    icon: "Database",
   },
 ];
 ```
-Filter tabs: "Data Engineering" / "AI/ML" / "Devops and Other", default active "Data Engineering". The Facial Similarity Checker card shows a custom inline `ObservableIcon` SVG instead of the GitHub icon (link is an Observable notebook) — check `githubUrl.includes("observablehq.com")`. Bottom CTA: "View All Projects on GitHub" → `https://github.com/vinaldsz`.
+Grid order = array order, rendered with a fixed 8/4/4/8 column-span sequence. Top-right CTA: "View All on GitHub →" → `https://github.com/vinaldsz`.
 
 ### Contact.tsx (real content + mailto logic)
 - Real email: `dsouza.vi@northeastern.edu`; location: "San Francisco, CA"; availability: "Open to new opportunities" (green dot indicator)

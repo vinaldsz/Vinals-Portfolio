@@ -40,25 +40,50 @@ Delete everything old (see the "Full re-scaffold" decision above), keeping only 
 ### 0b. Design tokens
 Update `src/index.css`'s `:root` and `.dark` blocks (both — site is dark-only, matches `darkMode: ["class"]` and the mockup's `<html class="dark">`). Variable names are exactly what `tailwind.config.ts`'s `theme.extend.colors` maps to (`background`, `foreground`, `card`, `popover`, `primary`, `secondary`, `muted`, `accent`, `destructive`, `border`, `input`, `ring`) so components write `bg-primary`, `text-muted-foreground`, etc.:
 
-| Token | Mockup source | New HSL |
-|---|---|---|
-| `--background` / `--card` base | `#051424` | `211 76% 8%` (background), `211 60% 11%` (card) |
-| `--primary` | `#00f5ff` | `182 100% 50%` |
-| `--primary-foreground` | `#002021` | `183 90% 7%` |
-| `--accent` | `#7000ff` | `266 100% 50%` |
-| `--accent-foreground` | `#d1bcff` | `259 100% 87%` |
-| `--muted` / `--secondary` | `#122131`/`#1c2b3c` | scale from background, +6–8% L |
-| `--border` / `--input` | `#3a494a` | `183 12% 27%` |
-| `--ring` | = `--primary` | `182 100% 50%` |
-| `--gradient-start` / `--glow` | → `--primary` | `182 100% 50%` |
-| `--gradient-end` | → `--accent` | `266 100% 50%` |
+**Palette updated (owner, 2026-07-23):** the original cyan/purple "glass" palette below was
+replaced by an owner-supplied 4-color system — Primary `#22d3ee` (cyan), Secondary `#94a3b8`
+(slate), Tertiary `#0ea5e9` (sky), Neutral `#020617` (dark navy). **Purple is dropped**; the
+accent (and gradient-end) is now sky, so gradients/glows run cyan→sky. Neutrals moved from
+teal-navy to slate. Current values:
 
-Add two custom glass tokens: `--glass-bg: 211 60% 11%` (used at low alpha) and `--glass-border: 0 0% 100%` (low alpha, e.g. `hsl(var(--glass-border) / 0.1)`). `--radius: 0.5rem` (8px).
+| Token | Source | HSL |
+|---|---|---|
+| `--background` | Neutral `#020617` | `229 84% 5%` |
+| `--card` / `--popover` / `--glass-bg` | slate-900 (derived) | `222 47% 11%` |
+| `--foreground` (+ all `-foreground`) | slate-50 (derived) | `210 40% 98%` |
+| `--primary` / `--ring` / `--glow` / `--gradient-start` | Primary `#22d3ee` | `188 86% 53%` |
+| `--primary-foreground` | dark on cyan | `229 84% 5%` |
+| `--accent` / `--gradient-end` | Tertiary `#0ea5e9` (sky) | `199 89% 48%` |
+| `--muted-foreground` | Secondary `#94a3b8` | `215 20% 65%` |
+| `--secondary` / `--muted` | slate-800 (derived) | `217 33% 17%` |
+| `--border` / `--input` | slate-700 (derived) | `215 25% 27%` |
+
+Custom glass tokens: `--glass-bg: 222 47% 11%` (used at low alpha) and `--glass-border: 0 0% 100%`
+(low alpha, e.g. `hsl(var(--glass-border) / 0.1)`). `--radius: 0.5rem` (8px).
+
+<details><summary>Original cyan/purple palette (superseded 2026-07-23)</summary>
+
+| Token | Mockup source | HSL |
+|---|---|---|
+| `--background` / `--card` base | `#051424` | `211 76% 8%` / `211 60% 11%` |
+| `--primary` | `#00f5ff` | `182 100% 50%` |
+| `--accent` | `#7000ff` | `266 100% 50%` |
+| `--border` / `--input` | `#3a494a` | `183 12% 27%` |
+
+</details>
 
 ### 0c. Fonts — self-host, no Google Fonts `<link>`
-- Geist (variable, headings), Inter (variable, body), JetBrains Mono (labels/tags/nav) as `.woff2` in `public/fonts/`, declared via `@font-face { font-display: swap }` in a `@layer base` block at the top of `src/index.css`.
-- `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html` for Geist + Inter only (Hero is above-the-fold); JetBrains Mono lazy-swaps.
-- `tailwind.config.ts` `theme.extend.fontFamily`: `sans: ["Inter", ...]`, `display: ["Geist", ...]`, `mono: ["JetBrains Mono", ...]`. Do **not** replicate the mockup's custom `fontSize` keys — combine `font-display` with existing size utilities (e.g. `text-6xl md:text-7xl font-display font-extrabold tracking-tight` for the Hero H1).
+**Typography updated (owner, 2026-07-23):** Headline + Body = **Geist**, Labels = **Space Mono**
+(replacing the original Inter body / JetBrains Mono labels).
+- Geist (variable, headings + body) and Space Mono (static 400 + 700, labels/tags/nav) as `.woff2`
+  in `public/fonts/`, declared via `@font-face { font-display: swap }` in a `@layer base` block at
+  the top of `src/index.css`. Inter and JetBrains Mono are removed (files deleted).
+- `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html` for Geist +
+  SpaceMono-Regular (both above-the-fold — Hero body is Geist, nav/badges are Space Mono).
+- `tailwind.config.ts` `theme.extend.fontFamily`: `sans: ["Geist", ...]`, `display: ["Geist", ...]`,
+  `mono: ["Space Mono", ...]`. Do **not** replicate the mockup's custom `fontSize` keys — combine
+  `font-display` with existing size utilities (e.g. `text-6xl md:text-7xl font-display font-extrabold
+  tracking-tight` for the Hero H1).
 
 ### 0d. Icon strategy
 Keep `lucide-react` (already used), no Material Symbols. Map: `terminal→Terminal`, `database→Database`, `cloud→Cloud`, `alternate_email→Mail`, `location_on→MapPin`, `arrow_forward→ArrowRight`.
@@ -122,7 +147,7 @@ owner-supplied proficiency bars. The original 6-category `skillCategories` array
 in the Appendix (marked superseded) for reference/reversibility only — it is not rendered.
 
 **`src/components/portfolio/Skills.tsx`** — `<section id="skills">`, `container mx-auto px-6`,
-`scroll-mt-16`. Heading "TECHNICAL ARSENAL" — `font-mono`, uppercase, solid
+`scroll-mt-16`. Heading "TECHNICAL ARSENAL" — `font-display` (Geist), uppercase, solid
 `text-foreground` (no gradient), preceded by a short cyan (`bg-primary`) dash accent, matching
 the owner mockup — + subheading "From pipelines to cloud infrastructure — the full data
 engineering stack."

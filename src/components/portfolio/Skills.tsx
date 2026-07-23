@@ -33,7 +33,7 @@ export function Skills() {
         >
           <div className="flex items-center gap-4">
             <span aria-hidden className="h-px w-10 shrink-0 bg-primary" />
-            <h2 className="font-mono text-3xl font-bold uppercase tracking-tight text-foreground md:text-5xl">
+            <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-foreground md:text-5xl">
               Technical Arsenal
             </h2>
           </div>

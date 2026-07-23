@@ -178,8 +178,9 @@ immediately, so bars show final width without transition). New icons (`Database`
 
 ## Phase 4 — Experience
 See the Appendix's "Experience.tsx" `experiences` array — do not port DAG rendering.
+**Owner content update (2026-07-23):** the Appendix array below was replaced with richer owner-supplied verbatim content (new titles, month-level date ranges, two quantified bullets per role). The `description` field is dropped; `technologies[]` are derived from the bullets + real stack. See PROGRESS Deviations.
 
-**`Experience.tsx`** — do not port `DagNode`/`VerticalConnector`/`BranchConnectorVertical`/`expandedIndex`. Carry only the `experiences` data fields (`title`, `company`, `duration`, `description`, `achievements[]`, `technologies[]`) verbatim — 5 entries. Drop `level`/`icon`/`status`. Render a simple top-to-bottom `.map()` as static (non-interactive) `.glass-panel` cards: title, company, date-range badge, `▹`-prefixed achievement list, `technologies` tag-pill row. `useScrollReveal` per card for staggered fade-up.
+**`Experience.tsx`** — do not port `DagNode`/`VerticalConnector`/`BranchConnectorVertical`/`expandedIndex`. Data model per entry: `title`, `company`, `duration`, `achievements[]`, `technologies[]` — 5 entries (the Graduate Teaching Assistant role is kept). Drop `description`/`level`/`icon`/`status`. Render a simple top-to-bottom `.map()` as static (non-interactive) `.glass-panel` cards matching the owner's reference layout: H2 "Professional Experience" (cyan-dash + uppercase `font-display`); per card a top row with the title (`font-display`) + company (cyan mono uppercase) on the left and a glass **date-range badge** (mono, uppercase, em-dash) top-right; a `▹`-prefixed achievement list; and a small derived `technologies` tag-pill row at the bottom. `useScrollReveal` per card for staggered fade-up (`transitionDelay` by index).
 
 ### Definition of done (Phase 4)
 - Replace the `#experience` stub.
@@ -430,51 +431,62 @@ const skillCategories = [
 Section heading: "Skills & Technologies" (gradient on "Technologies"), subheading: "From pipelines to cloud infrastructure — the full data engineering stack." Two alternating pill colors (`primary`/`accent`) per category, a small colored dot next to each category label.
 
 ### Experience.tsx (real content — exact `experiences` data, minus the DAG rendering code)
+**Owner-updated 2026-07-23** — replaces the earlier terse array (one bullet/role, year-only durations, older titles). New titles, month-level date ranges, and two quantified bullets per role; `description` dropped; `technologies[]` derived from the bullets + real stack. The Graduate Teaching Assistant role is retained (owner: keep it); its bullets are its earlier `description` + `achievement` folded into two lines. The Systems Engineer Intern role was "add from what you know" — grounded verbatim in the prior array's SSIS/SQL Server/Power BI grocery-sales BI, no invented metrics. (The pre-update array is preserved in git history at/before commit `f3dd9dc`.)
 ```ts
 const experiences = [
   {
-    title: "Graduate Research Apprentice",
+    title: "Graduate Research Assistant",
     company: "Northeastern University",
-    duration: "2025 - Current",
-    description: "Assessing Copilot's impact on city operations through surveys and research studies.",
-    achievements: ["Conducting monthly studies and interviews"],
-    technologies: ["AI Research", "Survey Design", "Data Analysis"],
+    duration: "Sep 2025 — Present",
+    achievements: [
+      "Ran a structured inter-rater reliability study using Cohen's Kappa and Likert scaling to calibrate human judgment of AI output across 45 government employees.",
+      "Embedded with 14+ municipal departments during a live Copilot deployment to diagnose adoption gaps. Findings accepted at PEPR'26, intended to inform municipal AI governance policy.",
+    ],
+    technologies: ["AI Research", "Cohen's Kappa", "Survey Design", "Data Analysis"],
   },
   {
     title: "Graduate Teaching Assistant & Lead TA",
     company: "Northeastern University",
-    duration: "2024 - Current",
-    description: "Led TA team managing 80+ students across multiple programming languages.",
-    achievements: ["Managed 4-person TA team and conducted labs"],
+    duration: "2024 — Present",
+    achievements: [
+      "Led a TA team managing 80+ students across multiple programming languages.",
+      "Managed a 4-person TA team and conducted labs.",
+    ],
     technologies: ["Kotlin", "Java", "Python", "Education"],
   },
   {
-    title: "Data Eng & Governance Sr. Analyst",
+    title: "Senior Data Engineer",
     company: "Accenture",
-    duration: "2022 - 2024",
-    description: "Automated initiatives across BODS, EDW, and DataStage systems.",
-    achievements: ["Saved 70+ FTEs annually through automation"],
-    technologies: ["AWS", "Spark", "Databricks", "Python", "SQL", "DataStage"],
+    duration: "Mar 2022 — Jun 2024",
+    achievements: [
+      "Rebuilt a commercial loan risk pipeline from a legacy mainframe setup to Databricks on AWS, cutting runtime from 6 hours to 36 minutes on 5M+ daily records with 100% accuracy over a 30-day parallel run.",
+      "Built a metadata-driven ingestion accelerator adopted by multiple delivery teams, cutting new-source onboarding from 1 week to 2 days.",
+    ],
+    technologies: ["Databricks", "AWS", "PySpark", "Python", "SQL"],
   },
   {
     title: "Senior Systems Engineer",
     company: "Infosys",
-    duration: "2019 - 2022",
-    description: "Migrated legacy COBOL ETL pipelines to DataStage.",
-    achievements: ["Migrated 8+ legacy COBOL pipelines, achieved 98% accuracy"],
-    technologies: ["DataStage", "COBOL", "ETL", "SQL"],
+    duration: "Sep 2019 — Mar 2022",
+    achievements: [
+      "Migrated 8+ legacy COBOL-based ETL pipelines to IBM DataStage with 98% data accuracy and zero post-migration errors.",
+      "Built a configuration-driven egress framework that let a single DataStage job generate unique customer deliverables dynamically, cutting pipeline onboarding from 2 days to 3 hours.",
+    ],
+    technologies: ["IBM DataStage", "COBOL", "ETL", "SQL"],
   },
   {
     title: "Systems Engineer Intern",
     company: "Infosys",
     duration: "2019",
-    description: "Built BI solution for grocery sales data using SSIS and SQL.",
-    achievements: ["Developed data warehouse with dashboards and reports"],
-    technologies: ["SSIS", "SQL", "PowerBI", "Data Warehouse"],
+    achievements: [
+      "Built an end-to-end BI solution for grocery sales data, developing SSIS ETL packages to load a SQL Server data warehouse.",
+      "Delivered Power BI dashboards and reports that surfaced sales trends for business stakeholders.",
+    ],
+    technologies: ["SSIS", "SQL Server", "Power BI", "Data Warehouse"],
   },
 ];
 ```
-(Array order above is oldest-last; the legacy DAG re-ordered these into a branching layout — the rebuild just `.map()`s over this array top-to-bottom as authored.)
+(Array order above is reverse-chronological, rendered top-to-bottom as authored; the legacy DAG re-ordered these into a branching layout — not ported.)
 
 ### Projects.tsx (real content — exact `projects` array + filter logic)
 ```ts

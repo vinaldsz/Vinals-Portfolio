@@ -2,11 +2,18 @@
 
 This is a personal portfolio site (React + Vite + TS, prerendered via `vite-react-ssg`) being rebuilt to a new dark navy/cyan/purple "glass" design across multiple sessions.
 
+## One phase per session
+**Each phase is its own session, and each session covers exactly one phase — no more, no less.** Do not start the next phase in the same session that finished one; when a phase is done, stop so the user can open a fresh session for the next.
+
+Within a phase's session, work in two explicit steps:
+1. **Plan first.** Read that phase's section in `SPEC.md`, inspect the relevant real content in the Appendix and the current code on disk, then produce a concrete implementation plan for *this phase only* (files to create/change, component structure, how the DoD will be verified) and get the user's approval before writing code.
+2. **Then implement.** Build to the approved plan, verify against the phase's "Definition of done", update `PROGRESS.md` in the same commit, and stop.
+
 ## Start every session here
 1. **Confirm the branch.** All rebuild work happens on `redesign/glass-rebuild`, never `main`. Run `git branch --show-current` before touching a file.
 2. **Read `SPEC.md`** — the source of truth for *what* we're building and *why*. It's immutable during implementation; the design, decisions, per-phase instructions, and the verbatim real-content Appendix all live there.
-3. **Read `PROGRESS.md`** — the current state: phase checklist, what exists on disk, verified results, and deviations. Start at the first unchecked phase.
-4. **Work one phase at a time and STOP after each.** When a phase's "Definition of done" is met, report to the user and wait — do not roll into the next phase automatically.
+3. **Read `PROGRESS.md`** — the current state: phase checklist, what exists on disk, verified results, and deviations. Identify the one unchecked phase this session will handle.
+4. **Plan that phase, get approval, implement it, verify the DoD, then STOP.** One phase per session (see above). Report when done and wait — never roll into the next phase.
 
 ## The two-file split (why there are two docs)
 - `SPEC.md` = intent. Changes only if *requirements* change, and only deliberately (say so in the commit).

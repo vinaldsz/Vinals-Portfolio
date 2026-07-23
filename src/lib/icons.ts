@@ -14,3 +14,7 @@ export { default as Database } from "lucide-react/dist/esm/icons/database";
 export { default as Cloud } from "lucide-react/dist/esm/icons/cloud";
 export { default as Server } from "lucide-react/dist/esm/icons/server";
 export { default as Cpu } from "lucide-react/dist/esm/icons/cpu";
+export { default as Mail } from "lucide-react/dist/esm/icons/mail";
+export { default as MapPin } from "lucide-react/dist/esm/icons/map-pin";
+export { default as ChevronDown } from "lucide-react/dist/esm/icons/chevron-down";
+export { default as Check } from "lucide-react/dist/esm/icons/check";

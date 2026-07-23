@@ -12,8 +12,9 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-// /Resume.pdf is supplied by the user later; the file does not exist yet (404 until then).
-const RESUME_HREF = "/Resume.pdf";
+// Resume PDF lives in public/Resume/ (owner-supplied 2026-07-23). Descriptive
+// filename is intentional — it's what recruiters get on download.
+const RESUME_HREF = "/Resume/Vinal_Dsouza_Resume_NewGrad-AI-short-v2.pdf";
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);

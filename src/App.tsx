@@ -1,21 +1,15 @@
 import { Outlet } from "react-router-dom";
 import type { RouteRecord } from "vite-react-ssg";
-
-function Layout() {
-  return <Outlet />;
-}
-
-// TEMPORARY (Phase 0 stub): src/pages/Index.tsx is rebuilt in Phase 1.
-function IndexStub() {
-  return <div style={{ minHeight: "100vh" }} />;
-}
+import Index from "./pages/Index";
 
 export const routes: RouteRecord[] = [
   {
     path: "/",
-    element: <Layout />,
+    element: <Outlet />,
     children: [
-      { index: true, Component: IndexStub },
+      // Landing page is eager: guarantees prerender captures it and avoids a loader
+      // flash above the fold. NotFound stays lazy (rarely hit).
+      { index: true, Component: Index },
       // ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE
       { path: "*", lazy: () => import("./pages/NotFound").then((m) => ({ Component: m.default })) },
     ],

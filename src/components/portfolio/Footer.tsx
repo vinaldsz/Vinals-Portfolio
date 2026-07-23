@@ -1,4 +1,4 @@
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin } from "@/lib/icons";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

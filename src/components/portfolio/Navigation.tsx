@@ -37,7 +37,7 @@ export function Navigation() {
       )}
     >
       <nav className="container mx-auto flex h-16 items-center justify-between px-6">
-        <a href="#hero" className="font-display text-2xl font-bold tracking-tight text-gradient">
+        <a href="#hero" className="rounded-sm font-display text-2xl font-bold tracking-tight text-gradient focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
           Vinal.
         </a>
 
@@ -47,7 +47,7 @@ export function Navigation() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+                className="rounded-sm font-mono text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 {link.label}
               </a>
@@ -88,7 +88,7 @@ export function Navigation() {
                 <a
                   href={link.href}
                   onClick={closeMenu}
-                  className="block rounded-lg px-3 py-2 font-mono text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                  className="block rounded-lg px-3 py-2 font-mono text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   {link.label}
                 </a>

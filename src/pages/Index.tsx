@@ -1,14 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { Hero } from "@/components/portfolio/Hero";
-import { Impact } from "@/components/portfolio/Impact";
-import { About } from "@/components/portfolio/About";
-import { Skills } from "@/components/portfolio/Skills";
-import { Projects } from "@/components/portfolio/Projects";
-import { Experience } from "@/components/portfolio/Experience";
-import { Contact } from "@/components/portfolio/Contact";
-import { Footer } from "@/components/portfolio/Footer";
 import { BackgroundEffects } from "@/components/portfolio/BackgroundEffects";
+
+// Above-the-fold (Navigation, BackgroundEffects, Hero) loads eagerly so the page
+// paints instantly. Everything below the fold is split into separate chunks that
+// stream in after first paint.
+const Impact = lazy(() => import("@/components/portfolio/Impact").then((m) => ({ default: m.Impact })));
+const About = lazy(() => import("@/components/portfolio/About").then((m) => ({ default: m.About })));
+const Skills = lazy(() => import("@/components/portfolio/Skills").then((m) => ({ default: m.Skills })));
+const Projects = lazy(() => import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects })));
+const Experience = lazy(() => import("@/components/portfolio/Experience").then((m) => ({ default: m.Experience })));
+const Contact = lazy(() => import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact })));
+const Footer = lazy(() => import("@/components/portfolio/Footer").then((m) => ({ default: m.Footer })));
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -40,13 +44,27 @@ const Index = () => {
       <BackgroundEffects />
       <Navigation />
       <Hero />
-      <Impact />
-      <About />
-      <Experience />
-      <Skills />
-      <Projects />
-      <Contact />
-      <Footer />
+      <Suspense fallback={<div className="min-h-[20vh]" />}>
+        <Impact />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <About />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <Experience />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <Skills />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <Projects />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[20vh]" />}>
+        <Contact />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[10vh]" />}>
+        <Footer />
+      </Suspense>
       <BackToTop />
     </div>
   );

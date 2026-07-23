@@ -49,6 +49,8 @@ export function About() {
                   <img
                     src="/ProfessionalHeadshot.jpeg"
                     alt="Vinal D'Souza"
+                    width={640}
+                    height={427}
                     className="w-full h-full rounded-2xl object-cover"
                   />
                 </div>

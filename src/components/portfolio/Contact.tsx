@@ -66,7 +66,7 @@ export function Contact() {
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
                     <a
-                      href="mailto:your@email.com"
+                      href="mailto:dsouza.vi@northeastern.edu"
                       className="font-medium hover:text-primary transition-colors"
                     >
                       dsouza.vi@northeastern.edu

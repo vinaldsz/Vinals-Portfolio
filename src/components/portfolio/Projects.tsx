@@ -3,6 +3,14 @@ import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+function ObservableIcon({ className }: { className?: string }) {
+  return (
+    <svg role="img" viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M12 20c-1.065 0-1.988-.232-2.77-.696a4.7 4.7 0 0 1-1.794-1.89 9.97 9.97 0 0 1-.916-2.53A13.613 13.613 0 0 1 6.23 12c0-.766.05-1.499.152-2.2.1-.699.285-1.41.556-2.132A6.803 6.803 0 0 1 7.98 5.79a4.725 4.725 0 0 1 1.668-1.293C10.337 4.165 11.12 4 12 4c1.065 0 1.988.232 2.77.696a4.7 4.7 0 0 1 1.794 1.89c.418.795.723 1.639.916 2.53.192.891.29 1.853.29 2.884 0 .766-.05 1.499-.152 2.2a9.812 9.812 0 0 1-.567 2.132 7.226 7.226 0 0 1-1.042 1.878c-.418.53-.97.962-1.657 1.293-.688.332-1.471.497-2.352.497zm2.037-5.882c.551-.554.858-1.32.848-2.118 0-.824-.276-1.53-.827-2.118C13.506 9.294 12.82 9 12 9c-.82 0-1.506.294-2.058.882A2.987 2.987 0 0 0 9.115 12c0 .824.276 1.53.827 2.118.552.588 1.238.882 2.058.882.82 0 1.5-.294 2.037-.882zM12 24c6.372 0 11.538-5.373 11.538-12S18.372 0 12 0 .462 5.373.462 12 5.628 24 12 24Z" />
+    </svg>
+  );
+}
+
 type Category = "Data Engineering" | "AI/ML" | "Devops and Other";
 
 const projects: {
@@ -26,7 +34,7 @@ const projects: {
     description:
       "Trained an XGBoost model on 580K+ flight records and improved weather-delay detection from 0.2% to 11.6% using robust feature engineering and production-style ML pipelines on SageMaker.",
     tags: ["AWS SageMaker", "Numpy", "Pandas", "scikit-learn"],
-    githubUrl: "https://github.com/yourusername/analytics-dashboard",
+    githubUrl: "https://github.com/vinaldsz/FlightDelayPrediction.git",
     category: "AI/ML",
   },
   {
@@ -42,7 +50,7 @@ const projects: {
     description:
       "Built a face embedding workflow with face-api.js to compute parent-child similarity scores and deliver fast, interactive visual comparisons.",
     tags: ["Observable Notebook", "face-api.js"],
-    githubUrl: "#",
+    githubUrl: "https://observablehq.com/d/60de971c7cd60d5c",
     category: "AI/ML",
   },
   {
@@ -169,7 +177,11 @@ export function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Github className="w-4 h-4 mr-2" />
+                        {project.githubUrl.includes("observablehq.com") ? (
+                          <ObservableIcon className="w-4 h-4 mr-2" />
+                        ) : (
+                          <Github className="w-4 h-4 mr-2" />
+                        )}
                         Code
                       </a>
                     </Button>
@@ -194,7 +206,7 @@ export function Projects() {
           <div className="text-center mt-12">
             <Button asChild variant="outline" size="lg">
               <a
-                href="https://github.com"
+                href="https://github.com/vinaldsz"
                 target="_blank"
                 rel="noopener noreferrer"
               >

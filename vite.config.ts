@@ -11,11 +11,31 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    warmup: {
+      clientFiles: [
+        "./src/main.tsx",
+        "./src/App.tsx",
+        "./src/pages/Index.tsx",
+        "./src/components/portfolio/Navigation.tsx",
+        "./src/components/portfolio/Hero.tsx",
+        "./src/components/portfolio/BackgroundEffects.tsx",
+      ],
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split rarely-changing vendor code into its own long-cached chunk.
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+        },
+      },
     },
   },
 }));

@@ -7,6 +7,7 @@ artwork changes.
 | Source | Renders to | Used by |
 | --- | --- | --- |
 | `og-card.html` | `public/og.png` (1200×630) | `og:image` / `twitter:image` |
+| `../public/favicon.svg` | `public/favicon.ico` (16/32/48) | `<link rel="icon">` — the one Safari picks |
 | `../public/favicon.svg` | `public/favicon-32.png` (32×32) | `<link rel="icon">` PNG fallback |
 | `icon-apple.svg` | `public/apple-touch-icon.png` (180×180) | `<link rel="apple-touch-icon">` |
 
@@ -35,16 +36,25 @@ its *intrinsic* size and ignores `--window-size`, so an SVG carrying only a
 throwaway copy first, then the window size and the render agree:
 
 ```bash
-# 2. Favicon PNG. Rendered at 128 and downscaled 4:1 for a clean box filter.
-sed 's|<svg |<svg width="128" height="128" |' public/favicon.svg > /tmp/fav128.svg
+# 2. Favicon raster. Render once at 256, then downscale to each target size.
+sed 's|width="100" height="100"|width="256" height="256"|' public/favicon.svg > /tmp/fav256.svg
 "$CH" --headless --disable-gpu --force-device-scale-factor=1 --hide-scrollbars \
-  --window-size=128,128 --screenshot=public/favicon-32.png "file:///tmp/fav128.svg"
-sips -z 32 32 public/favicon-32.png
+  --window-size=256,256 --screenshot=/tmp/fav256.png "file:///tmp/fav256.svg"
+for s in 16 32 48; do cp /tmp/fav256.png /tmp/fav$s.png; sips -z $s $s /tmp/fav$s.png; done
+cp /tmp/fav32.png public/favicon-32.png
 
 # 3. Apple touch icon, rendered at its final size.
 sed 's|<svg |<svg width="180" height="180" |' scripts/icon-apple.svg > /tmp/apple180.svg
 "$CH" --headless --disable-gpu --force-device-scale-factor=1 --hide-scrollbars \
   --window-size=180,180 --screenshot=public/apple-touch-icon.png "file:///tmp/apple180.svg"
+```
+
+`favicon.ico` bundles the 16/32/48 PNGs from step 2. The ICO container can hold
+PNG payloads directly, so no image library is needed — `python3 scripts/build-ico.py`
+assembles the header and directory entries by hand.
+
+```bash
+python3 scripts/build-ico.py
 ```
 
 Verify with `sips -g pixelWidth -g pixelHeight public/og.png` — the OG image

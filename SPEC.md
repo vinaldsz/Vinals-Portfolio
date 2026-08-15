@@ -280,9 +280,10 @@ URL, or structured data.
 
 ### Out of scope (deliberately deferred)
 - The hero career-journey animation — planned in full, parked as a future phase.
-- The *Positioning + content* bundle: education section, graduation date,
-  availability and work-authorization lines, replacing the self-rated 98/92/88
-  proficiency bars, the `Present` end-dates on the two Northeastern roles.
+  **Note (2026-08-15): the hero's right column is now the portrait, so this
+  animation needs its own full-width band between Hero and Skills.**
+- The *Positioning + content* bundle — now specified as **Phase 9** below, with
+  all owner facts supplied 2026-08-15.
 - The *Repo hygiene* bundle: the four `README.md` contradictions, the missing
   `LICENSE`, `vitest` configured with zero tests, the two unoptimized ~300KB
   project PNGs, analytics, and the stale `TODO.md`.
@@ -300,6 +301,67 @@ URL, or structured data.
 7. All new head metadata survives the prerender pass into `dist/index.html`.
 
 **Status: all 7 items verified 2026-08-15** — see `PROGRESS.md` §"Phase 8 verification" for the measured results.
+
+---
+
+## Phase 9 — Positioning & content pass
+
+**Not started.** Every fact below was supplied by the owner on 2026-08-15 in
+answer to five direct questions. They are recorded here because a fresh session
+sees only `SPEC.md` and `PROGRESS.md` — the conversation that produced them is
+gone. Treat them as authoritative; do not re-ask.
+
+### Owner facts (2026-08-15)
+
+| # | Question | Owner's answer |
+|---|---|---|
+| 1 | Work authorization wording | **Say nothing.** No visa, OPT, or authorization line anywhere on the site. Owner considered and declined a neutral "Authorized to work in the US" alternative. **Do not raise this again.** |
+| 2 | Do the two Northeastern roles end? | **Yes — both end May 2026.** Neither is `Present`. |
+| 3 | M.S. dates | **Sep 2024 — May 2026**, M.S. Computer Science, Northeastern University. |
+| 4 | Replace the 98/92/88 bars? | **Yes — with grouped technology chips.** Owner asked what this meant, was shown a side-by-side mockup, and approved. |
+| 5 | The contradictory TA bullets | **Not a contradiction — one fact.** Owner TA'd for 80+ students *and* led the TA team during that time; there were 3 other TAs (team of 4 including her). Write it as one coherent claim. |
+
+Undergraduate institution and year were **not** supplied — the B.E. Information
+Technology is dated 2019 from the owner's own timeline description, but the
+institution name is still unknown. **Ask for it before building the Education
+section**; do not invent one.
+
+### Scope
+1. **Fix the two `Present` end-dates** in `Experience.tsx` — the Graduate
+   Research Assistant becomes `Sep 2025 — May 2026` and the Lead TA becomes
+   `2024 — May 2026`. This also resolves the standing Phase 8 deviation where
+   Contact says "San Francisco, CA" while two roles claimed to be ongoing in
+   Boston.
+2. **Rewrite the Lead TA bullets** as a single coherent claim (led a 4-person TA
+   team supporting 80+ students across multiple languages), and give the role an
+   outcome metric — it is currently the only role without one.
+3. **Add an Education section or block.** The site never states "May 2026"
+   anywhere, leaving an unexplained Jun 2024 → Sep 2025 gap in the timeline.
+   Needs the undergrad institution first (see above).
+4. **Replace the three `competencies` proficiency bars in `Skills.tsx` with
+   grouped technology chips.** Suggested grouping, drawn entirely from
+   technologies the site already claims in project tags and experience bullets
+   but which Skills never names:
+   - *Languages* — Python, SQL, TypeScript, Java, Kotlin, COBOL
+   - *Data & pipelines* — PySpark, Databricks, Delta Lake, Spark/EMR, IBM DataStage, SSIS
+   - *Cloud & infrastructure* — AWS, Terraform, Kinesis, Glue Schema Registry
+   - *AI & data stores* — RAG, MCP, LLM APIs, pgvector, PostgreSQL, FastAPI
+
+   Rationale: the percentages are unfalsifiable and read as overconfidence; the
+   bars name ~8 technologies where chips name 20+, which matters for recruiter
+   and ATS keyword search. The four existing `badges` may be folded in or kept.
+   Losing the animated fill-on-scroll is an accepted cost.
+5. Re-check the Hero paragraph's "5+ years" claim against the corrected dates.
+
+### Definition of done (Phase 9)
+1. Zero occurrences of `Present` in `Experience.tsx`.
+2. `May 2026` appears in the rendered output; the Jun 2024 → Sep 2025 gap is
+   explained by a visible education entry.
+3. No percentage or proficiency bar remains in `Skills.tsx`; the grouped chips
+   name at least 20 distinct technologies.
+4. No visa/OPT/work-authorization string anywhere in `src/` or `index.html`.
+5. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build` all
+   clean, and the new copy survives the prerender into `dist/index.html`.
 
 ---
 

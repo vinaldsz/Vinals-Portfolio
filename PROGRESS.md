@@ -16,6 +16,23 @@
 - [x] Phase 7 — Final integration pass — code-audit + automated gates complete and verified (tsc, lint, **build + prerender**, preview). Fixed the only real a11y gap found (missing focus-visible rings on Footer's 3 links + Navigation's brand/desktop/mobile nav-link anchors). Two SPEC DoD items reinterpreted (Resume no longer 404s; `grep legacy` non-empty by design) and browser-only checks (visual/keyboard/reduced-motion emulation/Lighthouse) left as owner's responsibility per owner's 2026-07-23 choice — see Deviations. **All 7 phases now done.**
 - [x] Phase 8 — Discoverability & identity pass (2026-08-14/15) — code complete and **fully verified (tsc, lint, build + prerender)**. The build gate was blocked for ~40 min by machine state (disk full + macOS indexing) and passed cleanly once the owner closed applications — see Phase 8 verification. Added the missing `og:image`/`twitter:image` + full OG/Twitter/canonical/JSON-LD head, a favicon set, and a 1200×630 share card built from the previously-orphaned headshot; renamed the resume PDF off `…NewGrad-AI-short-v2`; unified the surname spelling and the LinkedIn URL; added `sitemap.xml`. SPEC §Phase 8 added (deliberate requirements addition). See Deviations.
 
+## Next session: Phase 9 — Positioning & content
+**Phase 9 is fully specified in `SPEC.md` and ready to execute cold.** The owner
+answered all five blocking content questions on 2026-08-15 and the answers are
+recorded in `SPEC.md` §Phase 9 "Owner facts" — read that table first; do not
+re-ask those questions. Summary of what changed from the earlier framing:
+- Work authorization: **owner declined to mention it at all.** Settled, closed.
+- Both Northeastern roles **end May 2026** (not `Present`).
+- M.S. is **Sep 2024 — May 2026**.
+- The 98/92/88 bars are **approved for replacement by grouped tech chips** (owner
+  was shown a mockup before agreeing).
+- The two TA bullets were **never contradictory** — she led a 4-person TA team
+  supporting 80+ students. One fact, badly split across two bullets.
+
+**One open question remains:** the undergraduate institution for the 2019 B.E.
+Information Technology was never supplied. Ask before building the Education
+section; do not invent one.
+
 ## Current state / next step
 - **On branch `feature/discoverability`** (Phase 8), branched from `main`.
 - **Branch-drift correction (anti-drift rule 1, 2026-08-14).** This file previously said "On branch `redesign/glass-rebuild` … next step is the owner's decision to merge → `main`". That was stale: `main` and `redesign/glass-rebuild` both point at `2b408fe`, so the merge already happened, and `main` is deployed at `https://vinals-portfolio.vercel.app` (Vercel, `homepageUrl` on the GitHub repo; no deploy config in-repo — the Vercel project is wired up through their dashboard). `redesign/glass-rebuild` is now a dead branch. Phases 8+ branch from `main`.

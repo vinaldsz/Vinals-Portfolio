@@ -321,10 +321,15 @@ gone. Treat them as authoritative; do not re-ask.
 | 4 | Replace the 98/92/88 bars? | **Yes — with grouped technology chips.** Owner asked what this meant, was shown a side-by-side mockup, and approved. |
 | 5 | The contradictory TA bullets | **Not a contradiction — one fact.** Owner TA'd for 80+ students *and* led the TA team during that time; there were 3 other TAs (team of 4 including her). Write it as one coherent claim. |
 
-Undergraduate institution and year were **not** supplied — the B.E. Information
-Technology is dated 2019 from the owner's own timeline description, but the
-institution name is still unknown. **Ask for it before building the Education
-section**; do not invent one.
+**Undergraduate institution (supplied 2026-08-15): NMAM Institute of Technology.**
+B.E. Information Technology, 2019. Phase 9 is no longer blocked on any missing
+fact.
+
+**Live demo (supplied 2026-08-15): the AI PDF Assistant is deployed** at
+`https://huggingface.co/spaces/Vinaldsz/ai-pdf-assistant-ui` (verified reachable,
+HTTP 200). The project's own description already claimed it ran "at $0/month on
+free-tier infrastructure" — the deployment existed all along and simply was not
+linked. This is the site's first and only live demo across four projects.
 
 ### Scope
 1. **Fix the two `Present` end-dates** in `Experience.tsx` — the Graduate
@@ -352,6 +357,16 @@ section**; do not invent one.
    and ATS keyword search. The four existing `badges` may be folded in or kept.
    Losing the animated fill-on-scroll is an accepted cost.
 5. Re-check the Hero paragraph's "5+ years" claim against the corrected dates.
+6. **Link the AI PDF Assistant's live demo** (URL above). Requires a structural
+   change to `Projects.tsx`: `ProjectCard` is currently a single `<a>` wrapping
+   the whole card, so a second link cannot be nested inside it — nested anchors
+   are invalid HTML. Restructure to the standard stretched-link pattern: the
+   card becomes a `relative` container, the GitHub anchor keeps whole-card
+   clickability via `after:absolute after:inset-0`, and the demo link sits above
+   it with `relative z-10`. Add an optional `liveUrl?: string` to the `projects`
+   type so the other three cards are unaffected. A visibly-labelled demo link is
+   worth more than every other item in this phase combined — it is the only
+   thing on the site a reader can click and watch work.
 
 ### Definition of done (Phase 9)
 1. Zero occurrences of `Present` in `Experience.tsx`.
@@ -360,7 +375,10 @@ section**; do not invent one.
 3. No percentage or proficiency bar remains in `Skills.tsx`; the grouped chips
    name at least 20 distinct technologies.
 4. No visa/OPT/work-authorization string anywhere in `src/` or `index.html`.
-5. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build` all
+5. The AI PDF Assistant card renders a working, visibly-labelled live-demo link
+   to the Hugging Face Space, and `dist/index.html` contains zero nested `<a>`
+   elements.
+6. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build` all
    clean, and the new copy survives the prerender into `dist/index.html`.
 
 ---

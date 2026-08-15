@@ -29,16 +29,29 @@ re-ask those questions. Summary of what changed from the earlier framing:
 - The two TA bullets were **never contradictory** — she led a 4-person TA team
   supporting 80+ students. One fact, badly split across two bullets.
 
-**One open question remains:** the undergraduate institution for the 2019 B.E.
-Information Technology was never supplied. Ask before building the Education
-section; do not invent one.
+**Both remaining unknowns were supplied 2026-08-15, so Phase 9 is unblocked:**
+- **Undergraduate institution: NMAM Institute of Technology** (B.E. Information
+  Technology, 2019).
+- **The AI PDF Assistant has a live demo** at
+  `https://huggingface.co/spaces/Vinaldsz/ai-pdf-assistant-ui` (verified HTTP
+  200). It was deployed all along and simply never linked — the project's own
+  copy already boasted it ran "at $0/month on free-tier infrastructure."
+  Linking it is the highest-value item in Phase 9: it is the only thing on the
+  site a reader can click and watch work. Note the structural catch recorded in
+  SPEC §Phase 9 scope item 6 — `ProjectCard` is one big `<a>`, so a second link
+  needs the stretched-link restructure rather than a nested anchor.
 
 ## Current state / next step
-- **On branch `feature/discoverability`** (Phase 8), branched from `main`.
+- **On branch `main`.** `feature/discoverability` was merged (fast-forward) and
+  pushed on 2026-08-15 at the owner's explicit instruction, then two follow-ups
+  landed directly on `main`: the favicon hardening and the Hero portrait. All are
+  deployed and verified live. `feature/discoverability` still exists locally and
+  is fully contained in `main` — safe to delete.
 - **Branch-drift correction (anti-drift rule 1, 2026-08-14).** This file previously said "On branch `redesign/glass-rebuild` … next step is the owner's decision to merge → `main`". That was stale: `main` and `redesign/glass-rebuild` both point at `2b408fe`, so the merge already happened, and `main` is deployed at `https://vinals-portfolio.vercel.app` (Vercel, `homepageUrl` on the GitHub repo; no deploy config in-repo — the Vercel project is wired up through their dashboard). `redesign/glass-rebuild` is now a dead branch. Phases 8+ branch from `main`.
 - **Phases 0–7 complete; the rebuild is code-complete** — 6 real sections, no stubs. Before/after Lighthouse and the manual browser walk (visual/keyboard/reduced-motion) were deferred to the owner (owner choice, 2026-07-23) and remain untested.
-- **Phase 8 (Discoverability & identity) is complete and fully verified** — tsc, lint, build + prerender all green. **Next step is the owner's decision to merge `feature/discoverability` → `main`** (per CLAUDE.md, merging is never done automatically). Merging to `main` triggers the Vercel production deploy; afterwards, force a LinkedIn Post Inspector re-scrape so the new `og:image` replaces their cached blank card.
-- **Follow-up bundles already chosen by the owner (2026-08-14), each its own session:** (a) *Positioning + content* — education section + graduation date, availability + work-authorization line, replace the self-rated 98/92/88 proficiency bars, fix the two overlapping TA bullets, and revisit the `Present` end-dates on the two Northeastern roles (they conflict with the San Francisco location the owner confirmed). (b) *Repo hygiene* — the four `README.md` contradictions, missing `LICENSE`, `vitest` configured with zero tests, the two ~300KB project PNGs, analytics, stale `TODO.md`. (c) Parked: the Hero career-journey walk animation (planned in full, not started).
+- **Phase 8 (Discoverability & identity) is complete, verified, merged, and deployed live** — tsc, lint, build + prerender all green; production deploy of `61339f5` reported `success` and the live HTML was re-verified against the deployed URL (not just the local build).
+- **Still owed by the owner: force a LinkedIn Post Inspector re-scrape.** LinkedIn caches the old blank card and will not re-fetch on its own, so every Phase 8 gain stays invisible there until this is done. This is a browser action only the owner can take.
+- **Follow-up bundles, each its own session:** (a) **Phase 9 — *Positioning + content*, now fully specified in `SPEC.md` and unblocked** (see the section above). (b) *Repo hygiene* — the four `README.md` contradictions, missing `LICENSE`, `vitest` configured with zero tests, the two ~300KB project PNGs, analytics, stale `TODO.md`. (c) Parked: the Hero career-journey walk animation — planned in full, not started, and **it can no longer live in the Hero's right column since the portrait now occupies it**; it needs its own full-width band between Hero and Skills.
 - **Section order (owner, 2026-07-23):** Hero → Skills → **Projects → Experience** → Contact. Projects ("Selected Works") sits above Experience; nav order matches (Skills / Projects / Experience / Contact).
 - **About was dropped entirely** (owner, 2026-07-23): no `#about` section, stub, or nav link. Its original copy/data stays in `SPEC.md`'s Appendix (marked dropped) for reversibility. Hero's paragraph carries the bio.
 - `Index.tsx` now eager-imports all six section components — `Hero` + `BackgroundEffects` + `Skills` + `Projects` + `Experience` + `Contact` (in that render order); **`sectionStubs` is gone entirely** (Phase 6 replaced the last `#contact` stub). The below-fold lazy/`Suspense` scaffold was never wired (see Phase-1 Deviation) — every section renders eagerly; revisit in Phase 7 if perf warrants.

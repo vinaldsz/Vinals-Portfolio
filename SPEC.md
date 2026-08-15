@@ -299,6 +299,8 @@ URL, or structured data.
    one `<main>`, and zero `<canvas>`.
 7. All new head metadata survives the prerender pass into `dist/index.html`.
 
+**Status: all 7 items verified 2026-08-15** — see `PROGRESS.md` §"Phase 8 verification" for the measured results.
+
 ---
 
 ## Appendix: Real content reference (verbatim)

@@ -11,7 +11,7 @@ export function Footer() {
         </a>
 
         <p className="order-last text-sm text-muted-foreground sm:order-none">
-          © {currentYear} All rights reserved.
+          © {currentYear} Vinal Dsouza. All rights reserved.
         </p>
 
         <div className="flex items-center gap-3">
@@ -25,7 +25,7 @@ export function Footer() {
             <Github size={18} />
           </a>
           <a
-            href="https://www.linkedin.com/in/vinal-dsouza-9a9912187"
+            href="https://www.linkedin.com/in/vinal-dsouza/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"

@@ -14,7 +14,7 @@ const navLinks = [
 
 // Resume PDF lives in public/Resume/ (owner-supplied 2026-07-23). Descriptive
 // filename is intentional — it's what recruiters get on download.
-const RESUME_HREF = "/Resume/Vinal_Dsouza_Resume_NewGrad-AI-short-v2.pdf";
+const RESUME_HREF = "/Resume/Vinal-Dsouza-Data-Engineer.pdf";
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);

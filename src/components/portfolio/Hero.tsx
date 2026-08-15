@@ -45,7 +45,7 @@ export function Hero() {
               <Github size={18} />
             </a>
             <a
-              href="https://www.linkedin.com/in/vinal-dsouza-9a9912187"
+              href="https://www.linkedin.com/in/vinal-dsouza/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"

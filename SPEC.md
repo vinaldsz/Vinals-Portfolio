@@ -108,7 +108,7 @@ See the Appendix's "Navigation.tsx" and "Footer.tsx".
 
 **`src/components/portfolio/Navigation.tsx`** — `navLinks`: Skills, Experience, Projects, Contact (Experience was missing from the legacy nav — independent bug, fixed now; About was later dropped — owner, 2026-07-23). Add a "Resume" outline-button (desktop + mobile) → `/Resume.pdf`, `target="_blank" rel="noopener noreferrer"`, with an inline comment noting the file doesn't exist yet. **A11y**: `aria-label="Toggle menu"` + `aria-expanded={isMobileMenuOpen}` on the hamburger. Carry over the scroll-listener/state pattern; brand stays `Vinal.`. Glass/blur nav bar, `.glass-panel`-ish on scroll.
 
-**`src/components/portfolio/Footer.tsx`** — no Twitter link (no real account). GitHub `https://github.com/vinaldsz` + LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (canonical), real copyright line.
+**`src/components/portfolio/Footer.tsx`** — no Twitter link (no real account). GitHub `https://github.com/vinaldsz` + LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (**superseded 2026-08-14 by §Phase 8: the canonical URL is now `https://www.linkedin.com/in/vinal-dsouza/`**), real copyright line.
 
 **`src/pages/Index.tsx`** — same eager-Hero / lazy-below-fold `Suspense` pattern + `BackToTop` as legacy (a working perf win — carry verbatim), but no `Impact`, and a `<main>` landmark wrapping the Hero→Contact stack (Nav/Footer stay outside it). For now, sections can be empty placeholder `<section id="...">` stubs (correct `id`s so nav anchors resolve) until Phases 2–6 fill them in.
 
@@ -125,7 +125,7 @@ See the Appendix's "Hero.tsx" and "BackgroundEffects.tsx".
 
 **`src/components/portfolio/BackgroundEffects.tsx`** — a static (no keyframes, no JS) layered radial-gradient `<div>` using the new primary/accent tokens at low opacity. No animated SVG flow-lines, no `animate-float` orbs.
 
-**`Hero.tsx`** — no particle canvas (the O(n²) loop is not ported). No glow-orb divs in Hero (handled globally by `BackgroundEffects`). **Left-aligned layout** (not centered), matching the owner-supplied Hero mockup: a content block (`max-w-3xl`) pinned to the left of the centered container. **Requirements change (owner, 2026-07-22):** the rotating typewriter (`TYPING_PHRASES` + state machine) is **dropped** — lead instead with a static value-proposition headline plus a short supporting paragraph. Copy (all grounded in the real content — the mockup's own copy is placeholder and must not be used): badge "Data Engineer · Available for Opportunities"; eyebrow "Hi, I'm Vinal Dsouza"; two-tone `font-display` headline "Data Engineering Built for the AI Era" (gradient on "AI Era" via `.text-gradient`); supporting paragraph (owner-supplied, verbatim): "Data Engineer with 5+ years building and modernizing pipelines for high-volume financial systems, now growing into AI-powered tools including RAG pipelines, MCP servers, and multi-agent ML systems. M.S. Computer Science, Northeastern University."; CTAs "Explore My Projects" (#projects) / "Let's Build Together" (#contact); GitHub `https://github.com/vinaldsz`, LinkedIn canonical `https://www.linkedin.com/in/vinal-dsouza-9a9912187`. With the typewriter gone, Hero no longer needs `useReducedMotion` (nothing animates; `BackgroundEffects` is static).
+**`Hero.tsx`** — no particle canvas (the O(n²) loop is not ported). No glow-orb divs in Hero (handled globally by `BackgroundEffects`). **Left-aligned layout** (not centered), matching the owner-supplied Hero mockup: a content block (`max-w-3xl`) pinned to the left of the centered container. **Requirements change (owner, 2026-07-22):** the rotating typewriter (`TYPING_PHRASES` + state machine) is **dropped** — lead instead with a static value-proposition headline plus a short supporting paragraph. Copy (all grounded in the real content — the mockup's own copy is placeholder and must not be used): badge "Data Engineer · Available for Opportunities"; eyebrow "Hi, I'm Vinal Dsouza"; two-tone `font-display` headline "Data Engineering Built for the AI Era" (gradient on "AI Era" via `.text-gradient`); supporting paragraph (owner-supplied, verbatim): "Data Engineer with 5+ years building and modernizing pipelines for high-volume financial systems, now growing into AI-powered tools including RAG pipelines, MCP servers, and multi-agent ML systems. M.S. Computer Science, Northeastern University."; CTAs "Explore My Projects" (#projects) / "Let's Build Together" (#contact); GitHub `https://github.com/vinaldsz`, LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (**superseded 2026-08-14 by §Phase 8: now `https://www.linkedin.com/in/vinal-dsouza/`**). With the typewriter gone, Hero no longer needs `useReducedMotion` (nothing animates; `BackgroundEffects` is static).
 
 ### Definition of done (Phase 2)
 - Hero renders at mobile/tablet/desktop with no `<canvas>` in the DOM.
@@ -230,6 +230,74 @@ Every section real (no stubs). Run the cross-cutting checks:
 6. `npm run lint` — clean.
 7. Functional: Projects filter swaps cards; Contact opens the mail client with subject; Resume path is `/Resume.pdf` (404 until the user supplies the file — flag it, not a regression).
 8. `grep -r "legacy" src/ -l` returns nothing.
+
+---
+
+## Phase 8 — Discoverability & identity pass
+**Added 2026-08-14 — a deliberate requirements addition after the 7-phase rebuild
+shipped.** The rebuild made the site good; this phase makes it findable,
+shareable, and internally consistent. No visual redesign, no new sections.
+
+The problem, verified against the live deploy at `https://vinals-portfolio.vercel.app`:
+`index.html` declared `twitter:card="summary_large_image"` while shipping no
+`og:image`, no `twitter:image`, and no `og:url`, so every shared link rendered a
+blank card — during an active job hunt, where a pasted URL in a LinkedIn DM is
+the main way the site travels. On top of that: no favicon, a keyword-free
+`<title>Vinals Portfolio`, the surname spelled two ways, two different LinkedIn
+URLs, a resume PDF named `…NewGrad-AI-short-v2.pdf`, and no sitemap, canonical
+URL, or structured data.
+
+### Owner decisions (2026-08-14)
+| Question | Answer |
+| --- | --- |
+| Canonical surname | `Vinal Dsouza`, no apostrophe — the `D'Souza` meta tags were the outlier |
+| Location line | Keep `San Francisco, CA` in Contact |
+| Canonical LinkedIn | `https://www.linkedin.com/in/vinal-dsouza/` — **supersedes** the `…-9a9912187` URL recorded as canonical in §Phase 1 / §Phase 2 / the Appendix |
+| Positioning string | `Data Engineer \| AI Platforms & Pipelines` |
+
+### Scope
+- **`index.html` head**: keyword-bearing `<title>` and `description`; `author`
+  corrected to `Vinal Dsouza`; `canonical`; full Open Graph set (`type`,
+  `site_name`, `url`, `title`, `description`, `image` + `width`/`height`/`alt`);
+  matching Twitter set; `theme-color`; three icon links; and a `Person` JSON-LD
+  block (`sameAs` GitHub + LinkedIn, `alumniOf` Northeastern, `knowsAbout` the
+  real stack). All URLs absolute — relative `og:image` paths are ignored by
+  LinkedIn and Slack.
+- **`public/og.png`** (1200×630): navy/cyan card carrying the name, the
+  positioning string, three proof chips, the site URL, and the headshot. Reuses
+  `public/ProfessionalHeadshot.jpeg`, orphaned since About was dropped in Phase 3.
+- **Favicon set**: `public/favicon.svg` (the `Vinal.` wordmark reduced to a cyan
+  `V.` on navy), plus `favicon-32.png` and `apple-touch-icon.png`.
+- **`scripts/`**: `og-card.html` + `icon-apple.svg` as committed, re-renderable
+  art sources, with `scripts/README.md` documenting the exact render commands.
+  Nothing in `scripts/` runs during `npm run build`.
+- **Resume renamed** to `public/Resume/Vinal-Dsouza-Data-Engineer.pdf` — the old
+  filename was visible to recruiters in the download and the browser tab.
+- **Identity consistency**: one surname spelling and one LinkedIn URL across
+  `index.html`, `Hero.tsx`, `Footer.tsx`, `README.md`, and the JSON-LD; the
+  footer copyright carries the name.
+- **`public/sitemap.xml`** + a `Sitemap:` directive in the existing `robots.txt`.
+
+### Out of scope (deliberately deferred)
+- The hero career-journey animation — planned in full, parked as a future phase.
+- The *Positioning + content* bundle: education section, graduation date,
+  availability and work-authorization lines, replacing the self-rated 98/92/88
+  proficiency bars, the `Present` end-dates on the two Northeastern roles.
+- The *Repo hygiene* bundle: the four `README.md` contradictions, the missing
+  `LICENSE`, `vitest` configured with zero tests, the two unoptimized ~300KB
+  project PNGs, analytics, and the stale `TODO.md`.
+
+### Definition of done (Phase 8)
+1. A shared link renders a real card with the headshot, name, and role — not a
+   gray box. `og.png` is exactly 1200×630.
+2. The browser tab shows the `V.` mark and `Vinal Dsouza — Data Engineer | …`.
+3. `D'Souza` and `NewGrad` appear nowhere in `src/`, `index.html`, or `dist/`.
+4. One LinkedIn URL across hero, footer, README, and JSON-LD.
+5. `sitemap.xml` is reachable and referenced from `robots.txt`.
+6. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, and
+   `npm run build` are all clean; `dist/index.html` still has exactly one `<h1>`,
+   one `<main>`, and zero `<canvas>`.
+7. All new head metadata survives the prerender pass into `dist/index.html`.
 
 ---
 
@@ -542,7 +610,7 @@ Grid order = array order, rendered with a fixed 8/4/4/8 column-span sequence. To
 ### Footer.tsx (real content)
 - Brand: `Vinal.`
 - Copyright: `© {currentYear} All rights reserved.`
-- Socials: GitHub `https://github.com/vinaldsz`, LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (canonical).
+- Socials: GitHub `https://github.com/vinaldsz`, LinkedIn `https://www.linkedin.com/in/vinal-dsouza-9a9912187` (**superseded 2026-08-14 by §Phase 8: now `https://www.linkedin.com/in/vinal-dsouza/`**).
 
 ### BackgroundEffects.tsx (legacy — being replaced, not ported)
 Fixed full-viewport SVG with 5 animated dashed paths (CSS `@keyframes flow`, 10–25s loops) plus two blurred `animate-float` glow orbs, rendered unconditionally regardless of scroll. Replaced with a static gradient. Documented only so its behavior is on record.

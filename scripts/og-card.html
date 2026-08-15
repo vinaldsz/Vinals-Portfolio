@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+  Source for public/og.png (the 1200x630 link-preview card).
+  Not part of the Vite build - rendered once, by hand, into a committed PNG.
+  See scripts/README.md for the exact render command.
+
+  Colors are the literal values of the HSL tokens in src/index.css:
+  --background 229 84% 5% = #020617, --primary 188 86% 53% = #22d3ee,
+  --accent 199 89% 48% = #0ea5e9, --muted-foreground 215 20% 65% = #94a3b8.
+  Kept literal on purpose: this file renders standalone, outside Tailwind.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @font-face {
+        font-family: "Geist";
+        src: url("../public/fonts/Geist-Variable.woff2") format("woff2-variations");
+        font-weight: 400 800;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("../public/fonts/SpaceMono-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("../public/fonts/SpaceMono-Bold.woff2") format("woff2");
+        font-weight: 700;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        background: #020617;
+        font-family: "Geist", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .glow-a, .glow-b {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .glow-a {
+        width: 900px; height: 900px; top: -420px; left: -260px;
+        background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, transparent 68%);
+      }
+      .glow-b {
+        width: 820px; height: 820px; bottom: -430px; right: -140px;
+        background: radial-gradient(circle, rgba(14, 165, 233, 0.13) 0%, transparent 68%);
+      }
+      .rule {
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 6px;
+        background: linear-gradient(90deg, #22d3ee 0%, #0ea5e9 55%, transparent 100%);
+      }
+      .wrap {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 76px;
+      }
+      .left { width: 660px; }
+      .eyebrow {
+        display: inline-block;
+        border: 1px solid rgba(34, 211, 238, 0.3);
+        background: rgba(34, 211, 238, 0.1);
+        color: #22d3ee;
+        font-family: "Space Mono", monospace;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 8px 18px;
+        border-radius: 999px;
+      }
+      h1 {
+        margin-top: 30px;
+        font-size: 84px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.035em;
+        color: #f8fafc;
+      }
+      .role {
+        margin-top: 20px;
+        font-family: "Space Mono", monospace;
+        font-size: 27px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #22d3ee;
+      }
+      .blurb {
+        margin-top: 20px;
+        font-size: 22px;
+        line-height: 1.5;
+        color: #94a3b8;
+        max-width: 610px;
+      }
+      .chips { margin-top: 34px; display: flex; gap: 12px; }
+      .chip {
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        background: rgba(30, 41, 59, 0.55);
+        border-radius: 10px;
+        padding: 11px 17px;
+        font-family: "Space Mono", monospace;
+        font-size: 17px;
+        color: #cbd5e1;
+      }
+      .url {
+        position: absolute;
+        left: 76px;
+        bottom: 46px;
+        font-family: "Space Mono", monospace;
+        font-size: 19px;
+        letter-spacing: 0.02em;
+        color: #64748b;
+      }
+      .photo {
+        position: relative;
+        width: 372px;
+        height: 372px;
+        flex: 0 0 372px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid rgba(34, 211, 238, 0.55);
+        box-shadow: 0 0 0 14px rgba(34, 211, 238, 0.08);
+      }
+      .photo img {
+        position: absolute;
+        width: 800px;
+        left: -208px;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glow-a"></div>
+    <div class="glow-b"></div>
+    <div class="rule"></div>
+    <div class="wrap">
+      <div class="left">
+        <span class="eyebrow">Available for opportunities</span>
+        <h1>Vinal Dsouza</h1>
+        <p class="role">Data Engineer &middot; AI Platforms &amp; Pipelines</p>
+        <p class="blurb">
+          5+ years building and modernizing pipelines for high-volume financial
+          systems. M.S. Computer Science, Northeastern.
+        </p>
+        <div class="chips">
+          <span class="chip">PySpark / Databricks</span>
+          <span class="chip">AWS / Terraform</span>
+          <span class="chip">RAG / MCP</span>
+        </div>
+      </div>
+      <div class="photo">
+        <img src="../public/ProfessionalHeadshot.jpeg" alt="" />
+      </div>
+    </div>
+    <span class="url">vinals-portfolio.vercel.app</span>
+  </body>
+</html>

@@ -385,6 +385,95 @@ linked. This is the site's first and only live demo across four projects.
 
 ---
 
+## Phase 10 — Visual design pass: node/edge motif + reduced repetition
+
+Raised by the owner during the Phase 9 session (2026-08-15) as a "does this look
+simple yet attractive, or the same as everyone else's portfolio?" question,
+deliberately deferred to its own phase rather than answered from vibes. Scoped
+on 2026-08-16 against a live design-review conversation (root-cause analysis of
+the current build + three rounds of throwaway static-HTML mockups, not
+committed to the repo, used only to pick a direction).
+
+### Problem statement
+The site is fast and accessible (Phases 0–9 already fixed the real perf/a11y
+issues) but reads as a template: every section repeats the identical recipe
+(node-tick → uppercase `<h2>` → muted paragraph → `glass-panel` card grid with
+bordered pill chips), and `glass-panel`/`backdrop-blur` is the default card
+style everywhere rather than a deliberate accent. Cyan-on-navy glassmorphism
+with a gradient-text hero and a glowing circular avatar is also, structurally,
+the most common AI-page-builder hero pattern in current use — the sameness is
+structural, not a palette problem, so the fix is varying section rhythm and
+spending glass deliberately, not a repaint.
+
+### Owner decisions (2026-08-16)
+| # | Decision | Answer |
+|---|---|---|
+| 1 | Scope of this pass | **Structural rework**, not light polish — differentiate each section's layout/rhythm, not just tune spacing. |
+| 2 | Signature visual idea | **Yes — a node/edge (graph) motif**, used sparingly (section-heading marks, the Experience timeline rail). Ties directly to the owner's actual work (pipelines, DAGs, graphs) instead of generic glow/glass. |
+| 3 | Experience layout | **Yes — an actual timeline**: roles connected by a rail/line with nodes, replacing 5 stacked identical cards. |
+| 4 | Skills layout | **Option A — spec-sheet rows.** Three static mockup alternatives were built and compared (A: divided label+chip rows; B: soft tinted zones, no border; C: plain comma-separated text, no chip pills) after the first structural draft (a `glass-panel` grid → flat node-marked list with no dividers) was rejected as "too crowded." Owner picked A. |
+
+### Non-goals (protects "no lag/no delay" alongside the visual change)
+No new npm dependencies — CSS/token/markup changes only. No custom cursor,
+scroll-jacking/pinned sections, parallax, 3D tilt-on-hover cards, particle/canvas
+backgrounds, or JS animation library. These are both the other most common
+"portfolio flair" clichés and the ones most likely to introduce jank; skipping
+them serves differentiation and performance at once.
+
+### Scope
+1. **Global**: add a plain `.panel` utility (`bg-card`, `border border-border/60`,
+   no blur) to `src/index.css`. Restrict `.glass-panel`/`backdrop-blur` to
+   `Navigation.tsx` (already justified — it sits over moving content) and the
+   Contact form only; every other current `glass-panel` use converts to `.panel`.
+2. **New `NodeMark` component** (`src/components/portfolio/NodeMark.tsx`): a
+   small filled dot + short gradient stem, replacing the plain
+   `<span className="h-px w-10 bg-primary" />` tick before each section `<h2>`
+   (Skills, Projects, Experience, Contact). One signature mark, reused 4×.
+3. **Hero**: remove the floating "Data Engineer · Available for Opportunities"
+   pill badge above the name line. Fold the availability status into a small
+   inline marker (dot + text) near the CTA/social row instead. Left-aligned
+   layout, portrait, and the single gradient phrase in the H1 are unchanged
+   (settled in Phases 2/9 — not re-litigated here).
+4. **Skills** (Option A — spec-sheet rows): replace the `glass-panel` 2-column
+   card grid with a `divide-y divide-border/40` list. Each of the 4 groups is a
+   row (`grid grid-cols-1 md:grid-cols-[180px_1fr] gap-x-8 gap-y-3 py-6`): a
+   label column (group name) and a chip column (wrapped `chip`-style tags, same
+   22-technology content as Phase 9 — no content regression). No card wrapper,
+   no glass, no per-group `NodeMark` (the dividers do the separation work the
+   rejected first draft was missing).
+5. **Experience**: restructure into a vertical timeline — a rail (thin
+   gradient line) on the left with a node dot per role, in chronological order,
+   cards to the right of the rail. Cards drop `glass-panel` → `.panel`.
+   Education entries become the rail's trailing nodes (connected, not a
+   separate boxed 2-column grid as in Phase 9). All existing role/education
+   copy (titles, dates, bullets, tech tags) carries over verbatim.
+6. **Projects**: cards drop `glass-panel` → `.panel` (least change — the
+   preview image already carries the visual weight here).
+7. **BackgroundEffects**: unchanged (already minimal/static — not a priority
+   for this pass).
+8. **Navigation / Contact**: unchanged (glass usage here is deliberate).
+
+### Definition of done (Phase 10)
+1. `grep -rln "glass-panel" src/components/portfolio/` returns only
+   `Navigation.tsx` and `Contact.tsx`.
+2. `package.json` / `package-lock.json` diff is empty — no new dependencies.
+3. Experience's rendered output contains a rail/node element connecting all 5
+   roles + the education entries in chronological order (not 7 disconnected
+   cards).
+4. Skills renders as divided label+chip rows (no card/glass wrapper); all 22+
+   technologies from Phase 9 are still present — zero content regression.
+5. Hero contains no badge/pill element above the `<h1>`; the availability
+   status text still renders somewhere in the hero.
+6. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build` all
+   clean; every existing verbatim content string (names, dates, bullet copy,
+   project descriptions, section headings) still appears in the prerendered
+   `dist/index.html` — this is a structural/visual pass, not a content change.
+7. Focus-visible rings and `prefers-reduced-motion` gating (Phase 7's a11y
+   wins) are still present on every carried-over interactive/animated element —
+   spot-checked, not regressed.
+
+---
+
 ## Appendix: Real content reference (verbatim)
 **The old component files were deleted outright (no `src/legacy/` archive) — this appendix is the only record of their real copy/data/logic.** Port verbatim; do not rewrite or paraphrase.
 

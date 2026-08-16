@@ -21,8 +21,10 @@ This project is built with:
 - **Vite** - Fast build tool and dev server
 - **TypeScript** - Type-safe JavaScript
 - **React** - UI framework
-- **shadcn/ui** - Beautiful UI components
+- **vite-react-ssg** - Static-site generation / prerendering
 - **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Unstyled, accessible primitives (`Select`, `Label`) where native HTML isn't enough
+- **oxlint** - Linting
 
 ## Local Development
 
@@ -34,10 +36,10 @@ This project is built with:
 
 ```sh
 # Clone the repository
-git clone https://github.com/vinaldsz/my-digital-showcase.git
+git clone https://github.com/vinaldsz/Vinals-Portfolio.git
 
 # Navigate to the project directory
-cd my-digital-showcase
+cd Vinals-Portfolio
 
 # Install dependencies
 npm install
@@ -46,7 +48,7 @@ npm install
 npm run dev
 ```
 
-The site will be available at `http://localhost:8080`
+The site will be available at `http://localhost:5173`
 
 ## 📦 Build
 
@@ -56,16 +58,6 @@ npm run build
 
 # Preview production build
 npm run preview
-```
-
-## Testing
-
-```sh
-# Run tests
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
 ```
 
 ## License

@@ -11,21 +11,23 @@
 - Replaced 5MB `react-icons` package with a tiny inline SVG for the one icon needed
 - Fixed the `picomatch` high-severity npm vulnerability
 - Diagnosed and resolved a hung dev server (stale Vite dependency cache after a suspended process)
+- **The 11 items below were resolved by the Phase 0–9 glass rebuild (see `SPEC.md`/`PROGRESS.md`), not fixed individually off this list — recorded here 2026-08-16 during the repo-hygiene pass, once verified against the current codebase:**
+  - No favicon → Phase 8 added a full favicon set (`favicon.ico`/`.svg`/32px PNG/apple-touch-icon)
+  - No `og:image`/`twitter:image` → Phase 8 added a real 1200×630 share card + full OG/Twitter meta
+  - Generic `<title>Vinals Portfolio</title>` → Phase 8 set a real title/description
+  - Focus outline removed with no replacement on Experience cards → Phase 7 added `focus-visible` rings sitewide
+  - Contact form fields had no `<label>`s → Phase 6 built Contact with real `@radix-ui/react-label` on every field
+  - Mobile hamburger button missing `aria-label`/`aria-expanded` → present on `Navigation.tsx`'s hamburger since Phase 1
+  - No `<main>` landmark / skip-to-content → Phase 1's shell has exactly one `<main>`; skip-link never added, see Open
+  - Animations don't respect `prefers-reduced-motion` → every animating surface gates on `useReducedMotion`/`motion-reduce`, audited in Phase 7
+  - Dead code (`PipelineDemo.tsx`, `NavLink.tsx`, `App.css`) → these files don't exist; the whole component tree was re-scaffolded from scratch in Phase 0
+  - Stray untracked `vite.config.ts.timestamp-*.mjs` → not present; `.gitignore` already has the pattern
+  - `console.error` fires on every 404 hit → current `NotFound.tsx` has no `console.error`
+- **Pending decision (Hero fade-in stagger) → moot.** The typewriter/staggered-fade Hero was dropped entirely in Phase 2's redesign (left-aligned, static copy, no stagger).
+- **Repo hygiene pass (2026-08-16):** missing `LICENSE` (added, MIT); `README.md`'s 4 contradictions (`shadcn/ui` claim, wrong clone URL, wrong dev port, dead License link) all corrected; `vitest`/`@testing-library`/`jsdom` removed (zero tests existed across 9 phases — dead weight, same rationale as the `react-query`/`sonner` removal above); the two ~300KB project screenshots (`FMCG.png`, `RAG.png`) converted to WebP (~80% smaller, no visible quality loss at their rendered card size); Vercel Analytics wired in.
 
 ## Open
 
-- No favicon
-- No `og:image` / `twitter:image` (link previews on LinkedIn/Slack/etc. will be blank)
-- Generic `<title>Vinals Portfolio</title>`
-- Focus outline removed with no replacement on Experience cards (`focus:outline-none`) - keyboard a11y gap
-- Contact form fields have no `<label>`s (placeholder-only) - a11y gap
-- Mobile hamburger button missing `aria-label` / `aria-expanded`
-- No `<main>` landmark / skip-to-content link
-- Animations don't respect `prefers-reduced-motion`
-- Dead code: `src/components/portfolio/PipelineDemo.tsx`, `src/components/NavLink.tsx`, `src/App.css`
-- Stray untracked `vite.config.ts.timestamp-*.mjs` file in repo root (add `.gitignore` pattern)
-- `console.error` fires on every 404 hit (`src/pages/NotFound.tsx`)
-
-## Pending decision
-
-- Hero section fade-in stagger currently takes ~1.25s (delays 0.1s-0.65s across 6 elements). Options discussed: keep as-is, compress delays, or remove entirely. Leaning toward compressing delays per user's "almost instantaneous" goal - awaiting final go-ahead.
+- No skip-to-content link (the one item under the old "No `<main>` landmark" bullet that wasn't actually addressed — the landmark exists, the skip-link doesn't).
+- **Owner action, not code:** force a LinkedIn Post Inspector re-scrape of the live URL — LinkedIn caches the pre-Phase-8 blank card and won't refresh on its own.
+- **Owner action, not code:** the manual browser QA deferred since Phase 7 — visual walk at ~375/768/1440px, keyboard Tab pass, `prefers-reduced-motion` emulation, before/after Lighthouse. Automated gates (tsc/lint/build/prerender) are green; these are real-browser checks only a human can do.

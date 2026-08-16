@@ -27,7 +27,7 @@ const projects: {
       "Production-grade RAG pipeline with hybrid dense and sparse retrieval, a hallucination guard that skips the LLM call entirely on out-of-corpus questions, and full request tracing, running at $0/month on free-tier infrastructure.",
     githubUrl: "https://github.com/vinaldsz/ai-pdf-assistant",
     icon: Cpu,
-    image: "/projects/RAG.png",
+    image: "/projects/RAG.webp",
     liveUrl: "https://huggingface.co/spaces/Vinaldsz/ai-pdf-assistant-ui",
   },
   {
@@ -55,7 +55,7 @@ const projects: {
       "Automated Bronze → Silver → Gold lakehouse with parallel task execution, incremental and full-load pipelines, and 10+ embedded data quality checks.",
     githubUrl: "https://github.com/vinaldsz/fmcg-delta-medallion-pipeline",
     icon: Database,
-    image: "/projects/FMCG.png",
+    image: "/projects/FMCG.webp",
   },
 ];
 

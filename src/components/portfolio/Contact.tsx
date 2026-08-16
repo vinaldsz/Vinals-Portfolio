@@ -5,6 +5,7 @@ import { Mail, MapPin, ChevronDown, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
+import { NodeMark } from "@/components/portfolio/NodeMark";
 
 const EMAIL = "dsouza.vi@northeastern.edu";
 const SUBJECTS = ["Job Opportunity", "Collaboration", "General Inquiry", "Other"];
@@ -63,7 +64,7 @@ export function Contact() {
           )}
         >
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 shrink-0 bg-primary" />
+            <NodeMark />
             <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-foreground md:text-4xl">
               Get In Touch
             </h2>

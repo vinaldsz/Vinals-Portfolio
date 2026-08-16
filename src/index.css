@@ -143,8 +143,19 @@
 }
 
 @layer components {
+  /* Reserved for surfaces over moving content (Navigation) or a form that
+     benefits from real elevation (Contact) — see SPEC §Phase 10. Everywhere
+     else uses .panel below: blur is a deliberate accent, not the default. */
   .glass-panel {
     @apply bg-[hsl(var(--glass-bg)/0.6)] backdrop-blur-md border border-[hsl(var(--glass-border)/0.1)];
+  }
+
+  /* Plain card surface, no backdrop-blur — Phase 10's default for
+     Projects/Experience cards (glass-panel was previously the default
+     everywhere, which both flattened the effect's meaning and stacked a lot
+     of compositor-expensive blur layers on one page). */
+  .panel {
+    @apply bg-card border border-border/60;
   }
 
   .hover-lift {

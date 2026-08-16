@@ -1,5 +1,6 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
+import { NodeMark } from "@/components/portfolio/NodeMark";
 
 // Owner-supplied grouped technology chips (2026-08-15), replacing the 3
 // proficiency bars + 4 badge cards from Phase 3. The percentages were
@@ -41,7 +42,7 @@ export function Skills() {
           )}
         >
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 shrink-0 bg-primary" />
+            <NodeMark />
             <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-foreground md:text-4xl">
               Technical Arsenal
             </h2>
@@ -50,13 +51,19 @@ export function Skills() {
             From pipelines to cloud infrastructure — the full data engineering stack.
           </p>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {/* Option A — spec-sheet rows (SPEC §Phase 10, owner-picked after 3
+              mocked-up alternatives). Dividers do the visual separation work;
+              no card/glass wrapper, no per-group NodeMark. */}
+          <div className="mt-12 divide-y divide-border/40 border-y border-border/40">
             {groups.map((group) => (
-              <div key={group.label} className="glass-panel rounded-lg p-6 md:p-8">
-                <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              <div
+                key={group.label}
+                className="grid grid-cols-1 gap-x-8 gap-y-3 py-6 md:grid-cols-[180px_1fr]"
+              >
+                <p className="pt-1 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   {group.label}
                 </p>
-                <ul className="mt-5 flex flex-wrap gap-2">
+                <ul className="flex flex-wrap gap-2.5">
                   {group.technologies.map((tech) => (
                     <li
                       key={tech}

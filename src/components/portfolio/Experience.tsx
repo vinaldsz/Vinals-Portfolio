@@ -1,5 +1,6 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
+import { NodeMark } from "@/components/portfolio/NodeMark";
 
 // Owner-supplied verbatim content (2026-07-23), reverse-chronological. Richer than
 // the original SPEC Appendix array (new titles, month-level dates, 2 quantified
@@ -68,7 +69,8 @@ const experiences: {
 
 // Education (owner-supplied 2026-08-15) — a compact block, not a standalone
 // section/nav entry, per owner choice. Closes the Jun 2024 → Sep 2025 gap the
-// experience timeline otherwise leaves unexplained. See SPEC §Phase 9.
+// experience timeline otherwise leaves unexplained. Rendered as the rail's
+// trailing nodes (SPEC §Phase 10), not a separate boxed grid.
 const education: { degree: string; institution: string; duration: string }[] = [
   {
     degree: "M.S. Computer Science",
@@ -81,6 +83,24 @@ const education: { degree: string; institution: string; duration: string }[] = [
     duration: "2019",
   },
 ];
+
+// The rail node marker: a hollow ring (page-background fill, punches a gap in
+// the connecting line behind it) with a filled dot centered inside — the same
+// node/edge motif as NodeMark, sized up for the timeline. `accent` distinguishes
+// education nodes from role nodes on the same continuous rail.
+function RailNode({ accent = false }: { accent?: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 bg-background",
+        accent ? "border-accent/50" : "border-primary/50",
+      )}
+    >
+      <span className={cn("h-2 w-2 rounded-full", accent ? "bg-accent" : "bg-primary")} />
+    </span>
+  );
+}
 
 function ExperienceCard({
   experience,
@@ -95,7 +115,7 @@ function ExperienceCard({
     <article
       ref={ref}
       className={cn(
-        "glass-panel hover-lift rounded-xl p-6 transition-all duration-700 motion-reduce:transition-none md:p-8",
+        "panel hover-lift rounded-xl p-6 transition-all duration-700 motion-reduce:transition-none md:p-8",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
       style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}
@@ -139,47 +159,58 @@ function ExperienceCard({
   );
 }
 
+function EducationRow({ entry }: { entry: (typeof education)[number] }) {
+  return (
+    <div className="panel flex flex-wrap items-start justify-between gap-3 rounded-lg p-5">
+      <div>
+        <h3 className="font-display text-lg font-bold text-foreground">{entry.degree}</h3>
+        <p className="mt-1 font-mono text-sm uppercase tracking-widest text-accent">
+          {entry.institution}
+        </p>
+      </div>
+      <span className="shrink-0 rounded-full border border-accent/25 bg-accent/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-accent">
+        {entry.duration}
+      </span>
+    </div>
+  );
+}
+
 export function Experience() {
   return (
     <section id="experience" className="scroll-mt-16 py-24 md:py-32">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-4">
-          <span aria-hidden className="h-px w-10 shrink-0 bg-primary" />
+          <NodeMark />
           <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-foreground md:text-4xl">
             Professional Experience
           </h2>
         </div>
 
-        <div className="mt-12 space-y-6">
-          {experiences.map((experience, index) => (
-            <ExperienceCard key={experience.title} experience={experience} index={index} />
-          ))}
-        </div>
+        {/* Timeline (SPEC §Phase 10): a single rail line runs behind every role
+            + education entry, in chronological order, each with its own node —
+            replaces 5+2 disconnected cards with one connected structure. The
+            rail is purely decorative (aria-hidden); it doesn't carry the
+            content, so it's safe for screen readers and reduced-motion (static,
+            no animation of its own). */}
+        <div className="relative mt-12 space-y-6">
+          <span
+            aria-hidden
+            className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-primary/50 via-primary/25 to-accent/30"
+          />
 
-        <div className="mt-12">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Education
-          </p>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {education.map((entry) => (
-              <div
-                key={entry.degree}
-                className="glass-panel rounded-lg p-5 flex flex-wrap items-start justify-between gap-3"
-              >
-                <div>
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    {entry.degree}
-                  </h3>
-                  <p className="mt-1 font-mono text-sm uppercase tracking-widest text-primary">
-                    {entry.institution}
-                  </p>
-                </div>
-                <span className="shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-primary">
-                  {entry.duration}
-                </span>
-              </div>
-            ))}
-          </div>
+          {experiences.map((experience, index) => (
+            <div key={experience.title} className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
+              <RailNode />
+              <ExperienceCard experience={experience} index={index} />
+            </div>
+          ))}
+
+          {education.map((entry) => (
+            <div key={entry.degree} className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
+              <RailNode accent />
+              <EducationRow entry={entry} />
+            </div>
+          ))}
         </div>
       </div>
     </section>

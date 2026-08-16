@@ -2,6 +2,7 @@ import { Database, Server, Cpu, ArrowRight, ExternalLink } from "@/lib/icons";
 import type { ComponentType } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
+import { NodeMark } from "@/components/portfolio/NodeMark";
 
 // Owner-supplied curated set (2026-07-23) — 4 projects, verbatim descriptions and
 // 3-tag format, replacing the SPEC Appendix's 8-entry array. Filter tabs and the
@@ -82,7 +83,7 @@ function ProjectCard({
     <article
       ref={ref}
       className={cn(
-        "group glass-panel hover-lift relative overflow-hidden rounded-xl transition-all duration-700 motion-reduce:transition-none",
+        "group panel hover-lift relative overflow-hidden rounded-xl transition-all duration-700 motion-reduce:transition-none",
         spans[index],
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
@@ -151,7 +152,7 @@ export function Projects() {
     <section id="projects" className="scroll-mt-16 py-24 md:py-32">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-4">
-          <span aria-hidden className="h-px w-10 shrink-0 bg-primary" />
+          <NodeMark />
           <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-foreground md:text-4xl">
             Selected Works
           </h2>

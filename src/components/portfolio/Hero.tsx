@@ -10,11 +10,6 @@ export function Hero() {
       <div className="container relative z-10 mx-auto px-6">
         <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:justify-between lg:gap-12 xl:gap-16">
           <div className="w-full lg:max-w-xl xl:max-w-3xl">
-            <div className="mb-8">
-              <span className="inline-block rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-widest text-primary">
-                Data Engineer · Available for Opportunities
-              </span>
-            </div>
             <p className="mb-3 font-mono text-sm tracking-wide text-muted-foreground md:text-base">
               Hi, I'm Vinal Dsouza
             </p>
@@ -35,25 +30,35 @@ export function Hero() {
                 <a href="#contact">Let's Build Together</a>
               </Button>
             </div>
-            <div className="mt-10 flex items-center gap-4">
-              <a
-                href="https://github.com/vinaldsz"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:border-primary/40 hover:bg-white/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <Github size={18} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/vinal-dsouza/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:border-accent/40 hover:bg-white/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                <Linkedin size={18} />
-              </a>
+            {/* Availability status folded in here (SPEC §Phase 10) — was a
+                floating pill badge above the headline; that placement is the
+                single most common AI-page-builder hero pattern, so it moved
+                to a quieter inline marker next to the social row instead. */}
+            <div className="mt-10 flex flex-wrap items-center gap-6">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span aria-hidden className="h-2 w-2 rounded-full bg-green-400" />
+                Available for opportunities
+              </div>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://github.com/vinaldsz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:border-primary/40 hover:bg-white/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  <Github size={18} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/vinal-dsouza/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:border-accent/40 hover:bg-white/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  <Linkedin size={18} />
+                </a>
+              </div>
             </div>
           </div>
 

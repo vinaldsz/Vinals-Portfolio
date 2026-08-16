@@ -67,49 +67,29 @@ const experiences: {
   },
 ];
 
-// Education (owner-supplied 2026-08-15) — a compact block, not a
-// nav-linked/top-level section (that call stands from Phase 9). Rendered as
-// its own labeled block below the roles grid (Phase 10 compacting pass,
-// 2026-08-16) — visually separate from the numbered jobs, not folded into
-// the same list.
-const education: { degree: string; institution: string; duration: string }[] = [
-  {
-    degree: "M.S. Computer Science",
-    institution: "Northeastern University",
-    duration: "Sep 2024 — May 2026",
-  },
-  {
-    degree: "B.E. Information Technology",
-    institution: "NMAM Institute of Technology",
-    duration: "2019",
-  },
-];
-
-// Compact 2-column grid (SPEC §Phase 10 compacting pass, 2026-08-16) —
-// supersedes the single-column divided list. All 5 roles fit in roughly a
-// third of the previous height, close to one viewport. Date renders inline
-// with the company name (not confined to a narrow fixed column) specifically
-// so a long range like "Sep 2025 — May 2026" never wraps. No card, no glass,
-// no rail/node — a hairline border per cell is the only separator.
-function ExperienceCell({
+// Single column, aggressively tightened (SPEC §Phase 10, 2026-08-16 fourth
+// revision — supersedes the 2-column grid). Education moved out entirely
+// into its own component/section (see Education.tsx). Date still renders
+// inline with company rather than a fixed-width column — that's what
+// stopped "Sep 2025 — May 2026" from wrapping in the 2-column attempt, and
+// the same reasoning applies to a narrow single column.
+function ExperienceRow({
   experience,
   index,
-  isLastRow,
+  isLast,
 }: {
   experience: (typeof experiences)[number];
   index: number;
-  isLastRow: boolean;
+  isLast: boolean;
 }) {
   const { ref, isVisible } = useScrollReveal<HTMLElement>();
-  const isRightColumn = index % 2 === 1;
 
   return (
     <article
       ref={ref}
       className={cn(
-        "py-6 transition-all duration-700 motion-reduce:transition-none",
-        !isLastRow && "border-b border-border/40",
-        isRightColumn ? "md:border-l md:pl-8" : "md:pr-8",
+        "py-5 transition-all duration-700 motion-reduce:transition-none",
+        !isLast && "border-b border-border/40",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
       style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
@@ -118,15 +98,13 @@ function ExperienceCell({
         <span className="font-mono text-xs text-muted-foreground/50">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <h3 className="font-display text-lg font-bold text-foreground">
-          {experience.title}
-        </h3>
+        <h3 className="font-display text-xl font-bold text-foreground">{experience.title}</h3>
       </div>
       <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-primary">
         {experience.company} · {experience.duration}
       </p>
 
-      <ul className="mt-3 space-y-1.5">
+      <ul className="mt-2.5 space-y-1.5">
         {experience.achievements.map((achievement) => (
           <li key={achievement} className="flex gap-2 text-sm text-muted-foreground">
             <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
@@ -143,9 +121,6 @@ function ExperienceCell({
 }
 
 export function Experience() {
-  const rows = Math.ceil(experiences.length / 2);
-  const lastRowStart = (rows - 1) * 2;
-
   return (
     <section id="experience" className="scroll-mt-16 py-24 md:py-32">
       <div className="container mx-auto px-6">
@@ -156,35 +131,15 @@ export function Experience() {
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 border-y border-border/40 md:grid-cols-2">
+        <div className="mt-12 border-y border-border/40">
           {experiences.map((experience, index) => (
-            <ExperienceCell
+            <ExperienceRow
               key={experience.title}
               experience={experience}
               index={index}
-              isLastRow={index >= lastRowStart}
+              isLast={index === experiences.length - 1}
             />
           ))}
-        </div>
-
-        {/* Education: its own labeled block, separate from the numbered jobs
-            grid above (not a nav-linked section — see Phase 9). */}
-        <div className="mt-12 border-t border-border/40 pt-10">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Education
-          </p>
-          <div className="mt-5 grid grid-cols-1 gap-x-10 gap-y-5 md:grid-cols-2">
-            {education.map((entry) => (
-              <div key={entry.degree}>
-                <h3 className="font-display text-lg font-bold text-foreground">
-                  {entry.degree}
-                </h3>
-                <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-accent">
-                  {entry.institution} · {entry.duration}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

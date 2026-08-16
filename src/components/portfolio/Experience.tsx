@@ -17,7 +17,7 @@ const experiences: {
   {
     title: "Graduate Research Assistant",
     company: "Northeastern University",
-    duration: "Sep 2025 — Present",
+    duration: "Sep 2025 — May 2026",
     achievements: [
       "Ran a structured inter-rater reliability study using Cohen's Kappa and Likert scaling to calibrate human judgment of AI output across 45 government employees.",
       "Embedded with 14+ municipal departments during a live Copilot deployment to diagnose adoption gaps. Findings accepted at PEPR'26, intended to inform municipal AI governance policy.",
@@ -27,10 +27,10 @@ const experiences: {
   {
     title: "Graduate Teaching Assistant & Lead TA",
     company: "Northeastern University",
-    duration: "2024 — Present",
+    duration: "2024 — May 2026",
     achievements: [
-      "Led a TA team managing 80+ students across multiple programming languages.",
-      "Managed a 4-person TA team and conducted labs.",
+      "Led a 4-person TA team supporting 80+ students across multiple programming languages, ensuring zero grading delays throughout the semester.",
+      "Provided targeted tutoring that drove an average 2-letter-grade improvement by semester's end.",
     ],
     technologies: ["Kotlin", "Java", "Python", "Education"],
   },
@@ -63,6 +63,22 @@ const experiences: {
       "Delivered Power BI dashboards and reports that surfaced sales trends for business stakeholders.",
     ],
     technologies: ["SSIS", "SQL Server", "Power BI", "Data Warehouse"],
+  },
+];
+
+// Education (owner-supplied 2026-08-15) — a compact block, not a standalone
+// section/nav entry, per owner choice. Closes the Jun 2024 → Sep 2025 gap the
+// experience timeline otherwise leaves unexplained. See SPEC §Phase 9.
+const education: { degree: string; institution: string; duration: string }[] = [
+  {
+    degree: "M.S. Computer Science",
+    institution: "Northeastern University",
+    duration: "Sep 2024 — May 2026",
+  },
+  {
+    degree: "B.E. Information Technology",
+    institution: "NMAM Institute of Technology",
+    duration: "2019",
   },
 ];
 
@@ -138,6 +154,32 @@ export function Experience() {
           {experiences.map((experience, index) => (
             <ExperienceCard key={experience.title} experience={experience} index={index} />
           ))}
+        </div>
+
+        <div className="mt-12">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Education
+          </p>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {education.map((entry) => (
+              <div
+                key={entry.degree}
+                className="glass-panel rounded-lg p-5 flex flex-wrap items-start justify-between gap-3"
+              >
+                <div>
+                  <h3 className="font-display text-lg font-bold text-foreground">
+                    {entry.degree}
+                  </h3>
+                  <p className="mt-1 font-mono text-sm uppercase tracking-widest text-primary">
+                    {entry.institution}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-primary">
+                  {entry.duration}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

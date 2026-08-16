@@ -1,21 +1,30 @@
-import { Database, Cloud, Server, Cpu } from "@/lib/icons";
-import type { ComponentType } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
-// Owner-supplied proficiency values (2026-07-23) — real self-rated numbers, not
-// placeholders. See SPEC §Phase 3.
-const competencies = [
-  { label: "Data Engineering & Pipeline Architecture (PySpark, Databricks, ETL/ELT)", value: 98 },
-  { label: "Cloud Infrastructure (AWS, Terraform)", value: 92 },
-  { label: "AI & Agentic Systems (RAG, MCP, LLM tooling)", value: 88 },
-];
-
-const badges: { label: string; icon: ComponentType<{ size?: number | string }> }[] = [
-  { label: "PySpark / Databricks", icon: Database },
-  { label: "AWS / Terraform", icon: Cloud },
-  { label: "PostgreSQL / pgvector", icon: Server },
-  { label: "MCP / LLM APIs", icon: Cpu },
+// Owner-supplied grouped technology chips (2026-08-15), replacing the 3
+// proficiency bars + 4 badge cards from Phase 3. The percentages were
+// unfalsifiable and read as overconfidence; chips name 22 technologies where
+// bars+badges named ~8, which matters for recruiter/ATS keyword search. Every
+// technology here is one the site already claims in project tags or
+// experience bullets — nothing new is asserted. Losing the animated
+// fill-on-scroll is an accepted cost. See SPEC §Phase 9.
+const groups: { label: string; technologies: string[] }[] = [
+  {
+    label: "Languages",
+    technologies: ["Python", "SQL", "TypeScript", "Java", "Kotlin", "COBOL"],
+  },
+  {
+    label: "Data & Pipelines",
+    technologies: ["PySpark", "Databricks", "Delta Lake", "Spark/EMR", "IBM DataStage", "SSIS"],
+  },
+  {
+    label: "Cloud & Infrastructure",
+    technologies: ["AWS", "Terraform", "Kinesis", "Glue Schema Registry"],
+  },
+  {
+    label: "AI & Data Stores",
+    technologies: ["RAG", "MCP", "LLM APIs", "pgvector", "PostgreSQL", "FastAPI"],
+  },
 ];
 
 export function Skills() {
@@ -41,48 +50,24 @@ export function Skills() {
             From pipelines to cloud infrastructure — the full data engineering stack.
           </p>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-12">
-            {/* Core competencies — proficiency bars */}
-            <div className="glass-panel rounded-lg p-6 md:p-8 lg:col-span-7">
-              <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Core Competencies
-              </p>
-              <ul className="mt-8 space-y-7">
-                {competencies.map((c) => (
-                  <li key={c.label}>
-                    <div className="flex items-baseline justify-between gap-4">
-                      <span className="font-mono text-sm text-foreground/90">{c.label}</span>
-                      <span className="font-mono text-sm font-semibold text-primary">
-                        {c.value}%
-                      </span>
-                    </div>
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                      <div
-                        className="h-full rounded-full bg-gradient-primary transition-[width] duration-1000 ease-out motion-reduce:transition-none"
-                        style={{ width: isVisible ? `${c.value}%` : "0%" }}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Badge cards */}
-            <div className="grid grid-cols-2 gap-6 lg:col-span-5">
-              {badges.map(({ label, icon: Icon }) => (
-                <div
-                  key={label}
-                  className="glass-panel hover-lift flex flex-col items-center justify-center gap-4 rounded-lg p-6 text-center"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary">
-                    <Icon size={22} />
-                  </span>
-                  <span className="font-mono text-xs font-semibold uppercase tracking-widest text-foreground/80">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {groups.map((group) => (
+              <div key={group.label} className="glass-panel rounded-lg p-6 md:p-8">
+                <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  {group.label}
+                </p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {group.technologies.map((tech) => (
+                    <li
+                      key={tech}
+                      className="rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 font-mono text-xs text-foreground/70"
+                    >
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Database, Server, Cpu, ArrowRight } from "@/lib/icons";
+import { Database, Server, Cpu, ArrowRight, ExternalLink } from "@/lib/icons";
 import type { ComponentType } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,9 @@ const projects: {
   // Optional preview screenshot (in public/). When absent, the card falls back to
   // the gradient + category-icon placeholder tile. Path is root-relative.
   image?: string;
+  // Optional live-demo URL (owner-supplied 2026-08-15, Phase 9) — only the AI PDF
+  // Assistant has one. See SPEC §Phase 9 scope item 6.
+  liveUrl?: string;
 }[] = [
   {
     title: "AI PDF Assistant (RAG Service)",
@@ -25,6 +28,7 @@ const projects: {
     githubUrl: "https://github.com/vinaldsz/ai-pdf-assistant",
     icon: Cpu,
     image: "/projects/RAG.png",
+    liveUrl: "https://huggingface.co/spaces/Vinaldsz/ai-pdf-assistant-ui",
   },
   {
     title: "DataBridge",
@@ -65,18 +69,20 @@ function ProjectCard({
   project: (typeof projects)[number];
   index: number;
 }) {
-  const { ref, isVisible } = useScrollReveal<HTMLAnchorElement>();
+  const { ref, isVisible } = useScrollReveal<HTMLElement>();
   const Icon = project.icon;
 
   return (
-    <a
+    // Stretched-link pattern (SPEC §Phase 9 scope item 6): a nested <a> inside
+    // the GitHub link would be invalid HTML now that a second link (Live Demo)
+    // needs to live on the card, so the card itself is no longer an anchor. The
+    // GitHub link keeps whole-card clickability via `after:absolute after:inset-0`;
+    // the live-demo link sits above it with `relative z-10` so its own clicks
+    // aren't swallowed by the stretched pseudo-element.
+    <article
       ref={ref}
-      href={project.githubUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${project.title} — view on GitHub`}
       className={cn(
-        "group glass-panel hover-lift block overflow-hidden rounded-xl transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none",
+        "group glass-panel hover-lift relative overflow-hidden rounded-xl transition-all duration-700 motion-reduce:transition-none",
         spans[index],
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
@@ -111,13 +117,32 @@ function ProjectCard({
 
       <div className="p-6">
         <h3 className="font-display text-xl font-bold text-foreground transition-colors group-hover:text-primary">
-          {project.title}
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${project.title} — view on GitHub`}
+            className="rounded-sm after:absolute after:inset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            {project.title}
+          </a>
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </p>
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 mt-4 inline-flex items-center gap-1.5 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-widest text-primary transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <ExternalLink size={14} />
+            Live Demo
+          </a>
+        )}
       </div>
-    </a>
+    </article>
   );
 }
 

@@ -306,7 +306,7 @@ URL, or structured data.
 
 ## Phase 9 — Positioning & content pass
 
-**Not started.** Every fact below was supplied by the owner on 2026-08-15 in
+**Done, 2026-08-15.** Every fact below was supplied by the owner on 2026-08-15 in
 answer to five direct questions. They are recorded here because a fresh session
 sees only `SPEC.md` and `PROGRESS.md` — the conversation that produced them is
 gone. Treat them as authoritative; do not re-ask.
@@ -380,6 +380,8 @@ linked. This is the site's first and only live demo across four projects.
    elements.
 6. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build` all
    clean, and the new copy survives the prerender into `dist/index.html`.
+
+**Status: all 6 items verified 2026-08-15** — see `PROGRESS.md` §"Phase 9 verification" for the measured results.
 
 ---
 

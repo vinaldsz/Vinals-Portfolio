@@ -460,18 +460,22 @@ them serves differentiation and performance at once.
    22-technology content as Phase 9 — no content regression). No card wrapper,
    no glass, no per-group `NodeMark` (the dividers do the separation work the
    rejected first draft was missing).
-5. **Experience** (revised same-day — see Revision above): a plain divided
-   list, matching Skills' own row pattern — `divide-y divide-border/40` rows,
-   each `grid grid-cols-1 md:grid-cols-[140px_1fr]`: a left column with a
-   numbered index (`01`, `02`, …) and the date range, a right column with the
-   role title (set larger, no card background), company/location in the
-   accent-colored line, achievement bullets with a small dot marker (no
-   bordered pill boxes), and the tech list as plain muted inline text instead
-   of chips. No rail, no node, no `.panel`/`glass-panel` — separation is the
-   hairline divider alone. Education entries continue the same divided list
-   below an in-line "Education" label row (not a separate boxed 2-column grid
-   as in Phase 9). All existing role/education copy (titles, dates, bullets,
-   tech tags) carries over verbatim.
+5. **Experience** (revised twice same-day — see Revision above for the first;
+   this supersedes its single-column layout with a **compact 2-column grid**,
+   requested because the single-column version still took several screens of
+   scrolling and the owner wants the roles readable close to "one view"): a
+   `grid grid-cols-1 md:grid-cols-2` of role cells, each with a hairline
+   `border-b`/`border-l` (not a card, not `.panel`/`glass-panel`) — a numbered
+   index (`01`–`05`) inline with the title, company + date range inline on one
+   line (**not** a separate fixed-width date column — that was wrapping
+   "Sep 2025 — May 2026" onto 3 lines at 140px; inline text has the full cell
+   width so it can't), achievement bullets with a small dot marker, and the
+   tech list as plain muted inline text. **Education is no longer inside the
+   same list or grid** — it's its own labeled block below the roles grid
+   (own "Education" heading, `border-t` separator, a simple 2-column grid of
+   degree/institution/date — still not a nav-linked top-level section, that
+   call stands from Phase 9). All existing role/education copy (titles, dates,
+   bullets, tech tags) carries over verbatim.
 6. **Projects**: cards drop `glass-panel` → `.panel` (least change — the
    preview image already carries the visual weight here).
 7. **BackgroundEffects**: unchanged (already minimal/static — not a priority
@@ -482,10 +486,10 @@ them serves differentiation and performance at once.
 1. `grep -rln "glass-panel" src/components/portfolio/` returns only
    `Navigation.tsx` and `Contact.tsx`.
 2. `package.json` / `package-lock.json` diff is empty — no new dependencies.
-3. Experience renders as a plain `divide-y` list (no rail, no node, no
-   `.panel`/`glass-panel`) — a numbered-index + date column and a title/
-   company/bullets/tech column, matching Skills' row pattern, for all 5 roles
-   + the education entries in chronological order.
+3. Experience renders as a 2-column grid of the 5 roles (no rail, no node, no
+   `.panel`/`glass-panel`, no fixed-width date column that could wrap a date
+   range onto multiple lines) with Education as its own separate labeled
+   block below, not inside the same grid/list.
 4. Skills renders as divided label+chip rows (no card/glass wrapper); all 22+
    technologies from Phase 9 are still present — zero content regression.
 5. Hero contains no badge/pill element above the `<h1>`; the availability

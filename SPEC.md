@@ -460,36 +460,41 @@ them serves differentiation and performance at once.
    22-technology content as Phase 9 — no content regression). No card wrapper,
    no glass, no per-group `NodeMark` (the dividers do the separation work the
    rejected first draft was missing).
-5. **Experience** (revised twice same-day — see Revision above for the first;
-   this supersedes its single-column layout with a **compact 2-column grid**,
-   requested because the single-column version still took several screens of
-   scrolling and the owner wants the roles readable close to "one view"): a
-   `grid grid-cols-1 md:grid-cols-2` of role cells, each with a hairline
-   `border-b`/`border-l` (not a card, not `.panel`/`glass-panel`) — a numbered
-   index (`01`–`05`) inline with the title, company + date range inline on one
-   line (**not** a separate fixed-width date column — that was wrapping
-   "Sep 2025 — May 2026" onto 3 lines at 140px; inline text has the full cell
-   width so it can't), achievement bullets with a small dot marker, and the
-   tech list as plain muted inline text. **Education is no longer inside the
-   same list or grid** — it's its own labeled block below the roles grid
-   (own "Education" heading, `border-t` separator, a simple 2-column grid of
-   degree/institution/date — still not a nav-linked top-level section, that
-   call stands from Phase 9). All existing role/education copy (titles, dates,
+5. **Experience** (revised a third time same-day — supersedes the 2-column
+   grid, reverting to single column but **keeping** the 2-column attempt's
+   fix for the date-wrapping bug): back to one column, `border-b` hairline
+   between roles, aggressively tightened (smaller title, `leading-snug`
+   bullets, reduced padding/margins throughout) so all 5 roles read closer to
+   one view. Company + date range still render inline on one line (not a
+   fixed-width date column — that's what wrapped "Sep 2025 — May 2026" in the
+   *original* single-column attempt; inline text doesn't have that problem
+   regardless of column count). All existing role copy (titles, dates,
    bullets, tech tags) carries over verbatim.
-6. **Projects**: cards drop `glass-panel` → `.panel` (least change — the
+6. **Education — now its own component and section** (`Education.tsx`,
+   `<section id="education">`), same visual weight as every other section
+   (`NodeMark` + `<h2>` heading, standard section padding). Tried three prior
+   ways within Experience (rail trailing nodes → in-line label row → a
+   labeled block still inside Experience) before the owner asked for it to be
+   "a completely different section." **Still not added to the nav** — a
+   compact block, not a standalone nav entry, is the standing call from
+   Phase 9; only its markup position (own section, own file) changed, not
+   its discoverability. Rendered in `Index.tsx` between Experience and
+   Contact.
+7. **Projects**: cards drop `glass-panel` → `.panel` (least change — the
    preview image already carries the visual weight here).
-7. **BackgroundEffects**: unchanged (already minimal/static — not a priority
+8. **BackgroundEffects**: unchanged (already minimal/static — not a priority
    for this pass).
-8. **Navigation / Contact**: unchanged (glass usage here is deliberate).
+9. **Navigation / Contact**: unchanged (glass usage here is deliberate).
 
 ### Definition of done (Phase 10)
 1. `grep -rln "glass-panel" src/components/portfolio/` returns only
    `Navigation.tsx` and `Contact.tsx`.
 2. `package.json` / `package-lock.json` diff is empty — no new dependencies.
-3. Experience renders as a 2-column grid of the 5 roles (no rail, no node, no
+3. Experience renders as a single, tightened column (no rail, no node, no
    `.panel`/`glass-panel`, no fixed-width date column that could wrap a date
-   range onto multiple lines) with Education as its own separate labeled
-   block below, not inside the same grid/list.
+   range onto multiple lines) for the 5 roles. Education renders as its own
+   `<section id="education">` (own `Education.tsx`, own `NodeMark` + `<h2>`),
+   not inside Experience at all, and is not in the nav.
 4. Skills renders as divided label+chip rows (no card/glass wrapper); all 22+
    technologies from Phase 9 are still present — zero content regression.
 5. Hero contains no badge/pill element above the `<h1>`; the availability

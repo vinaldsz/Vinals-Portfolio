@@ -69,8 +69,8 @@ const experiences: {
 
 // Education (owner-supplied 2026-08-15) — a compact block, not a standalone
 // section/nav entry, per owner choice. Closes the Jun 2024 → Sep 2025 gap the
-// experience timeline otherwise leaves unexplained. Rendered as the rail's
-// trailing nodes (SPEC §Phase 10), not a separate boxed grid.
+// experience list otherwise leaves unexplained. Continues the same divided
+// list below an in-line "Education" label row (SPEC §Phase 10 revision).
 const education: { degree: string; institution: string; duration: string }[] = [
   {
     degree: "M.S. Computer Science",
@@ -84,25 +84,13 @@ const education: { degree: string; institution: string; duration: string }[] = [
   },
 ];
 
-// The rail node marker: a hollow ring (page-background fill, punches a gap in
-// the connecting line behind it) with a filled dot centered inside — the same
-// node/edge motif as NodeMark, sized up for the timeline. `accent` distinguishes
-// education nodes from role nodes on the same continuous rail.
-function RailNode({ accent = false }: { accent?: boolean }) {
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        "relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 bg-background",
-        accent ? "border-accent/50" : "border-primary/50",
-      )}
-    >
-      <span className={cn("h-2 w-2 rounded-full", accent ? "bg-accent" : "bg-primary")} />
-    </span>
-  );
-}
-
-function ExperienceCard({
+// Plain divided-list row (SPEC §Phase 10 revision, 2026-08-16): no card, no
+// glass, no rail/node — a numbered-index + date column and a content column,
+// separated by the shared `divide-y` on the parent. Matches Skills' Option A
+// row pattern so the two sections read as one system. Reworked after the
+// owner pointed to https://www.abhishektuteja.com as a minimalism reference
+// (structure only — its light/serif look was explicitly not what was wanted).
+function ExperienceRow({
   experience,
   index,
 }: {
@@ -115,62 +103,57 @@ function ExperienceCard({
     <article
       ref={ref}
       className={cn(
-        "panel hover-lift rounded-xl p-5 transition-all duration-700 motion-reduce:transition-none md:p-6",
+        "grid grid-cols-1 gap-x-8 gap-y-3 py-10 transition-all duration-700 motion-reduce:transition-none md:grid-cols-[140px_1fr]",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
       style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h3 className="font-display text-2xl font-bold text-foreground">
-            {experience.title}
-          </h3>
-          <p className="mt-1 font-mono text-sm uppercase tracking-widest text-primary">
-            {experience.company}
-          </p>
-        </div>
-        <span className="shrink-0 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-primary">
+      <div>
+        <p className="font-mono text-xs text-muted-foreground/60">
+          {String(index + 1).padStart(2, "0")}
+        </p>
+        <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
           {experience.duration}
-        </span>
+        </p>
       </div>
 
-      <ul className="mt-4 space-y-2">
-        {experience.achievements.map((achievement) => (
-          <li key={achievement} className="flex gap-3 text-muted-foreground">
-            <span aria-hidden className="mt-1 shrink-0 text-primary">
-              ▹
-            </span>
-            <span className="leading-relaxed">{achievement}</span>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h3 className="font-display text-2xl font-bold text-foreground md:text-3xl">
+          {experience.title}
+        </h3>
+        <p className="mt-1 font-mono text-sm uppercase tracking-widest text-primary">
+          {experience.company}
+        </p>
 
-      <ul className="mt-4 flex flex-wrap gap-2">
-        {experience.technologies.map((tech) => (
-          <li
-            key={tech}
-            className="rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 font-mono text-xs text-foreground/70"
-          >
-            {tech}
-          </li>
-        ))}
-      </ul>
+        <ul className="mt-4 space-y-2">
+          {experience.achievements.map((achievement) => (
+            <li key={achievement} className="flex gap-3 text-muted-foreground">
+              <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" />
+              <span className="leading-relaxed">{achievement}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-4 font-mono text-xs text-muted-foreground/60">
+          {experience.technologies.join(" · ")}
+        </p>
+      </div>
     </article>
   );
 }
 
 function EducationRow({ entry }: { entry: (typeof education)[number] }) {
   return (
-    <div className="panel flex flex-wrap items-start justify-between gap-3 rounded-lg p-4">
+    <div className="grid grid-cols-1 gap-x-8 gap-y-2 py-8 md:grid-cols-[140px_1fr]">
+      <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        {entry.duration}
+      </p>
       <div>
-        <h3 className="font-display text-lg font-bold text-foreground">{entry.degree}</h3>
+        <h3 className="font-display text-xl font-bold text-foreground">{entry.degree}</h3>
         <p className="mt-1 font-mono text-sm uppercase tracking-widest text-accent">
           {entry.institution}
         </p>
       </div>
-      <span className="shrink-0 rounded-full border border-accent/25 bg-accent/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-accent">
-        {entry.duration}
-      </span>
     </div>
   );
 }
@@ -186,43 +169,23 @@ export function Experience() {
           </h2>
         </div>
 
-        {/* Timeline (SPEC §Phase 10): a single rail line runs behind every role
-            + education entry, in chronological order, each with its own node —
-            replaces 5+2 disconnected cards with one connected structure. The
-            rail is purely decorative (aria-hidden); it doesn't carry the
-            content, so it's safe for screen readers and reduced-motion (static,
-            no animation of its own). */}
-        <div className="relative mt-12 space-y-4">
-          <span
-            aria-hidden
-            className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-primary/50 via-primary/25 to-accent/30"
-          />
-
+        <div className="mt-12 divide-y divide-border/40 border-y border-border/40">
           {experiences.map((experience, index) => (
-            <div key={experience.title} className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
-              <RailNode />
-              <ExperienceCard experience={experience} index={index} />
-            </div>
+            <ExperienceRow key={experience.title} experience={experience} index={index} />
           ))}
 
-          {/* Sub-label at the rail's transition point (Phase 10 follow-up,
-              2026-08-16) — the rail continues uninterrupted (no node here,
-              just the line passing behind an empty first cell) so Education
-              still reads as connected to the career thread, but is now
-              explicitly named as its own phase rather than looking like an
-              unlabeled 6th/7th role. */}
-          <div className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
-            <span aria-hidden />
-            <p className="pt-1 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          {/* In-line label row, not a separate boxed grid (SPEC §Phase 10
+              revision) — continues the same divided list, explicitly naming
+              the transition from roles to degrees. */}
+          <div className="grid grid-cols-1 gap-x-8 gap-y-2 py-6 md:grid-cols-[140px_1fr]">
+            <div />
+            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Education
             </p>
           </div>
 
           {education.map((entry) => (
-            <div key={entry.degree} className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
-              <RailNode accent />
-              <EducationRow entry={entry} />
-            </div>
+            <EducationRow key={entry.degree} entry={entry} />
           ))}
         </div>
       </div>

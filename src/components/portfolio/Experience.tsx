@@ -67,10 +67,11 @@ const experiences: {
   },
 ];
 
-// Education (owner-supplied 2026-08-15) — a compact block, not a standalone
-// section/nav entry, per owner choice. Closes the Jun 2024 → Sep 2025 gap the
-// experience list otherwise leaves unexplained. Continues the same divided
-// list below an in-line "Education" label row (SPEC §Phase 10 revision).
+// Education (owner-supplied 2026-08-15) — a compact block, not a
+// nav-linked/top-level section (that call stands from Phase 9). Rendered as
+// its own labeled block below the roles grid (Phase 10 compacting pass,
+// 2026-08-16) — visually separate from the numbered jobs, not folded into
+// the same list.
 const education: { degree: string; institution: string; duration: string }[] = [
   {
     degree: "M.S. Computer Science",
@@ -84,81 +85,67 @@ const education: { degree: string; institution: string; duration: string }[] = [
   },
 ];
 
-// Plain divided-list row (SPEC §Phase 10 revision, 2026-08-16): no card, no
-// glass, no rail/node — a numbered-index + date column and a content column,
-// separated by the shared `divide-y` on the parent. Matches Skills' Option A
-// row pattern so the two sections read as one system. Reworked after the
-// owner pointed to https://www.abhishektuteja.com as a minimalism reference
-// (structure only — its light/serif look was explicitly not what was wanted).
-function ExperienceRow({
+// Compact 2-column grid (SPEC §Phase 10 compacting pass, 2026-08-16) —
+// supersedes the single-column divided list. All 5 roles fit in roughly a
+// third of the previous height, close to one viewport. Date renders inline
+// with the company name (not confined to a narrow fixed column) specifically
+// so a long range like "Sep 2025 — May 2026" never wraps. No card, no glass,
+// no rail/node — a hairline border per cell is the only separator.
+function ExperienceCell({
   experience,
   index,
+  isLastRow,
 }: {
   experience: (typeof experiences)[number];
   index: number;
+  isLastRow: boolean;
 }) {
   const { ref, isVisible } = useScrollReveal<HTMLElement>();
+  const isRightColumn = index % 2 === 1;
 
   return (
     <article
       ref={ref}
       className={cn(
-        "grid grid-cols-1 gap-x-8 gap-y-3 py-10 transition-all duration-700 motion-reduce:transition-none md:grid-cols-[140px_1fr]",
+        "py-6 transition-all duration-700 motion-reduce:transition-none",
+        !isLastRow && "border-b border-border/40",
+        isRightColumn ? "md:border-l md:pl-8" : "md:pr-8",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
-      style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}
+      style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
     >
-      <div>
-        <p className="font-mono text-xs text-muted-foreground/60">
+      <div className="flex flex-wrap items-baseline gap-2">
+        <span className="font-mono text-xs text-muted-foreground/50">
           {String(index + 1).padStart(2, "0")}
-        </p>
-        <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-          {experience.duration}
-        </p>
-      </div>
-
-      <div>
-        <h3 className="font-display text-2xl font-bold text-foreground md:text-3xl">
+        </span>
+        <h3 className="font-display text-lg font-bold text-foreground">
           {experience.title}
         </h3>
-        <p className="mt-1 font-mono text-sm uppercase tracking-widest text-primary">
-          {experience.company}
-        </p>
-
-        <ul className="mt-4 space-y-2">
-          {experience.achievements.map((achievement) => (
-            <li key={achievement} className="flex gap-3 text-muted-foreground">
-              <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" />
-              <span className="leading-relaxed">{achievement}</span>
-            </li>
-          ))}
-        </ul>
-
-        <p className="mt-4 font-mono text-xs text-muted-foreground/60">
-          {experience.technologies.join(" · ")}
-        </p>
       </div>
+      <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-primary">
+        {experience.company} · {experience.duration}
+      </p>
+
+      <ul className="mt-3 space-y-1.5">
+        {experience.achievements.map((achievement) => (
+          <li key={achievement} className="flex gap-2 text-sm text-muted-foreground">
+            <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+            <span className="leading-snug">{achievement}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-2 font-mono text-[11px] text-muted-foreground/50">
+        {experience.technologies.join(" · ")}
+      </p>
     </article>
   );
 }
 
-function EducationRow({ entry }: { entry: (typeof education)[number] }) {
-  return (
-    <div className="grid grid-cols-1 gap-x-8 gap-y-2 py-8 md:grid-cols-[140px_1fr]">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-        {entry.duration}
-      </p>
-      <div>
-        <h3 className="font-display text-xl font-bold text-foreground">{entry.degree}</h3>
-        <p className="mt-1 font-mono text-sm uppercase tracking-widest text-accent">
-          {entry.institution}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export function Experience() {
+  const rows = Math.ceil(experiences.length / 2);
+  const lastRowStart = (rows - 1) * 2;
+
   return (
     <section id="experience" className="scroll-mt-16 py-24 md:py-32">
       <div className="container mx-auto px-6">
@@ -169,24 +156,35 @@ export function Experience() {
           </h2>
         </div>
 
-        <div className="mt-12 divide-y divide-border/40 border-y border-border/40">
+        <div className="mt-12 grid grid-cols-1 border-y border-border/40 md:grid-cols-2">
           {experiences.map((experience, index) => (
-            <ExperienceRow key={experience.title} experience={experience} index={index} />
+            <ExperienceCell
+              key={experience.title}
+              experience={experience}
+              index={index}
+              isLastRow={index >= lastRowStart}
+            />
           ))}
+        </div>
 
-          {/* In-line label row, not a separate boxed grid (SPEC §Phase 10
-              revision) — continues the same divided list, explicitly naming
-              the transition from roles to degrees. */}
-          <div className="grid grid-cols-1 gap-x-8 gap-y-2 py-6 md:grid-cols-[140px_1fr]">
-            <div />
-            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Education
-            </p>
+        {/* Education: its own labeled block, separate from the numbered jobs
+            grid above (not a nav-linked section — see Phase 9). */}
+        <div className="mt-12 border-t border-border/40 pt-10">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Education
+          </p>
+          <div className="mt-5 grid grid-cols-1 gap-x-10 gap-y-5 md:grid-cols-2">
+            {education.map((entry) => (
+              <div key={entry.degree}>
+                <h3 className="font-display text-lg font-bold text-foreground">
+                  {entry.degree}
+                </h3>
+                <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-accent">
+                  {entry.institution} · {entry.duration}
+                </p>
+              </div>
+            ))}
           </div>
-
-          {education.map((entry) => (
-            <EducationRow key={entry.degree} entry={entry} />
-          ))}
         </div>
       </div>
     </section>

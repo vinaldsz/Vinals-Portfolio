@@ -410,8 +410,27 @@ spending glass deliberately, not a repaint.
 |---|---|---|
 | 1 | Scope of this pass | **Structural rework**, not light polish — differentiate each section's layout/rhythm, not just tune spacing. |
 | 2 | Signature visual idea | **Yes — a node/edge (graph) motif**, used sparingly (section-heading marks, the Experience timeline rail). Ties directly to the owner's actual work (pipelines, DAGs, graphs) instead of generic glow/glass. |
-| 3 | Experience layout | **Yes — an actual timeline**: roles connected by a rail/line with nodes, replacing 5 stacked identical cards. |
+| 3 | Experience layout | Originally **a timeline**: roles connected by a rail/line with nodes, replacing 5 stacked identical cards. **Superseded same-day — see Revision below.** |
 | 4 | Skills layout | **Option A — spec-sheet rows.** Three static mockup alternatives were built and compared (A: divided label+chip rows; B: soft tinted zones, no border; C: plain comma-separated text, no chip pills) after the first structural draft (a `glass-panel` grid → flat node-marked list with no dividers) was rejected as "too crowded." Owner picked A. |
+
+### Revision (2026-08-16, same day) — Experience: timeline/rail → plain divided list
+After the rail/node timeline was implemented and shown live, the owner pointed
+to `https://www.abhishektuteja.com` as a reference for "simple yet effective,"
+explicitly praising its Experience section: no cards, no icons, no boxed tech
+pills — a numbered index + date in a narrow left column, the role title set
+large, company/location in one accent line, achievement bullets with a small
+dot marker, and entries separated only by a hairline divider with generous
+vertical space. The owner was explicit not to copy that site's actual look
+(light/cream, serif type) — only the structural minimalism.
+
+Two options were mocked up in this site's own tokens: (1) a plain divided list
+matching that reference's structure, which also happens to be the *same*
+divided-row pattern Skills already uses (label/date column + content column,
+`divide-y` rows) — making Skills and Experience one consistent system instead
+of two templates; (2) a hybrid keeping the rail/node but dropping the card
+backgrounds and boxed pills. **Owner picked (1).** The rail/timeline is
+retired for Experience; the node/edge motif continues elsewhere unchanged
+(the `NodeMark` on all 4 section headings, the per-group icons in Skills).
 
 ### Non-goals (protects "no lag/no delay" alongside the visual change)
 No new npm dependencies — CSS/token/markup changes only. No custom cursor,
@@ -441,12 +460,18 @@ them serves differentiation and performance at once.
    22-technology content as Phase 9 — no content regression). No card wrapper,
    no glass, no per-group `NodeMark` (the dividers do the separation work the
    rejected first draft was missing).
-5. **Experience**: restructure into a vertical timeline — a rail (thin
-   gradient line) on the left with a node dot per role, in chronological order,
-   cards to the right of the rail. Cards drop `glass-panel` → `.panel`.
-   Education entries become the rail's trailing nodes (connected, not a
-   separate boxed 2-column grid as in Phase 9). All existing role/education
-   copy (titles, dates, bullets, tech tags) carries over verbatim.
+5. **Experience** (revised same-day — see Revision above): a plain divided
+   list, matching Skills' own row pattern — `divide-y divide-border/40` rows,
+   each `grid grid-cols-1 md:grid-cols-[140px_1fr]`: a left column with a
+   numbered index (`01`, `02`, …) and the date range, a right column with the
+   role title (set larger, no card background), company/location in the
+   accent-colored line, achievement bullets with a small dot marker (no
+   bordered pill boxes), and the tech list as plain muted inline text instead
+   of chips. No rail, no node, no `.panel`/`glass-panel` — separation is the
+   hairline divider alone. Education entries continue the same divided list
+   below an in-line "Education" label row (not a separate boxed 2-column grid
+   as in Phase 9). All existing role/education copy (titles, dates, bullets,
+   tech tags) carries over verbatim.
 6. **Projects**: cards drop `glass-panel` → `.panel` (least change — the
    preview image already carries the visual weight here).
 7. **BackgroundEffects**: unchanged (already minimal/static — not a priority
@@ -457,9 +482,10 @@ them serves differentiation and performance at once.
 1. `grep -rln "glass-panel" src/components/portfolio/` returns only
    `Navigation.tsx` and `Contact.tsx`.
 2. `package.json` / `package-lock.json` diff is empty — no new dependencies.
-3. Experience's rendered output contains a rail/node element connecting all 5
-   roles + the education entries in chronological order (not 7 disconnected
-   cards).
+3. Experience renders as a plain `divide-y` list (no rail, no node, no
+   `.panel`/`glass-panel`) — a numbered-index + date column and a title/
+   company/bullets/tech column, matching Skills' row pattern, for all 5 roles
+   + the education entries in chronological order.
 4. Skills renders as divided label+chip rows (no card/glass wrapper); all 22+
    technologies from Phase 9 are still present — zero content regression.
 5. Hero contains no badge/pill element above the `<h1>`; the availability

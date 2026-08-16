@@ -115,7 +115,7 @@ function ExperienceCard({
     <article
       ref={ref}
       className={cn(
-        "panel hover-lift rounded-xl p-6 transition-all duration-700 motion-reduce:transition-none md:p-8",
+        "panel hover-lift rounded-xl p-5 transition-all duration-700 motion-reduce:transition-none md:p-6",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
       style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}
@@ -134,7 +134,7 @@ function ExperienceCard({
         </span>
       </div>
 
-      <ul className="mt-6 space-y-3">
+      <ul className="mt-4 space-y-2">
         {experience.achievements.map((achievement) => (
           <li key={achievement} className="flex gap-3 text-muted-foreground">
             <span aria-hidden className="mt-1 shrink-0 text-primary">
@@ -145,7 +145,7 @@ function ExperienceCard({
         ))}
       </ul>
 
-      <ul className="mt-6 flex flex-wrap gap-2">
+      <ul className="mt-4 flex flex-wrap gap-2">
         {experience.technologies.map((tech) => (
           <li
             key={tech}
@@ -161,7 +161,7 @@ function ExperienceCard({
 
 function EducationRow({ entry }: { entry: (typeof education)[number] }) {
   return (
-    <div className="panel flex flex-wrap items-start justify-between gap-3 rounded-lg p-5">
+    <div className="panel flex flex-wrap items-start justify-between gap-3 rounded-lg p-4">
       <div>
         <h3 className="font-display text-lg font-bold text-foreground">{entry.degree}</h3>
         <p className="mt-1 font-mono text-sm uppercase tracking-widest text-accent">
@@ -192,7 +192,7 @@ export function Experience() {
             rail is purely decorative (aria-hidden); it doesn't carry the
             content, so it's safe for screen readers and reduced-motion (static,
             no animation of its own). */}
-        <div className="relative mt-12 space-y-6">
+        <div className="relative mt-12 space-y-4">
           <span
             aria-hidden
             className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-primary/50 via-primary/25 to-accent/30"
@@ -204,6 +204,19 @@ export function Experience() {
               <ExperienceCard experience={experience} index={index} />
             </div>
           ))}
+
+          {/* Sub-label at the rail's transition point (Phase 10 follow-up,
+              2026-08-16) — the rail continues uninterrupted (no node here,
+              just the line passing behind an empty first cell) so Education
+              still reads as connected to the career thread, but is now
+              explicitly named as its own phase rather than looking like an
+              unlabeled 6th/7th role. */}
+          <div className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">
+            <span aria-hidden />
+            <p className="pt-1 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Education
+            </p>
+          </div>
 
           {education.map((entry) => (
             <div key={entry.degree} className="grid grid-cols-[32px_1fr] gap-4 md:gap-6">

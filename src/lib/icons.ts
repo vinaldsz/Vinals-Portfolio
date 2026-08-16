@@ -19,3 +19,4 @@ export { default as MapPin } from "lucide-react/dist/esm/icons/map-pin";
 export { default as ChevronDown } from "lucide-react/dist/esm/icons/chevron-down";
 export { default as Check } from "lucide-react/dist/esm/icons/check";
 export { default as ExternalLink } from "lucide-react/dist/esm/icons/external-link";
+export { default as Braces } from "lucide-react/dist/esm/icons/braces";

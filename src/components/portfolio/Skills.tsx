@@ -1,3 +1,5 @@
+import { Braces, Database, Cloud, Cpu } from "@/lib/icons";
+import type { ComponentType } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 import { NodeMark } from "@/components/portfolio/NodeMark";
@@ -9,21 +11,34 @@ import { NodeMark } from "@/components/portfolio/NodeMark";
 // technology here is one the site already claims in project tags or
 // experience bullets — nothing new is asserted. Losing the animated
 // fill-on-scroll is an accepted cost. See SPEC §Phase 9.
-const groups: { label: string; technologies: string[] }[] = [
+//
+// Per-group icon added in the Phase 10 follow-up (2026-08-16) — the
+// spec-sheet rows read as bland with 4 visually identical rows; a small
+// icon per label makes each group scannable without reintroducing the
+// crowding the card-grid version had.
+const groups: {
+  label: string;
+  icon: ComponentType<{ size?: number | string; className?: string }>;
+  technologies: string[];
+}[] = [
   {
     label: "Languages",
+    icon: Braces,
     technologies: ["Python", "SQL", "TypeScript", "Java", "Kotlin", "COBOL"],
   },
   {
     label: "Data & Pipelines",
+    icon: Database,
     technologies: ["PySpark", "Databricks", "Delta Lake", "Spark/EMR", "IBM DataStage", "SSIS"],
   },
   {
     label: "Cloud & Infrastructure",
+    icon: Cloud,
     technologies: ["AWS", "Terraform", "Kinesis", "Glue Schema Registry"],
   },
   {
     label: "AI & Data Stores",
+    icon: Cpu,
     technologies: ["RAG", "MCP", "LLM APIs", "pgvector", "PostgreSQL", "FastAPI"],
   },
 ];
@@ -55,26 +70,30 @@ export function Skills() {
               mocked-up alternatives). Dividers do the visual separation work;
               no card/glass wrapper, no per-group NodeMark. */}
           <div className="mt-12 divide-y divide-border/40 border-y border-border/40">
-            {groups.map((group) => (
-              <div
-                key={group.label}
-                className="grid grid-cols-1 gap-x-8 gap-y-3 py-6 md:grid-cols-[180px_1fr]"
-              >
-                <p className="pt-1 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                  {group.label}
-                </p>
-                <ul className="flex flex-wrap gap-2.5">
-                  {group.technologies.map((tech) => (
-                    <li
-                      key={tech}
-                      className="rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 font-mono text-xs text-foreground/70"
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {groups.map((group) => {
+              const Icon = group.icon;
+              return (
+                <div
+                  key={group.label}
+                  className="grid grid-cols-1 gap-x-8 gap-y-3 py-6 md:grid-cols-[180px_1fr]"
+                >
+                  <p className="flex items-center gap-2 pt-1 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    <Icon size={15} className="shrink-0 text-primary" />
+                    {group.label}
+                  </p>
+                  <ul className="flex flex-wrap gap-2.5">
+                    {group.technologies.map((tech) => (
+                      <li
+                        key={tech}
+                        className="rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1 font-mono text-xs text-foreground/70"
+                      >
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

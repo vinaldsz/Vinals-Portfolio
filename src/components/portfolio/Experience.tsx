@@ -58,7 +58,7 @@ const experiences: {
   {
     title: "Systems Engineer Intern",
     company: "Infosys",
-    duration: "2019",
+    duration: "Jan 2019 — Apr 2019",
     achievements: [
       "Built an end-to-end BI solution for grocery sales data, developing SSIS ETL packages to load a SQL Server data warehouse.",
       "Delivered Power BI dashboards and reports that surfaced sales trends for business stakeholders.",
@@ -88,34 +88,43 @@ function ExperienceRow({
     <article
       ref={ref}
       className={cn(
-        "py-5 transition-all duration-700 motion-reduce:transition-none",
+        "grid grid-cols-1 gap-2 py-8 transition-all duration-700 motion-reduce:transition-none md:grid-cols-[160px_1fr] md:gap-8",
         !isLast && "border-b border-border/40",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
       )}
       style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
     >
-      <div className="flex flex-wrap items-baseline gap-2">
+      {/* Rail column (owner reference, 2026-08-16): index + date move out of the
+          title line into their own column, same text sizes as before — a
+          layout restructure, not a type-scale change. */}
+      <div className="flex items-baseline gap-3 md:flex-col md:items-start md:gap-1">
         <span className="font-mono text-xs text-muted-foreground/50">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <h3 className="font-display text-xl font-bold text-foreground">{experience.title}</h3>
+        <span className="whitespace-nowrap font-mono text-xs uppercase tracking-wide text-muted-foreground">
+          {experience.duration}
+        </span>
       </div>
-      <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-primary">
-        {experience.company} · {experience.duration}
-      </p>
 
-      <ul className="mt-2.5 space-y-1.5">
-        {experience.achievements.map((achievement) => (
-          <li key={achievement} className="flex gap-2 text-sm text-muted-foreground">
-            <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
-            <span className="leading-snug">{achievement}</span>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h3 className="font-display text-xl font-bold text-foreground">{experience.title}</h3>
+        <p className="mt-0.5 font-mono text-xs uppercase tracking-widest text-primary">
+          {experience.company}
+        </p>
 
-      <p className="mt-2 font-mono text-[11px] text-muted-foreground/50">
-        {experience.technologies.join(" · ")}
-      </p>
+        <ul className="mt-2.5 space-y-1.5">
+          {experience.achievements.map((achievement) => (
+            <li key={achievement} className="flex gap-2 text-sm text-muted-foreground">
+              <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+              <span className="leading-snug">{achievement}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-2 font-mono text-[11px] text-muted-foreground/50">
+          {experience.technologies.join(" · ")}
+        </p>
+      </div>
     </article>
   );
 }

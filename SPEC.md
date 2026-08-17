@@ -509,6 +509,80 @@ them serves differentiation and performance at once.
 
 ---
 
+## Revision (2026-08-16, later session) — Hero: name promoted, gradient/CTA-duo/avatar-glow removed
+
+Phase 10's own problem statement (above) named "a gradient-text hero and a
+glowing circular avatar" as, structurally, the most common AI-page-builder
+hero pattern — but Phase 10 deliberately left the Hero's H1/CTA/avatar
+unchanged that session ("not re-litigated here"), spending its scope on
+Skills/Experience instead. This is the owner reopening that specific call in
+a later live design-review conversation (three throwaway static-HTML mockups
+compared, same pattern as Phase 10's own process — not committed to the
+repo), prompted by "do you think my name is too small" and "less AI-like."
+
+**Diagnosis:** the eyebrow ("Hi, I'm Vinal Dsouza") was the smallest, most
+muted text in the Hero despite being the one piece of identity that matters
+most on a personal portfolio; the H1 carried a gradient-highlighted marketing
+tagline ("Data Engineering Built for the **AI Era**") instead of the name;
+two equal-weight boxed CTA buttons (gradient primary + outline secondary) is
+the default hero-button recipe in AI page builders; the avatar's glowing
+primary-colored ring is a template trope layered on top of an otherwise-good
+real photo.
+
+**Decisions:**
+1. **Eyebrow → role label.** "Hi, I'm Vinal Dsouza" replaced with a short
+   uppercase mono role label, "Data Engineer," in `text-primary` (no longer
+   muted).
+2. **Name promoted to the H1.** "Vinal Dsouza" is now the largest text in
+   the Hero, flat `text-foreground` (no gradient span — the H1's `AI Era`
+   gradient text is retired).
+3. **Tagline demoted to a subheading.** "I build data pipelines that hold up
+   at scale." replaces the old H1 copy, rendered as a `text-xl`/`text-2xl`
+   line under the name.
+4. **Paragraph trimmed of two redundancies:** the opening "Data Engineer
+   with…" is cut (the role is already stated by the eyebrow one line above)
+   and the closing "M.S. Computer Science, Northeastern University" clause is
+   cut entirely — `Education.tsx` (added in Phase 10's third revision) states
+   the identical fact already, so the Hero no longer needs to carry it. Zero
+   content loss; the fact still renders on the page, just once.
+5. **CTA duo → one button + a text link.** "Explore My Projects" stays a
+   `Button`; "Let's Build Together" (a common "let's build something
+   together" portfolio cliché) is replaced by a plain underlined text link,
+   "Let's talk →", next to it — matching the "one primary action, not two
+   equal-weight boxes" mockup direction. The `Button`'s shared `default`
+   variant styling (site-wide gradient fill, used elsewhere e.g. Contact's
+   submit button) is **not** changed — only the Hero's standalone `glow`
+   halo class (a permanent box-shadow, on top of the variant's own
+   `hover:glow`) is dropped from this specific button, so the change stays
+   scoped to the Hero rather than silently re-skinning every button site-wide.
+6. **Avatar de-glowed.** The portrait's ring changes from `border-2
+   border-primary/40 glow-sm` (a glowing accent-colored ring) to a plain
+   `border border-border` — same size/position/crop, no glow.
+
+**Non-goals:** layout (left-aligned text + right portrait) is unchanged —
+only Option B (portrait centered above the text) was mocked up and
+explicitly rejected, on the reasoning that centering the avatar above the
+headline is, if anything, an even more common AI-landing-page shape, and it
+buries the headline as the first thing read. Availability status + socials
+row, `BackgroundEffects`, and all other sections are untouched.
+
+### Definition of done (Hero revision)
+1. Hero's `<h1>` renders "Vinal Dsouza" with no gradient span anywhere in
+   the Hero.
+2. Hero's eyebrow line reads "Data Engineer," not "Hi, I'm Vinal Dsouza."
+3. Hero's paragraph contains neither "Data Engineer with" nor "M.S. Computer
+   Science" (that fact still appears, verbatim, in `Education.tsx`'s
+   rendered output — confirmed via prerendered `dist/index.html`).
+4. Hero renders exactly one `Button` and one plain-text CTA link, not two
+   `Button`s.
+5. The portrait's wrapper has no `glow`/`glow-sm` class.
+6. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint`, `npm run build`
+   (client + SSR + prerender) all clean; prerendered `dist/index.html`
+   contains "Vinal Dsouza," "I build data pipelines that hold up at scale,"
+   and "Let's talk" (confirmed via `grep` against the build output).
+
+---
+
 ## Appendix: Real content reference (verbatim)
 **The old component files were deleted outright (no `src/legacy/` archive) — this appendix is the only record of their real copy/data/logic.** Port verbatim; do not rewrite or paraphrase.
 

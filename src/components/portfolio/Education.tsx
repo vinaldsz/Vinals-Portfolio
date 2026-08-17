@@ -14,9 +14,9 @@ const education: { degree: string; institution: string; duration: string }[] = [
     duration: "Sep 2024 — May 2026",
   },
   {
-    degree: "B.E. Information Technology",
+    degree: "B.E. Information Science",
     institution: "NMAM Institute of Technology",
-    duration: "2019",
+    duration: "Aug 2015 — Jun 2019",
   },
 ];
 
@@ -31,9 +31,15 @@ export function Education() {
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+        {/* Owner-requested border (2026-08-16): entries previously had no
+            card/border at all, just bare text in a grid — reads as
+            unfinished on a wide screen. `.panel` reuses the plain
+            bg-card/border style Phase 10 already established as this site's
+            default card (Projects uses the same utility), so this doesn't
+            introduce a new visual language. */}
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
           {education.map((entry) => (
-            <div key={entry.degree}>
+            <div key={entry.degree} className="panel rounded-xl p-6">
               <h3 className="font-display text-xl font-bold text-foreground">{entry.degree}</h3>
               <p className="mt-1 font-mono text-sm uppercase tracking-widest text-accent">
                 {entry.institution} · {entry.duration}

@@ -5,36 +5,59 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen w-full items-center overflow-hidden pb-20 pt-32 md:pt-40"
+      className="relative flex w-full items-center overflow-hidden pb-24 pt-36 md:pb-28 md:pt-44"
     >
       <div className="container relative z-10 mx-auto px-6">
-        <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:justify-between lg:gap-12 xl:gap-16">
+        {/* `justify-between` used to push text/portrait to the container's
+            two edges, so any leftover width (large on wide/ultrawide
+            monitors) became one elastic gap between them — the "picture is
+            so far from the text" complaint. `justify-center` packs the pair
+            together with a fixed gap instead, so their spacing no longer
+            grows with viewport width. */}
+        <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:justify-center lg:gap-16 xl:gap-20">
           <div className="w-full lg:max-w-xl xl:max-w-3xl">
-            <p className="mb-3 font-mono text-sm tracking-wide text-muted-foreground md:text-base">
-              Hi, I'm Vinal Dsouza
+            {/* Hero revision (owner design-review session, 2026-08-16, after
+                Phase 10): the eyebrow/H1 pairing previously buried the name
+                in a small muted line while the H1 carried a gradient-
+                highlighted marketing tagline — Phase 10's own diagnosis
+                named that exact combo (gradient-text hero) as the most
+                common AI-page-builder pattern, but left it unchanged at the
+                time. This reopens that call: name promoted to the H1, the
+                tagline demoted to a subheading, no gradient text. See
+                SPEC.md's Hero revision note. */}
+            <p className="mb-4 font-mono text-sm uppercase tracking-widest text-primary md:text-base">
+              Data Engineer
             </p>
-            <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight md:text-6xl xl:text-7xl">
-              Data Engineering Built for the <span className="text-gradient">AI Era</span>
+            <h1 className="font-display text-6xl font-extrabold leading-[1.05] tracking-tight text-foreground md:text-7xl xl:text-8xl">
+              Vinal Dsouza
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Data Engineer with 5+ years building and modernizing pipelines for
-              high-volume financial systems, now growing into AI-powered tools including RAG
-              pipelines, MCP servers, and multi-agent ML systems. M.S. Computer Science,
-              Northeastern University.
+            <p className="mt-5 max-w-2xl text-2xl font-medium leading-snug text-muted-foreground md:text-3xl">
+              I build data pipelines that hold up at scale.
             </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Button asChild size="lg" className="glow px-8">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              5+ years building and modernizing pipelines for high-volume financial
+              systems, now growing into AI-powered tools including RAG pipelines, MCP
+              servers, and multi-agent ML systems.
+            </p>
+            {/* CTA row: two equal-weight boxed buttons (the other "AI-page-builder"
+                tell Phase 10 flagged) dropped to one primary action + a plain text
+                link. */}
+            <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              <Button asChild size="lg" className="px-8 text-base">
                 <a href="#projects">Explore My Projects</a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="px-8">
-                <a href="#contact">Let's Build Together</a>
-              </Button>
+              <a
+                href="#contact"
+                className="rounded-sm text-base font-medium text-primary underline underline-offset-4 transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Let's talk →
+              </a>
             </div>
             {/* Availability status folded in here (SPEC §Phase 10) — was a
                 floating pill badge above the headline; that placement is the
                 single most common AI-page-builder hero pattern, so it moved
                 to a quieter inline marker next to the social row instead. */}
-            <div className="mt-10 flex flex-wrap items-center gap-6">
+            <div className="mt-12 flex flex-wrap items-center gap-6">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span aria-hidden className="h-2 w-2 rounded-full bg-green-400" />
                 Available for opportunities
@@ -64,8 +87,11 @@ export function Hero() {
 
           {/* Portrait. The width/offset percentages reproduce the crop used on the
               share card (scripts/og-card.html) at any container size, since both
-              resolve against the container's own width. */}
-          <div className="relative aspect-square w-[150px] shrink-0 overflow-hidden rounded-full border-2 border-primary/40 glow-sm sm:w-[200px] lg:w-[290px] xl:w-[340px]">
+              resolve against the container's own width. Border dropped from a
+              glowing primary ring to a plain neutral one (2026-08-16 Hero
+              revision) — the glow ring was itself part of the generic
+              "AI-page-builder hero" recipe Phase 10 diagnosed but didn't fix. */}
+          <div className="relative aspect-square w-[170px] shrink-0 overflow-hidden rounded-full border border-border sm:w-[220px] lg:w-[320px] xl:w-[380px]">
             <img
               src="/ProfessionalHeadshot.jpeg"
               alt="Vinal Dsouza"
